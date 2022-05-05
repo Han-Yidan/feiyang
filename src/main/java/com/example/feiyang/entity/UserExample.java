@@ -1014,6 +1014,66 @@ public class UserExample {
             addCriterion("rest_repair_chance not between", value1, value2, "restRepairChance");
             return (Criteria) this;
         }
+
+        public Criteria andIsStaffIsNull() {
+            addCriterion("is_staff is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffIsNotNull() {
+            addCriterion("is_staff is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffEqualTo(Integer value) {
+            addCriterion("is_staff =", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotEqualTo(Integer value) {
+            addCriterion("is_staff <>", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffGreaterThan(Integer value) {
+            addCriterion("is_staff >", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_staff >=", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffLessThan(Integer value) {
+            addCriterion("is_staff <", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffLessThanOrEqualTo(Integer value) {
+            addCriterion("is_staff <=", value, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffIn(List<Integer> values) {
+            addCriterion("is_staff in", values, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotIn(List<Integer> values) {
+            addCriterion("is_staff not in", values, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffBetween(Integer value1, Integer value2) {
+            addCriterion("is_staff between", value1, value2, "isStaff");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStaffNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_staff not between", value1, value2, "isStaff");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
