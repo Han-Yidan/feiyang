@@ -4,7 +4,9 @@ import com.example.feiyang.entity.Post;
 import com.example.feiyang.entity.PostExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PostMapper {
     int countByExample(PostExample example);
 
