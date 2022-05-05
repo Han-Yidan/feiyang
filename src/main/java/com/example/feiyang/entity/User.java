@@ -32,6 +32,8 @@ public class User implements Serializable {
 
     private Integer restRepairChance;
 
+    private Integer isStaff;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUserId() {
@@ -146,6 +148,14 @@ public class User implements Serializable {
         this.restRepairChance = restRepairChance;
     }
 
+    public Integer getIsStaff() {
+        return isStaff;
+    }
+
+    public void setIsStaff(Integer isStaff) {
+        this.isStaff = isStaff;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -166,6 +176,7 @@ public class User implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", avatarUrl=").append(avatarUrl);
         sb.append(", restRepairChance=").append(restRepairChance);
+        sb.append(", isStaff=").append(isStaff);
         sb.append("]");
         return sb.toString();
     }
