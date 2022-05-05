@@ -4,7 +4,9 @@ import com.example.feiyang.entity.Question;
 import com.example.feiyang.entity.QuestionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface QuestionMapper {
     int countByExample(QuestionExample example);
 

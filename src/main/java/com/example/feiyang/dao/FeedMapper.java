@@ -4,7 +4,9 @@ import com.example.feiyang.entity.Feed;
 import com.example.feiyang.entity.FeedExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface FeedMapper {
     int countByExample(FeedExample example);
 

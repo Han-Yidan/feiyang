@@ -4,7 +4,9 @@ import com.example.feiyang.entity.Admin;
 import com.example.feiyang.entity.AdminExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface AdminMapper {
     int countByExample(AdminExample example);
 
