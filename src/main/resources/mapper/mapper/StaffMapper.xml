@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.feiyang.dao.StaffMapper" >
+  <resultMap id="BaseResultMap" type="com.example.feiyang.entity.Staff" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="repair_count" property="repairCount" jdbcType="INTEGER" />
+    <result column="post_count" property="postCount" jdbcType="INTEGER" />
+    <result column="is_allow" property="isAllow" jdbcType="INTEGER" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
+    <result column="receive_interval" property="receiveInterval" jdbcType="INTEGER" />
+    <result column="order_transfer" property="orderTransfer" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.feiyang.entity.Staff" extends="BaseResultMap" >
+    <result column="tips" property="tips" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, repair_count, post_count, is_allow, last_time, receive_interval, order_transfer
+  </sql>
+  <sql id="Blob_Column_List" >
+    tips
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.feiyang.entity.StaffExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fy_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.StaffExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fy_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fy_staff
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from fy_staff
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.feiyang.entity.StaffExample" >
+    delete from fy_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.feiyang.entity.Staff" >
+    insert into fy_staff (user_id, repair_count, post_count, 
+      is_allow, last_time, receive_interval, 
+      order_transfer, tips)
+    values (#{userId,jdbcType=BIGINT}, #{repairCount,jdbcType=INTEGER}, #{postCount,jdbcType=INTEGER}, 
+      #{isAllow,jdbcType=INTEGER}, #{lastTime,jdbcType=TIMESTAMP}, #{receiveInterval,jdbcType=INTEGER}, 
+      #{orderTransfer,jdbcType=INTEGER}, #{tips,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.feiyang.entity.Staff" >
+    insert into fy_staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="repairCount != null" >
+        repair_count,
+      </if>
+      <if test="postCount != null" >
+        post_count,
+      </if>
+      <if test="isAllow != null" >
+        is_allow,
+      </if>
+      <if test="lastTime != null" >
+        last_time,
+      </if>
+      <if test="receiveInterval != null" >
+        receive_interval,
+      </if>
+      <if test="orderTransfer != null" >
+        order_transfer,
+      </if>
+      <if test="tips != null" >
+        tips,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="repairCount != null" >
+        #{repairCount,jdbcType=INTEGER},
+      </if>
+      <if test="postCount != null" >
+        #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="isAllow != null" >
+        #{isAllow,jdbcType=INTEGER},
+      </if>
+      <if test="lastTime != null" >
+        #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveInterval != null" >
+        #{receiveInterval,jdbcType=INTEGER},
+      </if>
+      <if test="orderTransfer != null" >
+        #{orderTransfer,jdbcType=INTEGER},
+      </if>
+      <if test="tips != null" >
+        #{tips,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.feiyang.entity.StaffExample" resultType="java.lang.Integer" >
+    select count(*) from fy_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fy_staff
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.repairCount != null" >
+        repair_count = #{record.repairCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.postCount != null" >
+        post_count = #{record.postCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAllow != null" >
+        is_allow = #{record.isAllow,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastTime != null" >
+        last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receiveInterval != null" >
+        receive_interval = #{record.receiveInterval,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTransfer != null" >
+        order_transfer = #{record.orderTransfer,jdbcType=INTEGER},
+      </if>
+      <if test="record.tips != null" >
+        tips = #{record.tips,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update fy_staff
+    set user_id = #{record.userId,jdbcType=BIGINT},
+      repair_count = #{record.repairCount,jdbcType=INTEGER},
+      post_count = #{record.postCount,jdbcType=INTEGER},
+      is_allow = #{record.isAllow,jdbcType=INTEGER},
+      last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      receive_interval = #{record.receiveInterval,jdbcType=INTEGER},
+      order_transfer = #{record.orderTransfer,jdbcType=INTEGER},
+      tips = #{record.tips,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fy_staff
+    set user_id = #{record.userId,jdbcType=BIGINT},
+      repair_count = #{record.repairCount,jdbcType=INTEGER},
+      post_count = #{record.postCount,jdbcType=INTEGER},
+      is_allow = #{record.isAllow,jdbcType=INTEGER},
+      last_time = #{record.lastTime,jdbcType=TIMESTAMP},
+      receive_interval = #{record.receiveInterval,jdbcType=INTEGER},
+      order_transfer = #{record.orderTransfer,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.feiyang.entity.Staff" >
+    update fy_staff
+    <set >
+      <if test="repairCount != null" >
+        repair_count = #{repairCount,jdbcType=INTEGER},
+      </if>
+      <if test="postCount != null" >
+        post_count = #{postCount,jdbcType=INTEGER},
+      </if>
+      <if test="isAllow != null" >
+        is_allow = #{isAllow,jdbcType=INTEGER},
+      </if>
+      <if test="lastTime != null" >
+        last_time = #{lastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiveInterval != null" >
+        receive_interval = #{receiveInterval,jdbcType=INTEGER},
+      </if>
+      <if test="orderTransfer != null" >
+        order_transfer = #{orderTransfer,jdbcType=INTEGER},
+      </if>
+      <if test="tips != null" >
+        tips = #{tips,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.feiyang.entity.Staff" >
+    update fy_staff
+    set repair_count = #{repairCount,jdbcType=INTEGER},
+      post_count = #{postCount,jdbcType=INTEGER},
+      is_allow = #{isAllow,jdbcType=INTEGER},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      receive_interval = #{receiveInterval,jdbcType=INTEGER},
+      order_transfer = #{orderTransfer,jdbcType=INTEGER},
+      tips = #{tips,jdbcType=LONGVARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.feiyang.entity.Staff" >
+    update fy_staff
+    set repair_count = #{repairCount,jdbcType=INTEGER},
+      post_count = #{postCount,jdbcType=INTEGER},
+      is_allow = #{isAllow,jdbcType=INTEGER},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
+      receive_interval = #{receiveInterval,jdbcType=INTEGER},
+      order_transfer = #{orderTransfer,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>
