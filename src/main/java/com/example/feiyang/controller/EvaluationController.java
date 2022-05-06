@@ -26,7 +26,7 @@ public class EvaluationController {
     private EvaluationServiceImpl evaluationService;
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addEvaluation")
+    @RequestMapping(method = RequestMethod.POST, value = "/add")
     @ResponseBody
     public JsonResponse addEvaluation(@RequestBody Map<String, Object> params) {
         Long order_id = Long.valueOf((String) params.get("order_id"));
@@ -46,7 +46,7 @@ public class EvaluationController {
         return res;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/deleteEvaluation")
+    @RequestMapping(method = RequestMethod.GET, value = "/delete")
     @ResponseBody
     public JsonResponse deleteEvaluation(@PathParam("evaluation_id") Long evaluation_id) {
         JsonResponse res = evaluationService.deleteEvaluation(evaluation_id);

@@ -27,7 +27,7 @@ public class FeedController {
     @Autowired
     private FeedServiceImpl feedService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addFeed")
+    @RequestMapping(method = RequestMethod.POST, value = "/add")
     @ResponseBody
     public JsonResponse addFeed(@RequestBody Map<String, Object> params) {
         Long user_id = Long.valueOf((String) params.get("user_id"));
@@ -43,7 +43,7 @@ public class FeedController {
         return res;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getAllFeeds")
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
     @ResponseBody
     public JsonResponse getAllFeeds(@RequestBody PageRequest pageQuery) {
         Map<String, Object> res = new HashMap<>();
