@@ -146,4 +146,43 @@ public class UserServiceImpl implements UserService {
 
         return JsonResponse.success(res, "注册VIP");
     }
+
+    @Override
+    public JsonResponse updateUser(Map<String, Object> params) {
+
+        Long userId = Long.valueOf((String) params.get("user_id"));
+        String username = (String) params.get("username");
+        String qqNumber = (String) params.get("qqNumber");
+        String phoneNumber = (String) params.get("phoneNumber");
+        String email = (String) params.get("email");
+        String avatarUrl = (String) params.get("avatarUrl");
+
+        // 条件构造
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+
+        // 得到原来的user信息
+        User preUser = userMapper.selectByPrimaryKey(userId);
+
+        // 更新信息
+        if (username != null) preUser.setUsername(username);
+        if (qqNumber != null) preUser.setQqNumber(qqNumber);
+        if (phoneNumber != null) preUser.setPhoneNumber(phoneNumber);
+        if (email != null) preUser.setEmail(email);
+        if (avatarUrl != null) preUser.setAvatarUrl(avatarUrl);
+
+        int isUpdate = userMapper.updateByPrimaryKeySelective(preUser);
+
+        Map<String, Object> res = new HashMap<>();
+        if (isUpdate == 1) {
+            res.put("isUpdate", 1);
+            res.put("userInfo", preUser);
+        } else {
+            res.put("isUpdate", 0);
+        }
+
+        return JsonResponse.success(res, "修改用户信息");
+    }
+
+
 }

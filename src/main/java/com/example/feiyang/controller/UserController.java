@@ -85,4 +85,12 @@ public class UserController {
         return res;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/update")
+    @ResponseBody
+    public JsonResponse updateUser(@RequestBody Map<String, Object> params) {
+
+        JsonResponse res = userService.updateUser(params);
+
+        return res;
+    }
 }
