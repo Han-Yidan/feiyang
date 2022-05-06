@@ -24,6 +24,7 @@ import javax.sound.midi.Soundbank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author 望舒
@@ -97,7 +98,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean init(User user) {
+    public JsonResponse init(User user) {
+        Map<String, Object> res = new HashMap<>();
+
         // 取出全局变量
         ConfExample confExample = new ConfExample();
         ConfExample.Criteria criteria = confExample.createCriteria();
@@ -108,7 +111,39 @@ public class UserServiceImpl implements UserService {
         user.setRestRepairChance(conf.getLimitDay());
 
         int insert = userMapper.insert(user);
+        if (insert == 1) {
+            res.put("isInit", 1);
+            res.put("userInfo", user);
+        } else {
+            res.put("isInit", 0);
+        }
 
-        return insert == 1 ? true : false;
+        return JsonResponse.success(res, "初始化完成");
+    }
+
+    @Override
+    public JsonResponse addVip(Long userId) {
+        // 条件构造器
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+
+        User user = new User();
+        user.setIsVip(1);
+
+        // 生成伪随机数作为vip码
+        Long vipId = System.currentTimeMillis() + new Random().nextLong();
+        user.setVipId(vipId);
+        int isUpdate = userMapper.updateByExampleSelective(user, userExample);
+
+        Map<String, Object> res = new HashMap<>();
+        if (isUpdate == 1) {
+            res.put("isVip", 1);
+            res.put("vip_id", vipId);
+        } else {
+            res.put("isVip", 0);
+        }
+
+        return JsonResponse.success(res, "注册VIP");
     }
 }

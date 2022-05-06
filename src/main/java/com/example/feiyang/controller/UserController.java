@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -70,15 +70,19 @@ public class UserController {
         user.setIsStaff(0);     // 默认为普通用户，技术员需要管理员分配
         user.setCreateTime(new Date());
 
-        boolean isInit = userService.init(user);
-        Map<String, Integer> res = new HashMap<>();
-        if (isInit) {
-            res.put("isInit", 1);
-        } else {
-            res.put("isInit", 0);
-        }
+        JsonResponse res = userService.init(user);
 
-        return JsonResponse.success(res);
+        return res;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/addVip")
+    @ResponseBody
+    public JsonResponse addVip(@RequestBody Map<String, Object> params) {
+        Long userId = Long.valueOf((String) params.get("user_id"));
+
+        JsonResponse res = userService.addVip(userId);
+
+        return res;
     }
 
 }

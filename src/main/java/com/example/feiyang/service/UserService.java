@@ -28,5 +28,12 @@ public interface UserService {
      * @param user
      * @return
      */
-    public boolean init(User user);
+    public JsonResponse init(User user);
+
+    /**
+     * 用户注册vip
+     * @param userId
+     * @return
+     */
+    public JsonResponse addVip(Long userId);
 }
