@@ -414,6 +414,66 @@ public class EvaluationExample {
             addCriterion("evaluation_content not between", value1, value2, "evaluationContent");
             return (Criteria) this;
         }
+
+        public Criteria andEvaluationScoreIsNull() {
+            addCriterion("evaluation_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreIsNotNull() {
+            addCriterion("evaluation_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreEqualTo(Integer value) {
+            addCriterion("evaluation_score =", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreNotEqualTo(Integer value) {
+            addCriterion("evaluation_score <>", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreGreaterThan(Integer value) {
+            addCriterion("evaluation_score >", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreGreaterThanOrEqualTo(Integer value) {
+            addCriterion("evaluation_score >=", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreLessThan(Integer value) {
+            addCriterion("evaluation_score <", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreLessThanOrEqualTo(Integer value) {
+            addCriterion("evaluation_score <=", value, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreIn(List<Integer> values) {
+            addCriterion("evaluation_score in", values, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreNotIn(List<Integer> values) {
+            addCriterion("evaluation_score not in", values, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreBetween(Integer value1, Integer value2) {
+            addCriterion("evaluation_score between", value1, value2, "evaluationScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaluationScoreNotBetween(Integer value1, Integer value2) {
+            addCriterion("evaluation_score not between", value1, value2, "evaluationScore");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

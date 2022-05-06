@@ -41,6 +41,6 @@
 <!--        <table tableName="fy_question" domainObjectName="Question"></table>-->
 <!--        <table tableName="fy_staff" domainObjectName="Staff"></table>-->
 <!--        <table tableName="fy_user" domainObjectName="User"></table>-->
-        <table tableName="fy_conf" domainObjectName="Conf"></table>
+        <table tableName="fy_evaluation" domainObjectName="Evaluation"></table>
     </context>
 </generatorConfiguration>

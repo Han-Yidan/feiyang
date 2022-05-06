@@ -14,6 +14,8 @@ public class Evaluation implements Serializable {
 
     private String evaluationContent;
 
+    private Integer evaluationScore;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getEvaluationId() {
@@ -56,6 +58,14 @@ public class Evaluation implements Serializable {
         this.evaluationContent = evaluationContent == null ? null : evaluationContent.trim();
     }
 
+    public Integer getEvaluationScore() {
+        return evaluationScore;
+    }
+
+    public void setEvaluationScore(Integer evaluationScore) {
+        this.evaluationScore = evaluationScore;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -67,6 +77,7 @@ public class Evaluation implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", createTime=").append(createTime);
         sb.append(", evaluationContent=").append(evaluationContent);
+        sb.append(", evaluationScore=").append(evaluationScore);
         sb.append("]");
         return sb.toString();
     }
