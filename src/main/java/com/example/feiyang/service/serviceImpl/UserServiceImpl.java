@@ -4,11 +4,9 @@ import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.common.utils.MessageUtils;
 import com.example.feiyang.common.utils.ValidateCode;
 import com.example.feiyang.dao.ConfMapper;
+import com.example.feiyang.dao.EvaluationMapper;
 import com.example.feiyang.dao.UserMapper;
-import com.example.feiyang.entity.Conf;
-import com.example.feiyang.entity.ConfExample;
-import com.example.feiyang.entity.User;
-import com.example.feiyang.entity.UserExample;
+import com.example.feiyang.entity.*;
 import com.example.feiyang.service.UserService;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
@@ -132,7 +130,7 @@ public class UserServiceImpl implements UserService {
         user.setIsVip(1);
 
         // 生成伪随机数作为vip码
-        Long vipId = System.currentTimeMillis() + new Random().nextLong();
+        Long vipId = System.currentTimeMillis() + new Random().nextInt(100);
         user.setVipId(vipId);
         int isUpdate = userMapper.updateByExampleSelective(user, userExample);
 
@@ -183,6 +181,5 @@ public class UserServiceImpl implements UserService {
 
         return JsonResponse.success(res, "修改用户信息");
     }
-
 
 }

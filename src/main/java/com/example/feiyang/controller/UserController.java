@@ -1,7 +1,10 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.entity.User;
+import com.example.feiyang.entity.*;
+import com.example.feiyang.service.EvaluationService;
+import com.example.feiyang.service.serviceImpl.EvaluationServiceImpl;
+import com.example.feiyang.service.serviceImpl.FeedServiceImpl;
 import com.example.feiyang.service.serviceImpl.UserServiceImpl;
 import com.tencentcloudapi.tcb.v20180608.models.ObjectKV;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +33,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/sendCode")
     @ResponseBody
-    public JsonResponse sendCode(@RequestBody Map<String, Object> params) {
+    public JsonResponse sendCode(@PathParam("phoneNumber") String phoneNumber) {
         Map<String, Object> res = new HashMap<>();
-        String phoneNumber = (String) params.get("phoneNumber");
         String code = userService.sendCode(phoneNumber);
 
         res.put("isSend", 1);
@@ -77,10 +80,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/addVip")
     @ResponseBody
-    public JsonResponse addVip(@RequestBody Map<String, Object> params) {
-        Long userId = Long.valueOf((String) params.get("user_id"));
-
-        JsonResponse res = userService.addVip(userId);
+    public JsonResponse addVip(@PathParam("user_id") Long user_id) {
+        JsonResponse res = userService.addVip(user_id);
 
         return res;
     }
@@ -93,4 +94,5 @@ public class UserController {
 
         return res;
     }
+
 }
