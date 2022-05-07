@@ -23,13 +23,12 @@ public class OrderController {
     private OrderService orderService = new OrderServiceImpl();
 
     @RequestMapping("/add")
-    public int addOrder(Order order){
-        System.out.println(order);
+    public String addOrder(Order order){
         return orderService.addOrder(order);
     }
 
     @RequestMapping("/cancel")
-    public int cancelOrder(Long orderId,String cancelReason){
+    public String cancelOrder(Long orderId,String cancelReason){
         return orderService.cancelOrder(orderId,cancelReason);
     }
     @RequestMapping("/receive")
@@ -45,8 +44,8 @@ public class OrderController {
         return orderService.queryAll();
     }
     @RequestMapping("/query")
-    public Order queryOrder(Long orderId){
-        return orderService.queryOrder(orderId);
+    public List<Order> queryOrder(Long userId){
+        return orderService.queryOrder(userId);
     }
     @RequestMapping("/finish")
     public int finishOrder(Long orderId){

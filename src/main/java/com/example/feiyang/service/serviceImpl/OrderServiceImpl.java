@@ -2,10 +2,8 @@ package com.example.feiyang.service.serviceImpl;
 
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
-import com.example.feiyang.entity.Order;
-import com.example.feiyang.entity.OrderExample;
-import com.example.feiyang.entity.Staff;
-import com.example.feiyang.entity.StaffExample;
+import com.example.feiyang.dao.UserMapper;
+import com.example.feiyang.entity.*;
 import com.example.feiyang.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private StaffMapper staffMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     private static volatile LinkedHashMap<Long,Order> waitingOrders;
     @Autowired
@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public int addOrder(Order order) {
+    public String addOrder(Order order) {
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);
@@ -57,18 +57,21 @@ public class OrderServiceImpl implements OrderService {
                 assignOrder();
             }).start();
         }
-        return result;
+        if(result == 1) return "报修成功";
+        return "报修失败";
     }
 
     @Override
-    public int cancelOrder(Long orderId, String cancelReason) {
+    public String cancelOrder(Long orderId, String cancelReason) {
         Order order = new Order();
         order.setOrderId(orderId);
         order.setCancelReason(cancelReason);
         order.setStatus(0);
         order.setCloseTime(new Date());
         if(waitingOrders.containsKey(orderId)) waitingOrders.remove(orderId);
-        return orderMapper.updateByPrimaryKeySelective(order);
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        if(result == 1) return "取消成功";
+        return "取消失败";
     }
 
     @Override
@@ -147,8 +150,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order queryOrder(Long orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
+    public List<Order> queryOrder(Long userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        OrderExample oe = new OrderExample();
+        OrderExample.Criteria criteria = oe.createCriteria();
+        if(user.getIsStaff() == 0){
+            criteria.andUserIdEqualTo(userId);
+        }else{
+            criteria.andStaffIdEqualTo(userId);
+        }
+        return orderMapper.selectByExample(oe);
     }
 
     @Override
