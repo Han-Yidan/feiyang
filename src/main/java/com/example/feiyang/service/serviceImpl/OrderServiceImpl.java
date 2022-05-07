@@ -93,10 +93,10 @@ public class OrderServiceImpl implements OrderService {
                 StaffExample.Criteria criteria = se.createCriteria();
                 criteria.andIsAllowEqualTo(1);
                 List<Staff> staff = staffMapper.selectByExample(se);
-                while(staff.isEmpty()){
+                if(staff.isEmpty()){
                     System.out.println("当前无空闲技术员，请稍后");
                     try {
-                        Thread.sleep(10000);
+                        waitingOrders.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -168,7 +168,16 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderId(orderId);
         order.setStatus(3);
         order.setCloseTime(new Date());
-        return orderMapper.updateByPrimaryKeySelective(order);
+        int result =  orderMapper.updateByPrimaryKeySelective(order);
+        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
+        Staff staff = new Staff();
+        staff.setUserId(staffId);
+        staff.setIsAllow(1);
+        staffMapper.updateByPrimaryKeySelective(staff);
+        synchronized (waitingOrders){
+            waitingOrders.notifyAll();
+        }
+        return result;
     }
 
     @Override
