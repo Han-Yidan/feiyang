@@ -1,7 +1,7 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.service.serviceImpl.UserServiceImpl;
+import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
