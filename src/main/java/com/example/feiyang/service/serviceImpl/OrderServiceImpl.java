@@ -89,10 +89,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("进入自动分配");
         synchronized (waitingOrders){
             while (!waitingOrders.isEmpty()){
-                StaffExample se = new StaffExample();
-                StaffExample.Criteria criteria = se.createCriteria();
-                criteria.andIsAllowEqualTo(1);
-                List<Staff> staff = staffMapper.selectByExample(se);
+                List<Staff> staff = searchAvailableStaff();
                 if(staff.isEmpty()){
                     System.out.println("当前无空闲技术员，请稍后");
                     try {
@@ -100,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    staff = staffMapper.selectByExample(se);
+                    staff = searchAvailableStaff();
                 }
                 int size = staff.size();
                 int option = (int)Math.random()*size;
@@ -167,10 +164,15 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStatus(3);
-        order.setCloseTime(new Date());
+        Date now = new Date();
+        order.setCloseTime(now);
         int result =  orderMapper.updateByPrimaryKeySelective(order);
         Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
-        Staff staff = new Staff();
+        Staff staff = staffMapper.selectByPrimaryKey(staffId);
+        staff.setLastTime(now);
+        long interval = staff.getReceiveInterval()*60*60*1000;
+        long next = now.getTime()+interval;
+        staff.setNextTime(new Date(next));
         staff.setUserId(staffId);
         staff.setIsAllow(1);
         staffMapper.updateByPrimaryKeySelective(staff);
@@ -183,6 +185,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int remindOrder(Long orderId) {
         return 0;
+    }
+
+    public List<Staff> searchAvailableStaff(){
+        StaffExample se = new StaffExample();
+        StaffExample.Criteria criteria1 = se.createCriteria();
+        StaffExample.Criteria criteria2 = se.createCriteria();
+        criteria1.andIsAllowEqualTo(1).andNextTimeIsNull();
+        criteria2.andIsAllowEqualTo(1).andNextTimeLessThanOrEqualTo(new Date());
+        se.or(criteria2);
+        return staffMapper.selectByExample(se);
     }
 }
 
