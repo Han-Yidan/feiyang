@@ -4,7 +4,9 @@ import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.StaffExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StaffMapper {
     int countByExample(StaffExample example);
 
