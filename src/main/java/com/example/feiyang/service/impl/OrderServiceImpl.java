@@ -1,4 +1,4 @@
-package com.example.feiyang.service.serviceImpl;
+package com.example.feiyang.service.impl;
 
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
