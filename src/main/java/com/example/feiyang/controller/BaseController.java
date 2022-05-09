@@ -29,7 +29,7 @@ public class BaseController {
             result.setMessage("注册时产生未知的异常");
         } else if (e instanceof NullException) {
             result.setStatus(false);
-            result.setMessage("前端传来了一个null");
+            result.setMessage("该用户id无效");
         }
         return result;
     }

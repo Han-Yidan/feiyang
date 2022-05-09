@@ -1,7 +1,9 @@
 package com.example.feiyang.service.impl;
 
 import com.example.feiyang.dao.StaffMapper;
+import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.Staff;
+import com.example.feiyang.entity.User;
 import com.example.feiyang.service.AdminService;
 import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.NullException;
@@ -18,6 +20,8 @@ import java.util.Date;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private StaffMapper staffMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public void reg(Long userId) {
@@ -31,23 +35,32 @@ public class AdminServiceImpl implements AdminService {
                 throw new StaffDuplicationException("技术员被注册过");
             }
 
-
+            //判断用户中是否存在该userId
             Staff staff = new Staff();
-            //补全数据：userId设置成传入的userId
-            staff.setUserId(userId);
-            //补全数据：维修和发帖初始化为0,is_allow
-            staff.setPostCount(0);
-            staff.setRepairCount(0);
-            staff.setIsAllow(0);
-            //补全数九：维修时间间隔初始化为注册时间
-            Date date = new Date();
-            staff.setLastTime(date);
+            User userResult = userMapper.selectByPrimaryKey(userId);
+            if (userResult != null) {
+                //将istaff设置为1
+                userResult.setIsStaff(1);
+                userMapper.updateByPrimaryKeySelective(userResult);
+                //补全数据：userId设置成传入的userId
+                staff.setUserId(userId);
+                //补全数据：维修和发帖初始化为0,is_allow
+                staff.setPostCount(0);
+                staff.setRepairCount(0);
+                staff.setIsAllow(0);
+                //补全数据：维修时间间隔初始化为注册时间
+                Date date = new Date();
+                staff.setLastTime(date);
 
-            //执行注册业务功能的实现（rows==1）
-            Integer rows = staffMapper.insert(staff);
-            if (rows != 1) {
-                throw new InsertException("用户在注册过程中产生了未知的异常");
+                //执行注册业务功能的实现（rows==1）
+                Integer rows = staffMapper.insert(staff);
+                if (rows != 1) {
+                    throw new InsertException("用户在注册过程中产生了未知的异常");
+                }
+            } else {
+                throw new NullException("该用户不存在");
             }
+
         } else {
             throw new NullException("前端传来了一个空值");
         }
