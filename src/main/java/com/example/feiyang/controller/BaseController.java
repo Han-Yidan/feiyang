@@ -2,6 +2,7 @@ package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.service.ex.InsertException;
+import com.example.feiyang.service.ex.NullException;
 import com.example.feiyang.service.ex.ServiceException;
 import com.example.feiyang.service.ex.StaffDuplicationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,6 +27,9 @@ public class BaseController {
         } else if (e instanceof InsertException) {
             result.setStatus(false);
             result.setMessage("注册时产生未知的异常");
+        } else if (e instanceof NullException) {
+            result.setStatus(false);
+            result.setMessage("前端传来了一个null");
         }
         return result;
     }
