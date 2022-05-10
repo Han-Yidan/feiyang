@@ -1,8 +1,9 @@
 package com.example.feiyang.controller;
 
+import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.Order;
 import com.example.feiyang.service.OrderService;
-import com.example.feiyang.service.serviceImpl.OrderServiceImpl;
+import com.example.feiyang.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +24,16 @@ public class OrderController {
     private OrderService orderService = new OrderServiceImpl();
 
     @RequestMapping("/add")
-    public String addOrder(Order order){
+    public JsonResponse addOrder(Order order){
         return orderService.addOrder(order);
     }
 
     @RequestMapping("/cancel")
-    public String cancelOrder(Long orderId,String cancelReason){
+    public JsonResponse cancelOrder(Long orderId,String cancelReason){
         return orderService.cancelOrder(orderId,cancelReason);
     }
     @RequestMapping("/receive")
-    public int receiveOrder(Long staffId,Long orderId){
+    public JsonResponse receiveOrder(Long staffId,Long orderId){
         return orderService.receiveOrder(staffId,orderId);
     }
     @RequestMapping("/assign")
@@ -40,19 +41,19 @@ public class OrderController {
         return orderService.assignOrder(staffId,orderId);
     }
     @RequestMapping("/all")
-    public List<Order> queryAll(){
+    public JsonResponse queryAll(){
         return orderService.queryAll();
     }
     @RequestMapping("/query")
-    public List<Order> queryOrder(Long userId){
+    public JsonResponse queryOrder(Long userId){
         return orderService.queryOrder(userId);
     }
     @RequestMapping("/finish")
-    public int finishOrder(Long orderId){
+    public JsonResponse finishOrder(Long orderId){
         return orderService.finishOrder(orderId);
     }
-    @RequestMapping("/remind")
-    public int remindOrder(Long orderId){
-        return orderService.remindOrder(orderId);
-    }
+//    @RequestMapping("/remind")
+//    public int remindOrder(Long orderId){
+//        return orderService.remindOrder(orderId);
+//    }
 }

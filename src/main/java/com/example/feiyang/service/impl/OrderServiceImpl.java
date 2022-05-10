@@ -1,5 +1,6 @@
 package com.example.feiyang.service.impl;
 
+import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String addOrder(Order order) {
+    public JsonResponse addOrder(Order order) {
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);
@@ -59,12 +60,15 @@ public class OrderServiceImpl implements OrderService {
                 assignOrder();
             }).start();
         }
-        if(result == 1) return "报修成功";
-        return "报修失败";
+        if(result == 1){
+            return JsonResponse.success(order,"报修成功");
+        }else {
+            return JsonResponse.failure("报修失败");
+        }
     }
 
     @Override
-    public String cancelOrder(Long orderId, String cancelReason) {
+    public JsonResponse cancelOrder(Long orderId, String cancelReason) {
         Order order = new Order();
         order.setOrderId(orderId);
         order.setCancelReason(cancelReason);
@@ -72,18 +76,23 @@ public class OrderServiceImpl implements OrderService {
         order.setCloseTime(new Date());
         if(waitingOrders.containsKey(orderId)) waitingOrders.remove(orderId);
         int result = orderMapper.updateByPrimaryKeySelective(order);
-        if(result == 1) return "取消成功";
-        return "取消失败";
+        if(result == 1) {
+            return JsonResponse.success(order,"取消成功");
+        }else{
+            return JsonResponse.failure("取消失败");
+        }
     }
 
     @Override
-    public int receiveOrder(Long staffId,Long orderId) {
+    public JsonResponse receiveOrder(Long staffId,Long orderId) {
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStaffId(staffId);
         order.setStatus(2);
         order.setReceiveTime(new Date());
-        return orderMapper.updateByPrimaryKeySelective(order);
+        int result = orderMapper.updateByPrimaryKeySelective(order);
+        if(result == 1) return JsonResponse.success(order,"技术员已成功接单");
+        return JsonResponse.failure("技术员未能成功接单");
     }
 
     @Override
@@ -142,14 +151,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> queryAll() {
+    public JsonResponse queryAll() {
         OrderExample oe = new OrderExample();
-
-        return orderMapper.selectByExample(oe);
+        List<Order> orders= orderMapper.selectByExample(oe);
+        return JsonResponse.success(orders);
     }
 
     @Override
-    public List<Order> queryOrder(Long userId) {
+    public JsonResponse queryOrder(Long userId) {
         User user = userMapper.selectByPrimaryKey(userId);
         OrderExample oe = new OrderExample();
         OrderExample.Criteria criteria = oe.createCriteria();
@@ -158,18 +167,20 @@ public class OrderServiceImpl implements OrderService {
         }else{
             criteria.andStaffIdEqualTo(userId);
         }
-        return orderMapper.selectByExample(oe);
+        List<Order> orders = orderMapper.selectByExample(oe);
+        return JsonResponse.success(orders);
     }
 
     @Override
-    public int finishOrder(Long orderId) {
+    public JsonResponse finishOrder(Long orderId) {
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStatus(3);
         Date now = new Date();
         order.setCloseTime(now);
         int result =  orderMapper.updateByPrimaryKeySelective(order);
-        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
+        order = orderMapper.selectByPrimaryKey(orderId);
+        Long staffId = order.getStaffId();
         Staff staff = staffMapper.selectByPrimaryKey(staffId);
         staff.setLastTime(now);
         long interval = staff.getReceiveInterval()*HOUR;
@@ -181,7 +192,8 @@ public class OrderServiceImpl implements OrderService {
         synchronized (waitingOrders){
             waitingOrders.notifyAll();
         }
-        return result;
+        if(result == 1) return JsonResponse.success(order,"订单已正常结束");
+        return JsonResponse.failure("订单未能正常结束");
     }
 
     @Override

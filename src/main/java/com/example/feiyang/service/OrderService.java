@@ -1,5 +1,6 @@
 package com.example.feiyang.service;
 
+import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.Order;
 
 import java.util.List;
@@ -11,13 +12,13 @@ import java.util.List;
  **/
 
 public interface OrderService {
-    String addOrder(Order order);
-    String cancelOrder(Long orderId,String cancelReason);
-    int receiveOrder(Long staffId,Long orderId);
+    JsonResponse addOrder(Order order);
+    JsonResponse cancelOrder(Long orderId,String cancelReason);
+    JsonResponse receiveOrder(Long staffId,Long orderId);
     void assignOrder();
     int assignOrder(Long staffId,Long orderId);
-    List<Order> queryAll();
-    List<Order> queryOrder(Long userId);
-    int finishOrder(Long orderId);
+    JsonResponse queryAll();
+    JsonResponse queryOrder(Long userId);
+    JsonResponse finishOrder(Long orderId);
     int remindOrder(Long orderId);
 }
