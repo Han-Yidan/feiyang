@@ -1,12 +1,7 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.entity.*;
-import com.example.feiyang.service.EvaluationService;
-import com.example.feiyang.service.serviceImpl.EvaluationServiceImpl;
-import com.example.feiyang.service.serviceImpl.FeedServiceImpl;
 import com.example.feiyang.service.serviceImpl.UserServiceImpl;
-import com.tencentcloudapi.tcb.v20180608.models.ObjectKV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,10 +43,10 @@ public class UserController {
     public JsonResponse login(@RequestBody Map<String, Object> params) {
         String phoneNumber = (String) params.get("phoneNumber");
         JsonResponse res = userService.login(phoneNumber);
-        
+
         return res;
     }
-    
+
     @RequestMapping(method = RequestMethod.POST, value = "/init")
     @ResponseBody
     public JsonResponse init(@RequestBody Map<String, Object> params) {

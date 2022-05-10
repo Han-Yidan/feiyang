@@ -524,6 +524,66 @@ public class StaffExample {
             addCriterion("order_transfer not between", value1, value2, "orderTransfer");
             return (Criteria) this;
         }
+
+        public Criteria andNextTimeIsNull() {
+            addCriterion("next_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeIsNotNull() {
+            addCriterion("next_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeEqualTo(Date value) {
+            addCriterion("next_time =", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeNotEqualTo(Date value) {
+            addCriterion("next_time <>", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeGreaterThan(Date value) {
+            addCriterion("next_time >", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("next_time >=", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeLessThan(Date value) {
+            addCriterion("next_time <", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeLessThanOrEqualTo(Date value) {
+            addCriterion("next_time <=", value, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeIn(List<Date> values) {
+            addCriterion("next_time in", values, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeNotIn(List<Date> values) {
+            addCriterion("next_time not in", values, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeBetween(Date value1, Date value2) {
+            addCriterion("next_time between", value1, value2, "nextTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNextTimeNotBetween(Date value1, Date value2) {
+            addCriterion("next_time not between", value1, value2, "nextTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -1,4 +1,4 @@
-package com.example.feiyang.service.serviceImpl;
+package com.example.feiyang.service.impl;
 
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.common.utils.MessageUtils;
@@ -8,17 +8,9 @@ import com.example.feiyang.dao.EvaluationMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.UserService;
-import com.tencentcloudapi.common.Credential;
-import com.tencentcloudapi.common.exception.TencentCloudSDKException;
-import com.tencentcloudapi.common.profile.ClientProfile;
-import com.tencentcloudapi.common.profile.HttpProfile;
-import com.tencentcloudapi.sms.v20210111.SmsClient;
-import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
-import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.midi.Soundbank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

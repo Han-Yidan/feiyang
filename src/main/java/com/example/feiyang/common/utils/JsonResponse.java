@@ -20,6 +20,19 @@ public class JsonResponse<R> implements Serializable {
     public JsonResponse() {
     }
 
+    public JsonResponse(boolean status) {
+        this.status = status;
+    }
+
+    public JsonResponse(boolean status, R data) {
+        this.status = status;
+        this.data = data;
+    }
+
+    public JsonResponse(Throwable e) {
+        this.message = e.getMessage();
+    }
+
     public static <R> JsonResponse<R> success(R data) {
         JsonResponse<R> response = new JsonResponse();
         response.status = true;

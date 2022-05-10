@@ -18,6 +18,8 @@ public class Staff implements Serializable {
 
     private Integer orderTransfer;
 
+    private Date nextTime;
+
     private String tips;
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +80,14 @@ public class Staff implements Serializable {
         this.orderTransfer = orderTransfer;
     }
 
+    public Date getNextTime() {
+        return nextTime;
+    }
+
+    public void setNextTime(Date nextTime) {
+        this.nextTime = nextTime;
+    }
+
     public String getTips() {
         return tips;
     }
@@ -99,6 +109,7 @@ public class Staff implements Serializable {
         sb.append(", lastTime=").append(lastTime);
         sb.append(", receiveInterval=").append(receiveInterval);
         sb.append(", orderTransfer=").append(orderTransfer);
+        sb.append(", nextTime=").append(nextTime);
         sb.append(", tips=").append(tips);
         sb.append("]");
         return sb.toString();
