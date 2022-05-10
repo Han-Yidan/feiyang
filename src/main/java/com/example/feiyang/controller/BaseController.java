@@ -1,10 +1,7 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.service.ex.InsertException;
-import com.example.feiyang.service.ex.NullException;
-import com.example.feiyang.service.ex.ServiceException;
-import com.example.feiyang.service.ex.StaffDuplicationException;
+import com.example.feiyang.service.ex.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
@@ -26,10 +23,13 @@ public class BaseController {
             result.setMessage("该技术员已经存在");
         } else if (e instanceof InsertException) {
             result.setStatus(false);
-            result.setMessage("注册时产生未知的异常");
+            result.setMessage("插入数据时产生未知的异常");
         } else if (e instanceof NullException) {
             result.setStatus(false);
-            result.setMessage("该用户id无效");
+            result.setMessage("空值异常");
+        } else if (e instanceof StaffNotFoundException) {
+            result.setStatus(false);
+            result.setMessage("不存在这个技术员");
         }
         return result;
     }
