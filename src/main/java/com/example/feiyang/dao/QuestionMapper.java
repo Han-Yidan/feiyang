@@ -1,5 +1,6 @@
 package com.example.feiyang.dao;
 
+import com.example.feiyang.entity.Feed;
 import com.example.feiyang.entity.Question;
 import com.example.feiyang.entity.QuestionExample;
 import java.util.List;
@@ -29,4 +30,10 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+
+    /**
+     * 分页查询用户
+     * @return
+     */
+    List<Feed> selectPage();
 }

@@ -12,7 +12,7 @@ public interface EvaluationMapper {
 
     int deleteByExample(EvaluationExample example);
 
-    int deleteByPrimaryKey(Integer evaluationId);
+    int deleteByPrimaryKey(Long evaluationId);
 
     int insert(Evaluation record);
 
@@ -20,7 +20,7 @@ public interface EvaluationMapper {
 
     List<Evaluation> selectByExample(EvaluationExample example);
 
-    Evaluation selectByPrimaryKey(Integer evaluationId);
+    Evaluation selectByPrimaryKey(Long evaluationId);
 
     int updateByExampleSelective(@Param("record") Evaluation record, @Param("example") EvaluationExample example);
 

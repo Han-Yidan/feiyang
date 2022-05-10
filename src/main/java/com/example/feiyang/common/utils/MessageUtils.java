@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 public class MessageUtils {
     public SendSmsResponse sendMessage(String phoneNumber, String code) {
         SendSmsResponse res = null;
+        
         try {
             /* 必要步骤：
              * 实例化一个认证对象，入参需要传入腾讯云账户密钥对secretId，secretKey。

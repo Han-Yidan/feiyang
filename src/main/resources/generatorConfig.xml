@@ -16,7 +16,7 @@
         <!--连接数据库-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://162.14.64.229:3306/feiyang"
                         userId="root"
-                        password="123456">
+                        password="yhsbjcfcys!">
         </jdbcConnection>
         <!--生成entity类存放位置-->
         <javaModelGenerator targetPackage="com.example.feiyang.entity" targetProject=".\src\main\java">
@@ -39,7 +39,8 @@
 <!--        <table tableName="fy_order" domainObjectName="Order"></table>-->
 <!--        <table tableName="fy_post" domainObjectName="Post"></table>-->
 <!--        <table tableName="fy_question" domainObjectName="Question"></table>-->
-        <table tableName="fy_staff" domainObjectName="Staff"></table>
+<!--        <table tableName="fy_staff" domainObjectName="Staff"></table>-->
 <!--        <table tableName="fy_user" domainObjectName="User"></table>-->
+        <table tableName="fy_evaluation" domainObjectName="Evaluation"></table>
     </context>
 </generatorConfiguration>
