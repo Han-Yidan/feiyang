@@ -27,6 +27,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserMapper userMapper;
 
+    private static final Long HOUR = (long)60*60*1000;
+
     private static volatile LinkedHashMap<Long,Order> waitingOrders;
     @Autowired
     public void setWaitingOrders(){
@@ -90,10 +92,10 @@ public class OrderServiceImpl implements OrderService {
         synchronized (waitingOrders){
             while (!waitingOrders.isEmpty()){
                 List<Staff> staff = searchAvailableStaff();
-                if(staff.isEmpty()){
+                while(staff.isEmpty()){
                     System.out.println("当前无空闲技术员，请稍后");
                     try {
-                        waitingOrders.wait();
+                        waitingOrders.wait((long)(0.5*HOUR));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -170,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
         Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
         Staff staff = staffMapper.selectByPrimaryKey(staffId);
         staff.setLastTime(now);
-        long interval = staff.getReceiveInterval()*60*60*1000;
+        long interval = staff.getReceiveInterval()*HOUR;
         long next = now.getTime()+interval;
         staff.setNextTime(new Date(next));
         staff.setUserId(staffId);
