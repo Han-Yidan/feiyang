@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService {
         String phoneNumber = (String) params.get("phoneNumber");
         String email = (String) params.get("email");
         String avatarUrl = (String) params.get("avatarUrl");
+        Integer isBan = Integer.valueOf((String) params.get("isBan"));
 
         // 条件构造
         UserExample userExample = new UserExample();
@@ -160,6 +161,7 @@ public class UserServiceImpl implements UserService {
         if (phoneNumber != null) preUser.setPhoneNumber(phoneNumber);
         if (email != null) preUser.setEmail(email);
         if (avatarUrl != null) preUser.setAvatarUrl(avatarUrl);
+        if (isBan != null) preUser.setIsBan(isBan);
 
         int isUpdate = userMapper.updateByPrimaryKeySelective(preUser);
 
