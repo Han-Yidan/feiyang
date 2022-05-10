@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.feiyang.dao.ConfMapper" >
+  <resultMap id="BaseResultMap" type="com.example.feiyang.entity.Conf" >
+    <result column="global_flag" property="globalFlag" jdbcType="INTEGER" />
+    <result column="global_year" property="globalYear" jdbcType="INTEGER" />
+    <result column="global_day" property="globalDay" jdbcType="INTEGER" />
+    <result column="global_week" property="globalWeek" jdbcType="INTEGER" />
+    <result column="global_month" property="globalMonth" jdbcType="INTEGER" />
+    <result column="global_time" property="globalTime" jdbcType="TIMESTAMP" />
+    <result column="limit_day" property="limitDay" jdbcType="INTEGER" />
+    <result column="limit_week" property="limitWeek" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.example.feiyang.entity.Conf" extends="BaseResultMap" >
+    <result column="global_tips" property="globalTips" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    global_flag, global_year, global_day, global_week, global_month, global_time, limit_day, 
+    limit_week
+  </sql>
+  <sql id="Blob_Column_List" >
+    global_tips
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.feiyang.entity.ConfExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from fy_conf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.ConfExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from fy_conf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.example.feiyang.entity.ConfExample" >
+    delete from fy_conf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.feiyang.entity.Conf" >
+    insert into fy_conf (global_flag, global_year, global_day, 
+      global_week, global_month, global_time, 
+      limit_day, limit_week, global_tips
+      )
+    values (#{globalFlag,jdbcType=INTEGER}, #{globalYear,jdbcType=INTEGER}, #{globalDay,jdbcType=INTEGER}, 
+      #{globalWeek,jdbcType=INTEGER}, #{globalMonth,jdbcType=INTEGER}, #{globalTime,jdbcType=TIMESTAMP}, 
+      #{limitDay,jdbcType=INTEGER}, #{limitWeek,jdbcType=INTEGER}, #{globalTips,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.feiyang.entity.Conf" >
+    insert into fy_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="globalFlag != null" >
+        global_flag,
+      </if>
+      <if test="globalYear != null" >
+        global_year,
+      </if>
+      <if test="globalDay != null" >
+        global_day,
+      </if>
+      <if test="globalWeek != null" >
+        global_week,
+      </if>
+      <if test="globalMonth != null" >
+        global_month,
+      </if>
+      <if test="globalTime != null" >
+        global_time,
+      </if>
+      <if test="limitDay != null" >
+        limit_day,
+      </if>
+      <if test="limitWeek != null" >
+        limit_week,
+      </if>
+      <if test="globalTips != null" >
+        global_tips,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="globalFlag != null" >
+        #{globalFlag,jdbcType=INTEGER},
+      </if>
+      <if test="globalYear != null" >
+        #{globalYear,jdbcType=INTEGER},
+      </if>
+      <if test="globalDay != null" >
+        #{globalDay,jdbcType=INTEGER},
+      </if>
+      <if test="globalWeek != null" >
+        #{globalWeek,jdbcType=INTEGER},
+      </if>
+      <if test="globalMonth != null" >
+        #{globalMonth,jdbcType=INTEGER},
+      </if>
+      <if test="globalTime != null" >
+        #{globalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitDay != null" >
+        #{limitDay,jdbcType=INTEGER},
+      </if>
+      <if test="limitWeek != null" >
+        #{limitWeek,jdbcType=INTEGER},
+      </if>
+      <if test="globalTips != null" >
+        #{globalTips,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.feiyang.entity.ConfExample" resultType="java.lang.Integer" >
+    select count(*) from fy_conf
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update fy_conf
+    <set >
+      <if test="record.globalFlag != null" >
+        global_flag = #{record.globalFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalYear != null" >
+        global_year = #{record.globalYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalDay != null" >
+        global_day = #{record.globalDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalWeek != null" >
+        global_week = #{record.globalWeek,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalMonth != null" >
+        global_month = #{record.globalMonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalTime != null" >
+        global_time = #{record.globalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.limitDay != null" >
+        limit_day = #{record.limitDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.limitWeek != null" >
+        limit_week = #{record.limitWeek,jdbcType=INTEGER},
+      </if>
+      <if test="record.globalTips != null" >
+        global_tips = #{record.globalTips,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update fy_conf
+    set global_flag = #{record.globalFlag,jdbcType=INTEGER},
+      global_year = #{record.globalYear,jdbcType=INTEGER},
+      global_day = #{record.globalDay,jdbcType=INTEGER},
+      global_week = #{record.globalWeek,jdbcType=INTEGER},
+      global_month = #{record.globalMonth,jdbcType=INTEGER},
+      global_time = #{record.globalTime,jdbcType=TIMESTAMP},
+      limit_day = #{record.limitDay,jdbcType=INTEGER},
+      limit_week = #{record.limitWeek,jdbcType=INTEGER},
+      global_tips = #{record.globalTips,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update fy_conf
+    set global_flag = #{record.globalFlag,jdbcType=INTEGER},
+      global_year = #{record.globalYear,jdbcType=INTEGER},
+      global_day = #{record.globalDay,jdbcType=INTEGER},
+      global_week = #{record.globalWeek,jdbcType=INTEGER},
+      global_month = #{record.globalMonth,jdbcType=INTEGER},
+      global_time = #{record.globalTime,jdbcType=TIMESTAMP},
+      limit_day = #{record.limitDay,jdbcType=INTEGER},
+      limit_week = #{record.limitWeek,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

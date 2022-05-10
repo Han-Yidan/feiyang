@@ -39,7 +39,8 @@
 <!--        <table tableName="fy_order" domainObjectName="Order"></table>-->
 <!--        <table tableName="fy_post" domainObjectName="Post"></table>-->
 <!--        <table tableName="fy_question" domainObjectName="Question"></table>-->
-        <table tableName="fy_staff" domainObjectName="Staff"></table>
+<!--        <table tableName="fy_staff" domainObjectName="Staff"></table>-->
 <!--        <table tableName="fy_user" domainObjectName="User"></table>-->
+        <table tableName="fy_evaluation" domainObjectName="Evaluation"></table>
     </context>
 </generatorConfiguration>

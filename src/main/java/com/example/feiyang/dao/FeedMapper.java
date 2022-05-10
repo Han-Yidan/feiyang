@@ -29,4 +29,10 @@ public interface FeedMapper {
     int updateByPrimaryKeySelective(Feed record);
 
     int updateByPrimaryKey(Feed record);
+
+    /**
+     * 分页查询用户
+     * @return
+     */
+    List<Feed> selectPage();
 }
