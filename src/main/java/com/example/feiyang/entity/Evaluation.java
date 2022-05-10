@@ -4,39 +4,41 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Evaluation implements Serializable {
-    private Integer evaluationId;
+    private Long evaluationId;
 
-    private Integer orderId;
+    private Long orderId;
 
-    private Integer userId;
+    private Long userId;
 
     private Date createTime;
 
     private String evaluationContent;
 
+    private Integer evaluationScore;
+
     private static final long serialVersionUID = 1L;
 
-    public Integer getEvaluationId() {
+    public Long getEvaluationId() {
         return evaluationId;
     }
 
-    public void setEvaluationId(Integer evaluationId) {
+    public void setEvaluationId(Long evaluationId) {
         this.evaluationId = evaluationId;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -56,6 +58,14 @@ public class Evaluation implements Serializable {
         this.evaluationContent = evaluationContent == null ? null : evaluationContent.trim();
     }
 
+    public Integer getEvaluationScore() {
+        return evaluationScore;
+    }
+
+    public void setEvaluationScore(Integer evaluationScore) {
+        this.evaluationScore = evaluationScore;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -67,6 +77,7 @@ public class Evaluation implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", createTime=").append(createTime);
         sb.append(", evaluationContent=").append(evaluationContent);
+        sb.append(", evaluationScore=").append(evaluationScore);
         sb.append("]");
         return sb.toString();
     }

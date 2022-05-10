@@ -26,10 +26,10 @@ public class AdminController extends BaseController {
         return new JsonResponse<>(OK, data);
     }
 
-    @RequestMapping("/user/update")
-    public JsonResponse<User> modifyUserIsBan(Long userId, Integer isBan) {
-        User data = adminService.modifyUserIsBan(userId, isBan);
-        return new JsonResponse<>(OK, data);
-    }
+//    @RequestMapping("/user/update")
+//    public JsonResponse<User> modifyUserIsBan(Long userId, Integer isBan) {
+//        User data = adminService.modifyUserIsBan(userId, isBan);
+//        return new JsonResponse<>(OK, data);
+//    }
 
 }
