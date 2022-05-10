@@ -3,8 +3,11 @@ package com.example.feiyang.dao;
 import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.StaffExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface StaffMapper {
     int countByExample(StaffExample example);
 

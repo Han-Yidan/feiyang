@@ -112,7 +112,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.feiyang.entity.Order" >
+  <insert id="insert" parameterType="com.example.feiyang.entity.Order" useGeneratedKeys="true" keyProperty="orderId">
     insert into fy_order (order_id, user_id, staff_id, 
       create_time, receive_time, close_time, 
       buy_time, device_type, device_brand, 
