@@ -2,7 +2,8 @@ package com.example.feiyang.controller;
 
 import com.example.feiyang.entity.Order;
 import com.example.feiyang.service.OrderService;
-import com.example.feiyang.service.serviceImpl.OrderServiceImpl;
+
+import com.example.feiyang.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

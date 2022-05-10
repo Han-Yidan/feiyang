@@ -37,15 +37,15 @@ public class AdminServiceImpl implements AdminService {
             Staff staff = new Staff();
             User userResult = userMapper.selectByPrimaryKey(userId);
             if (userResult != null) {
-                //将istaff设置为1
+                //将用户的istaff设置为1
                 userResult.setIsStaff(1);
                 userMapper.updateByPrimaryKeySelective(userResult);
                 //补全数据：userId设置成传入的userId
                 staff.setUserId(userId);
-                //补全数据：维修和发帖初始化为0,允许接单，接单间隔为0，order_transfer为1
+                //补全数据：维修和发帖初始化为0,允许接单为1，接单间隔初始化为0，order_transfer初始化为1
                 staff.setPostCount(0);
                 staff.setRepairCount(0);
-                staff.setIsAllow(0);
+                staff.setIsAllow(1);
                 staff.setReceiveInterval(0);
                 staff.setOrderTransfer(1);
                 //补全数据：维修时间间隔初始化为注册时间
@@ -77,7 +77,7 @@ public class AdminServiceImpl implements AdminService {
             throw new StaffNotFoundException("不存在这个技术员");
         }
 
-        //更新
+        //修改技术员简介，是否禁止报修，接单间隔字段
         preStaff.setTips(tips);
         preStaff.setIsAllow(isAllow);
         preStaff.setReceiveInterval(receiveInterval);
