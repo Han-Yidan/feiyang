@@ -32,7 +32,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    public JsonResponse init(User user);
+    public JsonResponse init(Map<String, Object> params);
 
     /**
      * 用户注册vip

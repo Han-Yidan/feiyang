@@ -11,10 +11,7 @@ import com.example.feiyang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author 望舒
@@ -88,8 +85,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JsonResponse init(User user) {
+    public JsonResponse init(Map<String, Object> params) {
         Map<String, Object> res = new HashMap<>();
+
+        User user = new User();
+        String username = (String) params.get("username");
+        String qqNumber = (String) params.get("qqNumber");
+        String phoneNumber = (String) params.get("phoneNumber");
+        String email = (String) params.get("email");
+        String avatarUrl = (String) params.get("avatarUrl");
+
+        if (username != null) user.setUsername(username);
+        if (qqNumber != null) user.setQqNumber(qqNumber);
+        if (phoneNumber != null) user.setPhoneNumber(phoneNumber);
+        if (email != null) user.setEmail(email);
+        if (avatarUrl != null) user.setAvatarUrl(avatarUrl);
+        user.setIsVip(0);
+        user.setIsBan(0);
+        user.setInit(1);
+        user.setIsStaff(0);     // 默认为普通用户，技术员需要管理员分配
+        user.setCreateTime(new Date());
 
         // 取出全局变量
         ConfExample confExample = new ConfExample();
@@ -97,13 +112,23 @@ public class UserServiceImpl implements UserService {
         criteria.andGlobalFlagIsNotNull();
         List<Conf> confs = confMapper.selectByExample(confExample);
 
+        // 设置初始化报修次数
         Conf conf = (confs == null ? null : confs.get(0));
         user.setRestRepairChance(conf.getLimitDay());
 
+        // 插入用户信息
         int insert = userMapper.insert(user);
+
+        // 重新取出user信息
+        UserExample userExample = new UserExample();
+        UserExample.Criteria userCriteria = userExample.createCriteria();
+        userCriteria.andPhoneNumberEqualTo(phoneNumber);
+
+        List<User> users = userMapper.selectByExample(userExample);
+
         if (insert == 1) {
             res.put("isInit", 1);
-            res.put("userInfo", user);
+            res.put("userInfo", users.get(0));
         } else {
             res.put("isInit", 0);
         }

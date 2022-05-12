@@ -51,25 +51,9 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, value = "/init")
     @ResponseBody
     public JsonResponse init(@RequestBody Map<String, Object> params) {
-        User user = new User();
-        String username = (String) params.get("username");
-        String qqNumber = (String) params.get("qqNumber");
-        String phoneNumber = (String) params.get("phoneNumber");
-        String email = (String) params.get("email");
-        String avatarUrl = (String) params.get("avatarUrl");
 
-        user.setUsername(username);
-        user.setQqNumber(qqNumber);
-        user.setPhoneNumber(phoneNumber);
-        user.setEmail(email);
-        user.setAvatarUrl(avatarUrl);
-        user.setIsVip(0);
-        user.setIsBan(0);
-        user.setInit(1);
-        user.setIsStaff(0);     // 默认为普通用户，技术员需要管理员分配
-        user.setCreateTime(new Date());
 
-        JsonResponse res = userService.init(user);
+        JsonResponse res = userService.init(params);
 
         return res;
     }
