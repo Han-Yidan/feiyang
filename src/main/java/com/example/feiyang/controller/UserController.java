@@ -4,11 +4,7 @@ import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.User;
 import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.Date;
@@ -20,7 +16,7 @@ import java.util.Map;
  * @date 2022/5/5 11:10
  */
 
-@Controller
+@RestController
 @RequestMapping(value = "/user")
 public class UserController {
 
@@ -28,7 +24,6 @@ public class UserController {
     private UserServiceImpl userService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/sendCode")
-    @ResponseBody
     public JsonResponse sendCode(@PathParam("phoneNumber") String phoneNumber) {
         Map<String, Object> res = new HashMap<>();
         String code = userService.sendCode(phoneNumber);
@@ -40,7 +35,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    @ResponseBody
     public JsonResponse login(@RequestBody Map<String, Object> params) {
         String phoneNumber = (String) params.get("phoneNumber");
         JsonResponse res = userService.login(phoneNumber);
@@ -49,7 +43,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/init")
-    @ResponseBody
     public JsonResponse init(@RequestBody Map<String, Object> params) {
         User user = new User();
         String username = (String) params.get("username");
@@ -75,7 +68,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/addVip")
-    @ResponseBody
     public JsonResponse addVip(@PathParam("user_id") Long user_id) {
         JsonResponse res = userService.addVip(user_id);
 
@@ -83,7 +75,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/update")
-    @ResponseBody
     public JsonResponse updateUser(@RequestBody Map<String, Object> params) {
 
         JsonResponse res = userService.updateUser(params);
@@ -91,4 +82,11 @@ public class UserController {
         return res;
     }
 
+    /**
+     * 查询所有用户（普通用户或者技术员、管理员）
+     */
+    @RequestMapping("/all")
+    public JsonResponse queryAll(int role){
+        return userService.queryAll(role);
+    }
 }

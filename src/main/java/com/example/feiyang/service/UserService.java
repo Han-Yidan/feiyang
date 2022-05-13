@@ -47,4 +47,9 @@ public interface UserService {
      * @return
      */
     public JsonResponse updateUser(Map<String, Object> params);
+
+    /**
+     * 查询所有用户
+     */
+    JsonResponse queryAll(int role);
 }
