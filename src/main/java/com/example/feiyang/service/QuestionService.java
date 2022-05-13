@@ -36,6 +36,13 @@ public interface QuestionService {
     public List<Question> getQuestionsByUserId(Long user_id);
 
     /**
+     * 根据问题ID查询问题信息
+     * @param question_id
+     * @return
+     */
+    public Question getQuestionsById(Long question_id);
+
+    /**
      * 删除问题
      * @param question_id
      * @return

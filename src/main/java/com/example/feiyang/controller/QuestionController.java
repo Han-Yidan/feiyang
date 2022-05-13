@@ -69,6 +69,17 @@ public class QuestionController {
         return JsonResponse.success(res, "查询成功！");
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getById")
+    @ResponseBody
+    public JsonResponse getQuestionsById(@PathParam("question_id") Long question_id) {
+        Map<String, Object> res = new HashMap<>();
+        Question question = questionService.getQuestionsById(question_id);
+
+        res.put("question", question);
+
+        return JsonResponse.success(res, "查询成功！");
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/delete")
     @ResponseBody
     public JsonResponse deleteEvaluation(@PathParam("question_id") Long question_id) {

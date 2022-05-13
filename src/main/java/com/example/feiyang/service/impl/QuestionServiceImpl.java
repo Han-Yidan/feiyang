@@ -55,6 +55,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public Question getQuestionsById(Long question_id) {
+        Question question = questionMapper.selectByPrimaryKey(question_id);
+        return question;
+    }
+
+    @Override
     public JsonResponse addQuestion(Question question) {
         int isInsert = questionMapper.insert(question);
         Map<String, Object> res = new HashMap<>();
