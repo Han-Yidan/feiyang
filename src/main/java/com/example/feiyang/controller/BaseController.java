@@ -30,6 +30,15 @@ public class BaseController {
         } else if (e instanceof StaffNotFoundException) {
             result.setStatus(false);
             result.setMessage("不存在这个技术员");
+        } else if (e instanceof DeleteException) {
+            result.setStatus(false);
+            result.setMessage("删除数据时产生未知的异常");
+        } else if (e instanceof PostNotFoundException) {
+            result.setStatus(false);
+            result.setMessage("不存在这个帖子");
+        } else if (e instanceof UpdateException) {
+            result.setStatus(false);
+            result.setMessage("修改数据时产生未知的异常");
         }
         return result;
     }

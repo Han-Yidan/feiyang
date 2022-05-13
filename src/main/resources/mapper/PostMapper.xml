@@ -106,45 +106,46 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
     ,
-    <include refid="Blob_Column_List" />
+    <include refid="Blob_Column_List"/>
     from fy_post
     where post_id = #{postId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from fy_post
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete
+    from fy_post
     where post_id = #{postId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.feiyang.entity.PostExample" >
+  <delete id="deleteByExample" parameterType="com.example.feiyang.entity.PostExample">
     delete from fy_post
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.feiyang.entity.Post" >
-    insert into fy_post (post_id, user_id, related_question_id, 
-      create_time, like_count, status, 
-      post_content)
-    values (#{postId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{relatedQuestionId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{likeCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{postContent,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.example.feiyang.entity.Post" useGeneratedKeys="true" keyProperty="post_id">
+    insert into fy_post (post_id, user_id, related_question_id,
+                         create_time, like_count, status,
+                         post_content)
+    values (#{postId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{relatedQuestionId,jdbcType=BIGINT},
+            #{createTime,jdbcType=TIMESTAMP}, #{likeCount,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+            #{postContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.feiyang.entity.Post" >
+  <insert id="insertSelective" parameterType="com.example.feiyang.entity.Post">
     insert into fy_post
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="postId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="postId != null">
         post_id,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="relatedQuestionId != null" >
+      <if test="relatedQuestionId != null">
         related_question_id,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
       <if test="likeCount != null" >
