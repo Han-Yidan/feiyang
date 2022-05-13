@@ -3,9 +3,7 @@ package com.example.feiyang.service.impl;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.common.utils.MessageUtils;
 import com.example.feiyang.common.utils.ValidateCode;
-import com.example.feiyang.dao.ConfMapper;
-import com.example.feiyang.dao.EvaluationMapper;
-import com.example.feiyang.dao.UserMapper;
+import com.example.feiyang.dao.*;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private ConfMapper confMapper;
+    @Autowired
+    private StaffMapper staffMapper;
+    @Autowired
+    private AdminMapper adminMapper;
 
     @Override
     public String sendCode(String phoneNumber) {
@@ -201,4 +203,31 @@ public class UserServiceImpl implements UserService {
         return JsonResponse.success(res, "修改用户信息");
     }
 
+    @Override
+    public JsonResponse queryAll(int role){
+        switch (role){
+            case 0:
+                return query0();
+            case 1:
+                return query1();
+            case 2:
+                return query2();
+            default:
+                return JsonResponse.failure("没有该角色");
+        }
+    }
+    public JsonResponse query0(){
+        UserExample ue = new UserExample();
+        UserExample.Criteria criteria = ue.createCriteria();
+        criteria.andIsStaffEqualTo(0);
+        return JsonResponse.success(userMapper.selectByExample(ue));
+    }
+    public JsonResponse query1(){
+        StaffExample se = new StaffExample();
+        return JsonResponse.success(staffMapper.selectByExample(se));
+    }
+    public JsonResponse query2(){
+        AdminExample ae = new AdminExample();
+        return JsonResponse.success(adminMapper.selectByExample(ae));
+    }
 }

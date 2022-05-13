@@ -9,9 +9,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class AdminServiceTests {
+public class StaffServiceTests {
     @Autowired
-    private AdminService staffService;
+    private StaffService staffService;
 
     @Test
     public void reg() {
