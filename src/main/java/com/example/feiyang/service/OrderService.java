@@ -17,8 +17,7 @@ public interface OrderService {
     JsonResponse receiveOrder(Long staffId,Long orderId);
     void assignOrder();
     int assignOrder(Long staffId,Long orderId);
-    JsonResponse queryAll();
-    JsonResponse queryOrder(Long userId);
+    JsonResponse queryOrder(Long userId,int current);
     JsonResponse finishOrder(Long orderId);
     int remindOrder(Long orderId);
 }

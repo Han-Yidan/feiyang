@@ -29,4 +29,8 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    int selectOrderRows(Long userId,Long staffId);
+
+    List<Order> selectAll(Long userId,Long staffId,int offset,int limit);
 }

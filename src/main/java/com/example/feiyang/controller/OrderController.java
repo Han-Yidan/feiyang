@@ -2,6 +2,7 @@ package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.Order;
+import com.example.feiyang.entity.Page;
 import com.example.feiyang.service.OrderService;
 import com.example.feiyang.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,10 @@ public class OrderController {
     public int assignOrder(Long staffId,Long orderId){
         return orderService.assignOrder(staffId,orderId);
     }
-    @RequestMapping("/all")
-    public JsonResponse queryAll(){
-        return orderService.queryAll();
-    }
+
     @RequestMapping("/query")
-    public JsonResponse queryOrder(Long userId){
-        return orderService.queryOrder(userId);
+    public JsonResponse queryOrder(Long userId,int current){
+        return orderService.queryOrder(userId,current);
     }
     @RequestMapping("/finish")
     public JsonResponse finishOrder(Long orderId){

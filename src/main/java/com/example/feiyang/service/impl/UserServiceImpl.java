@@ -207,24 +207,19 @@ public class UserServiceImpl implements UserService {
     public JsonResponse queryAll(int role){
         switch (role){
             case 0:
-                return query0();
             case 1:
-                return query1();
+                return query(role);
             case 2:
                 return query2();
             default:
                 return JsonResponse.failure("没有该角色");
         }
     }
-    public JsonResponse query0(){
+    public JsonResponse query(int role){
         UserExample ue = new UserExample();
         UserExample.Criteria criteria = ue.createCriteria();
-        criteria.andIsStaffEqualTo(0);
+        criteria.andIsStaffEqualTo(role);
         return JsonResponse.success(userMapper.selectByExample(ue));
-    }
-    public JsonResponse query1(){
-        StaffExample se = new StaffExample();
-        return JsonResponse.success(staffMapper.selectByExample(se));
     }
     public JsonResponse query2(){
         AdminExample ae = new AdminExample();

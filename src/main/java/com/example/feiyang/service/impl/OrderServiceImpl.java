@@ -150,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.updateByPrimaryKeySelective(order);
     }
 
-    @Override
+
     public JsonResponse queryAll() {
         OrderExample oe = new OrderExample();
         List<Order> orders= orderMapper.selectByExample(oe);
@@ -158,16 +158,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public JsonResponse queryOrder(Long userId) {
-        User user = userMapper.selectByPrimaryKey(userId);
-        OrderExample oe = new OrderExample();
-        OrderExample.Criteria criteria = oe.createCriteria();
-        if(user.getIsStaff() == 0){
-            criteria.andUserIdEqualTo(userId);
+    public JsonResponse queryOrder(Long userId,int current) {
+        Page page = new Page();
+        page.setRows(queryOrderRows(userId));
+        page.setCurrent(current);
+        List<Order> orders = null;
+        if (getRole(userId)<1){
+            orders = orderMapper.selectAll(userId,null,page.getOffset(),page.getLimit());
         }else{
-            criteria.andStaffIdEqualTo(userId);
+            orders = orderMapper.selectAll(null,userId,page.getOffset(),page.getLimit());
         }
-        List<Order> orders = orderMapper.selectByExample(oe);
         return JsonResponse.success(orders);
     }
 
@@ -201,6 +201,11 @@ public class OrderServiceImpl implements OrderService {
         return 0;
     }
 
+    public int queryOrderRows(Long userId){
+        if (getRole(userId)<1) return orderMapper.selectOrderRows(userId,null);
+        return orderMapper.selectOrderRows(null,userId);
+    }
+
     public List<Staff> searchAvailableStaff(){
         StaffExample se = new StaffExample();
         StaffExample.Criteria criteria1 = se.createCriteria();
@@ -209,6 +214,11 @@ public class OrderServiceImpl implements OrderService {
         criteria2.andIsAllowEqualTo(1).andNextTimeLessThanOrEqualTo(new Date());
         se.or(criteria2);
         return staffMapper.selectByExample(se);
+    }
+
+    public int getRole(Long userId){
+        if(userId == null) return -1;
+        return userMapper.selectByPrimaryKey(userId).getIsStaff();
     }
 }
 
