@@ -100,6 +100,9 @@
     from fy_user
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
+  <select id="selectStaff" resultType="Map">
+    select * from fy_user join fy_staff using (user_id)
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from fy_user
     where user_id = #{userId,jdbcType=BIGINT}

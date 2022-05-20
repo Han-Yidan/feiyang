@@ -3,6 +3,8 @@ package com.example.feiyang.dao;
 import com.example.feiyang.entity.User;
 import com.example.feiyang.entity.UserExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,8 @@ public interface UserMapper {
     List<User> selectByExample(UserExample example);
 
     User selectByPrimaryKey(Long userId);
+
+    List<Map<String,Object>> selectStaff();
 
     int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
