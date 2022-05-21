@@ -58,6 +58,14 @@ public class UserController {
         return res;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/updateVip")
+    public JsonResponse updateVip(@RequestBody Map<String, Object> params) {
+
+        JsonResponse res = userService.updateVip(params);
+
+        return res;
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/update")
     public JsonResponse updateUser(@RequestBody Map<String, Object> params) {
 

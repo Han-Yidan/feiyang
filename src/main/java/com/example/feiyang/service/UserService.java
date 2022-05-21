@@ -29,7 +29,7 @@ public interface UserService {
 
     /**
      * 初始化用户信息，相当于注册功能
-     * @param user
+     * @param params
      * @return
      */
     public JsonResponse init(Map<String, Object> params);
@@ -40,6 +40,13 @@ public interface UserService {
      * @return
      */
     public JsonResponse addVip(Long userId);
+
+    /**
+     * 修改Vip信息
+     * @param params
+     * @return
+     */
+    public JsonResponse updateVip(Map<String, Object> params);
 
     /**
      * 修改用户信息

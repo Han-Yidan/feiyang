@@ -4,7 +4,7 @@ import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.PageRequest;
 import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.Question;
-import com.example.feiyang.service.serviceImpl.QuestionServiceImpl;
+import com.example.feiyang.service.impl.QuestionServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
