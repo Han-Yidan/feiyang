@@ -165,6 +165,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public JsonResponse updateVip(Map<String, Object> params) {
+        Long user_id = Long.valueOf((String) params.get("user_id"));
+        int isVip = Integer.valueOf((String) params.get("isVip"));
+        Long vip_id = Long.valueOf((String) params.get("vip_id"));
+
+        User user = new User();
+        user.setUserId(user_id);
+        user.setIsVip(isVip);
+        user.setVipId(vip_id);
+        int isUpdate = userMapper.updateByPrimaryKeySelective(user);
+
+        Map<String, Object> res = new HashMap<>();
+        if (isUpdate == 1) {
+            res.put("isUpdate", 1);
+        } else {
+            res.put("isUpdate", 0);
+        }
+
+        return JsonResponse.success(res);
+    }
+
+    @Override
     public JsonResponse updateUser(Map<String, Object> params) {
 
         Long userId = Long.valueOf((String) params.get("user_id"));
@@ -173,7 +195,12 @@ public class UserServiceImpl implements UserService {
         String phoneNumber = (String) params.get("phoneNumber");
         String email = (String) params.get("email");
         String avatarUrl = (String) params.get("avatarUrl");
-        Integer isBan = Integer.valueOf((String) params.get("isBan"));
+
+        Integer isBan = null;
+        if (params.get("isBan") != null) {
+            isBan = Integer.valueOf((String) params.get("isBan"));
+        }
+
 
         // 条件构造
         UserExample userExample = new UserExample();

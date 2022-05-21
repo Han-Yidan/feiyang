@@ -2,7 +2,7 @@ package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.Evaluation;
-import com.example.feiyang.service.serviceImpl.EvaluationServiceImpl;
+import com.example.feiyang.service.impl.EvaluationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

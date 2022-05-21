@@ -1,5 +1,6 @@
 package com.example.feiyang.service.impl;
 
+import com.example.feiyang.common.utils.FileUtils;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
@@ -8,7 +9,10 @@ import com.example.feiyang.entity.*;
 import com.example.feiyang.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -199,6 +203,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int remindOrder(Long orderId) {
         return 0;
+    }
+
+    @Override
+    public JsonResponse uploadFile(MultipartFile file) throws UnknownHostException, FileNotFoundException {
+        FileUtils fileUtils = new FileUtils();
+        return fileUtils.uploadFile(file);
     }
 
     public int queryOrderRows(Long userId){
