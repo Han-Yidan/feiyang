@@ -3,7 +3,9 @@ package com.example.feiyang.service.impl;
 import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.Staff;
+import com.example.feiyang.entity.StaffExample;
 import com.example.feiyang.entity.User;
+import com.example.feiyang.entity.UserExample;
 import com.example.feiyang.service.StaffService;
 import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.NullException;
@@ -12,7 +14,11 @@ import com.example.feiyang.service.ex.StaffNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -83,6 +89,37 @@ public class StaffServiceImpl implements StaffService {
         }
 
         return preStaff;
+    }
+
+    @Override
+    public List<Staff> selectYearStaff(String year) {
+        Date date1 = null;
+        Date date2 = null;
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria1 = userExample.createCriteria();
+        StaffExample staffExample = new StaffExample();
+        StaffExample.Criteria criteria2 = staffExample.createCriteria();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String year1 = year + "-01-01";
+        String year2 = year + "-12-31";
+        System.out.println(year1 + " " + year2);
+        try {
+            date1 = dateFormat.parse(year1);
+            date2 = dateFormat.parse(year2);
+        } catch (ParseException e) {
+            System.out.println("格式输入错误！");
+        }
+        System.out.println(date1 + " " + date2);
+        //查询到技术员的用户表的创建年份在传入年份内
+        criteria1.andCreateTimeBetween(date1, date2);
+        criteria1.andIsStaffEqualTo(1);
+        List<User> userList = userMapper.selectByExample(userExample);
+        List<Long> ids = userList.stream().map(User::getUserId).collect(Collectors.toList());
+        //通过用户id查询技术员表
+        criteria2.andUserIdIn(ids);
+        List<Staff> staffList = staffMapper.selectByExample(staffExample);
+        //返回技术员list
+        return staffList;
     }
 
 //    @Override
