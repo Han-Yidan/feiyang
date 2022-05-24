@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -54,7 +56,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public JsonResponse addOrder(Order order) {
+    public JsonResponse addOrder(Map<String,Object> map) {
+        Order order = new Order();
+        order.setUserId(Long.valueOf((String)map.get("userId")));
+        order.setDeviceType((String) map.get("deviceType"));
+        order.setDeviceBrand((String) map.get("deviceBrand"));
+        order.setDeviceVersion((String) map.get("deviceVersion"));
+        order.setGuaranteeStatus((String) map.get("guaranteeStatus"));
+        order.setRepairType((String) map.get("repairType"));
+        order.setRepairInstruction((String) map.get("repairInstruction"));
+        order.setRepairImage((String) map.get("repairImage"));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date buyTime = null;
+        try {
+            buyTime = format.parse((String)map.get("buyTime"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        order.setBuyTime(buyTime);
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);
@@ -72,10 +91,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public JsonResponse cancelOrder(Long orderId, String cancelReason) {
+    public JsonResponse cancelOrder(Map<String,Object> map) {
         Order order = new Order();
+        Long orderId = Long.valueOf((String)map.get("orderId"));
         order.setOrderId(orderId);
-        order.setCancelReason(cancelReason);
+        order.setCancelReason((String)map.get("cancelReason"));
         order.setStatus(0);
         order.setCloseTime(new Date());
         if(waitingOrders.containsKey(orderId)) waitingOrders.remove(orderId);
@@ -99,7 +119,6 @@ public class OrderServiceImpl implements OrderService {
         return JsonResponse.failure("技术员未能成功接单");
     }
 
-    @Override
     public void assignOrder(){
         System.out.println("进入自动分配");
         synchronized (waitingOrders){
