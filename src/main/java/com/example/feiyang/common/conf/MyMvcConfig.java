@@ -1,5 +1,6 @@
 package com.example.feiyang.common.conf;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,6 +16,7 @@ import java.io.File;
 
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         ApplicationHome ah = new ApplicationHome(org.apache.tomcat.util.http.fileupload.FileUtils.class);

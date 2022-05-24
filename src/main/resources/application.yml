@@ -10,7 +10,6 @@ spring:
       max-file-size: 20MB
       max-request-size: 100MB
 
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.test.bean
@@ -23,3 +22,6 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+server:
+  port: 8080
