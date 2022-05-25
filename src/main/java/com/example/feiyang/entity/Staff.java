@@ -20,6 +20,10 @@ public class Staff implements Serializable {
 
     private Date nextTime;
 
+    private Integer year;
+
+    private Integer score;
+
     private String tips;
 
     private static final long serialVersionUID = 1L;
@@ -88,6 +92,22 @@ public class Staff implements Serializable {
         this.nextTime = nextTime;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
     public String getTips() {
         return tips;
     }
@@ -110,6 +130,8 @@ public class Staff implements Serializable {
         sb.append(", receiveInterval=").append(receiveInterval);
         sb.append(", orderTransfer=").append(orderTransfer);
         sb.append(", nextTime=").append(nextTime);
+        sb.append(", year=").append(year);
+        sb.append(", score=").append(score);
         sb.append(", tips=").append(tips);
         sb.append("]");
         return sb.toString();
