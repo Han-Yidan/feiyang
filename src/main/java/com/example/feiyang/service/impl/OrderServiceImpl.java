@@ -92,15 +92,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public JsonResponse cancelOrder(Map<String,Object> map) {
+        //更新订单状态
         Order order = new Order();
         Long orderId = Long.valueOf((String)map.get("orderId"));
+        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
         order.setOrderId(orderId);
         order.setCancelReason((String)map.get("cancelReason"));
         order.setStatus(0);
         order.setCloseTime(new Date());
+        //更新技术员状态
+        Staff staff = new Staff();
+        staff.setUserId(staffId);
+        staff.setIsAllow(1);
+
+        int result1 = orderMapper.updateByPrimaryKeySelective(order);
+        int result2 = staffMapper.updateByPrimaryKeySelective(staff);
+
         if(waitingOrders.containsKey(orderId)) waitingOrders.remove(orderId);
-        int result = orderMapper.updateByPrimaryKeySelective(order);
-        if(result == 1) {
+        if(result1 == 1 && result2 == 1) {
             return JsonResponse.success(order,"取消成功");
         }else{
             return JsonResponse.failure("取消失败");
@@ -109,13 +118,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public JsonResponse receiveOrder(Long staffId,Long orderId) {
+        //更新订单状态
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStaffId(staffId);
         order.setStatus(2);
         order.setReceiveTime(new Date());
-        int result = orderMapper.updateByPrimaryKeySelective(order);
-        if(result == 1) return JsonResponse.success(order,"技术员已成功接单");
+        int result1 = orderMapper.updateByPrimaryKeySelective(order);
+        //更新技术员状态
+        Staff currStaff = new Staff();
+        currStaff.setUserId(staffId);
+        currStaff.setIsAllow(0);
+        int result2 = staffMapper.updateByPrimaryKeySelective(currStaff);
+        if(result1 == 1 && result2 == 1) return JsonResponse.success(order,"技术员已成功接单");
         return JsonResponse.failure("技术员未能成功接单");
     }
 
@@ -133,17 +148,13 @@ public class OrderServiceImpl implements OrderService {
                     }
                     staff = searchAvailableStaff();
                 }
-                int size = staff.size();
-                int option = (int)Math.random()*size;
-                Long staffId = staff.get(option).getUserId();
+
+                Long staffId = pickOneStaff(staff).getUserId();
                 Long orderId = waitingOrders.keySet().iterator().next();
                 waitingOrders.remove(orderId);
                 receiveOrder(staffId,orderId);
                 System.out.println(staffId+"将要负责"+orderId+"号订单");
-                Staff currStaff = new Staff();
-                currStaff.setUserId(staffId);
-                currStaff.setIsAllow(0);
-                staffMapper.updateByPrimaryKeySelective(currStaff);
+
             }
         }
     }
@@ -155,18 +166,16 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("转让次数不足，无法转让");
             return -1;
         }
+        //将当前技术员转让次数-1
         Staff currStaff1 = new Staff();
         currStaff1.setUserId(staffId);
         currStaff1.setOrderTransfer(--number);
         staffMapper.updateByPrimaryKeySelective(currStaff1);
-        StaffExample se = new StaffExample();
-        StaffExample.Criteria criteria = se.createCriteria();
-        criteria.andIsAllowEqualTo(1);
-        criteria.andUserIdNotEqualTo(staffId);
-        List<Staff> staff = staffMapper.selectByExample(se);
-        int size = staff.size();
-        int option = (int)Math.random()*size;
-        Long nextStaffId = staff.get(option).getUserId();
+        //得到除当前技术员之外的所有空闲技术员
+        List<Staff> staff = searchAvailableStaff(staffId);
+        //随机选一名空闲技术员
+        Long nextStaffId = pickOneStaff(staff).getUserId();
+        //更新订单信息
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStaffId(nextStaffId);
@@ -174,48 +183,50 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    public JsonResponse queryAll() {
-        OrderExample oe = new OrderExample();
-        List<Order> orders= orderMapper.selectByExample(oe);
-        return JsonResponse.success(orders);
-    }
-
     @Override
     public JsonResponse queryOrder(Long userId,int current) {
         Page page = new Page();
         page.setRows(queryOrderRows(userId));
         page.setCurrent(current);
-        List<Order> orders = null;
-        if (getRole(userId)<1){
-            orders = orderMapper.selectAll(userId,null,page.getOffset(),page.getLimit());
+        List<Order> map = null;
+        if (getRole(userId) == -1){
+            map = orderMapper.selectAll(null,null,page.getOffset(),page.getLimit());
+        }else if(getRole(userId) == 0){
+            map = orderMapper.selectAll(userId,null,page.getOffset(),page.getLimit());
         }else{
-            orders = orderMapper.selectAll(null,userId,page.getOffset(),page.getLimit());
+            map = orderMapper.selectAll(null,userId,page.getOffset(),page.getLimit());
         }
-        return JsonResponse.success(orders).addOtherData("page",page);
+        return JsonResponse.success(map).addOtherData("page",page);
     }
 
     @Override
     public JsonResponse finishOrder(Long orderId) {
+        //更新订单信息
         Order order = new Order();
         order.setOrderId(orderId);
         order.setStatus(3);
         Date now = new Date();
         order.setCloseTime(now);
-        int result =  orderMapper.updateByPrimaryKeySelective(order);
-        order = orderMapper.selectByPrimaryKey(orderId);
-        Long staffId = order.getStaffId();
+        int result1 =  orderMapper.updateByPrimaryKeySelective(order);
+        //更新技术员信息
+        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
         Staff staff = staffMapper.selectByPrimaryKey(staffId);
+        int repairCount = staff.getRepairCount();
+        int score = staff.getScore();
         staff.setLastTime(now);
         long interval = staff.getReceiveInterval()*HOUR;
         long next = now.getTime()+interval;
         staff.setNextTime(new Date(next));
         staff.setUserId(staffId);
         staff.setIsAllow(1);
-        staffMapper.updateByPrimaryKeySelective(staff);
+        staff.setRepairCount(repairCount+1);
+        staff.setScore(score+2);
+        int result2 = staffMapper.updateByPrimaryKeySelective(staff);
+
         synchronized (waitingOrders){
             waitingOrders.notifyAll();
         }
-        if(result == 1) return JsonResponse.success(order,"订单已正常结束");
+        if(result1 == 1 && result2 == 1) return JsonResponse.success(order,"订单已正常结束");
         return JsonResponse.failure("订单未能正常结束");
     }
 
@@ -244,7 +255,20 @@ public class OrderServiceImpl implements OrderService {
         se.or(criteria2);
         return staffMapper.selectByExample(se);
     }
-
+    public List<Staff> searchAvailableStaff(Long staffId){
+        StaffExample se = new StaffExample();
+        StaffExample.Criteria criteria1 = se.createCriteria();
+        StaffExample.Criteria criteria2 = se.createCriteria();
+        criteria1.andIsAllowEqualTo(1).andNextTimeIsNull().andUserIdNotEqualTo(staffId);
+        criteria2.andIsAllowEqualTo(1).andNextTimeLessThanOrEqualTo(new Date()).andUserIdNotEqualTo(staffId);
+        se.or(criteria2);
+        return staffMapper.selectByExample(se);
+    }
+    public Staff pickOneStaff(List<Staff> staff){
+        int size = staff.size();
+        int option = (int)Math.random()*size;
+        return staff.get(option);
+    }
     public int getRole(Long userId){
         if(userId == null) return -1;
         return userMapper.selectByPrimaryKey(userId).getIsStaff();

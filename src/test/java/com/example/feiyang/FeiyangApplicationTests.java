@@ -19,6 +19,7 @@ class FeiyangApplicationTests {
     }
     @Test
     void testMBG() throws Exception {
+        System.out.println("test");
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
         File configFile = new File("src\\main\\resources\\generatorConfig.xml");

@@ -82,6 +82,12 @@
     device_brand, device_version, repair_type, repair_instruction, repair_image, guarantee_status, 
     cancel_reason, status
   </sql>
+  <sql id="user" >
+    order_id, fy_order.create_time, receive_time, close_time, buy_time, device_type,
+    device_brand, device_version, repair_type, repair_instruction, repair_image, guarantee_status,
+    cancel_reason, status,fy_user.user_id, username, qq_number, phone_number, is_vip, is_ban, session_id, code, email,
+    vip_id, init, fy_user.create_time, avatar_url, rest_repair_chance, is_staff
+  </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.OrderExample" >
     select
     <if test="distinct" >

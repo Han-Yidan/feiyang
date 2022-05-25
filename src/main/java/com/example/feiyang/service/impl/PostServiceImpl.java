@@ -1,9 +1,11 @@
 package com.example.feiyang.service.impl;
 
 import com.example.feiyang.dao.PostMapper;
+import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.Post;
 import com.example.feiyang.entity.PostExample;
+import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.User;
 import com.example.feiyang.service.PostService;
 import com.example.feiyang.service.ex.*;
@@ -22,6 +24,8 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private StaffMapper staffMapper;
 
     @Override
     public Post updatePostStatus(Integer postId) {
@@ -70,6 +74,13 @@ public class PostServiceImpl implements PostService {
 
         //执行添加业务功能的实现
         Integer rows = postMapper.insertSelective(post);
+
+        Staff staff = staffMapper.selectByPrimaryKey(Long.valueOf(userId));
+        int postCount=  staff.getPostCount();
+        int score = staff.getScore();
+        staff.setPostCount(postCount+1);
+        staff.setScore(score+1);
+        staffMapper.updateByPrimaryKeySelective(staff);
         //未知异常
         if (rows != 1) {
             throw new InsertException("技术员在发贴过程中产生了未知的异常");
