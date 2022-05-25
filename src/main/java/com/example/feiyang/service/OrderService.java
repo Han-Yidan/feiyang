@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ProjectName: feiyang
@@ -15,10 +16,9 @@ import java.util.List;
  **/
 
 public interface OrderService {
-    JsonResponse addOrder(Order order);
-    JsonResponse cancelOrder(Long orderId,String cancelReason);
+    JsonResponse addOrder(Map<String,Object> map);
+    JsonResponse cancelOrder(Map<String,Object> map);
     JsonResponse receiveOrder(Long staffId,Long orderId);
-    void assignOrder();
     int assignOrder(Long staffId,Long orderId);
     JsonResponse queryOrder(Long userId,int current);
     JsonResponse finishOrder(Long orderId);

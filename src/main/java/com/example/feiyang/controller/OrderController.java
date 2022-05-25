@@ -1,8 +1,6 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.entity.Order;
-import com.example.feiyang.entity.Page;
 import com.example.feiyang.service.OrderService;
 import com.example.feiyang.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,13 +24,13 @@ public class OrderController {
     private OrderService orderService = new OrderServiceImpl();
 
     @RequestMapping("/add")
-    public JsonResponse addOrder(Order order){
-        return orderService.addOrder(order);
+    public JsonResponse addOrder(@RequestBody Map<String,Object> params){
+        return orderService.addOrder(params);
     }
 
     @RequestMapping("/cancel")
-    public JsonResponse cancelOrder(Long orderId,String cancelReason){
-        return orderService.cancelOrder(orderId,cancelReason);
+    public JsonResponse cancelOrder(@RequestBody Map<String,Object> params){
+        return orderService.cancelOrder(params);
     }
     @RequestMapping("/receive")
     public JsonResponse receiveOrder(Long staffId,Long orderId){

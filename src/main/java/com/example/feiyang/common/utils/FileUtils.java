@@ -1,14 +1,16 @@
 package com.example.feiyang.common.utils;
 
-import ch.qos.logback.core.util.FileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.system.ApplicationHome;
-import org.springframework.util.ResourceUtils;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -23,9 +25,12 @@ import java.util.UUID;
  */
 
 public class FileUtils {
+    @Autowired
+    private Integer serverPort;
 
     /**
      * 检查文件大小
+     *
      * @param len
      * @param size
      * @param unit
@@ -53,6 +58,7 @@ public class FileUtils {
 
     /**
      * 生成唯一编码，去除"-"
+     *
      * @return
      */
     public static String GetUUID() {
@@ -61,6 +67,7 @@ public class FileUtils {
 
     /**
      * 获取文件后缀名
+     *
      * @param fileName
      * @return
      */
@@ -70,6 +77,7 @@ public class FileUtils {
 
     /**
      * 保存文件
+     *
      * @param file
      * @param savePath
      * @return
@@ -126,14 +134,15 @@ public class FileUtils {
             // 最终保存路径
             ApplicationHome ah = new ApplicationHome(org.apache.tomcat.util.http.fileupload.FileUtils.class);
             String path = ah.getSource().getParentFile().toString();
-            String savePath = path + File.separator + "uploadImg" + File.separator + date + File.separator + fileName;
+            String savePath = path + File.separator + "uploadImg" + File.separator + fileName;
             System.out.println(savePath);
+            System.out.println(serverPort);
 
             // 保存文件
             if (FileUtils.saveFile(file, savePath)) {
-                String IP = InetAddress.getLocalHost().getHostAddress();
-                res.put("filePath", savePath);
-                res.put("ipPath", "http://" + IP + ":8080/upload/img" + File.separator + fileName);
+                String IP = Inet4Address.getLocalHost().getHostAddress();
+                res.put("filePath", "/images/" + fileName);
+                res.put("ipPath", "http://" + IP + ":" + 8080 + "/images/" + fileName);
 
                 return JsonResponse.success(res, "图片上传成功！");
             } else {
