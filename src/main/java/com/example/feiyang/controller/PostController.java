@@ -1,14 +1,14 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
+import com.example.feiyang.entity.PageRequest;
+import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.Post;
 import com.example.feiyang.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.feiyang.controller.BaseController.OK;
@@ -29,20 +29,29 @@ public class PostController {
     ;
 
     @RequestMapping("/update")
-    public JsonResponse<Post> updatePostStatus(@RequestParam("postId") Integer postId) {
+    public JsonResponse<Post> updatePostStatus(@RequestParam("postId") Long postId) {
         Post data = postService.updatePostStatus(postId);
         return new JsonResponse<>(OK, data);
     }
 
     @RequestMapping("/delete")
     public JsonResponse<Void> deletePost(@RequestParam("postId") Integer postId) {
-        postService.deletePost(postId);
+        postService.deletePost(Long.valueOf(postId));
         return new JsonResponse<>(OK);
     }
 
     @RequestMapping("/all")
-    public JsonResponse<Map> selectAllByCondition(Integer userId, Long relatedQuestionId) {
+    public JsonResponse<Map> selectAllByCondition(Long userId, Long relatedQuestionId) {
         Map<String, Object> data = postService.selectAllByCondition(userId, relatedQuestionId);
         return new JsonResponse<>(OK, data);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/postAndQuesion")
+    public JsonResponse getAllPostAndQuestion(@RequestBody PageRequest pageQuery) {
+        Map<String, Object> res = new HashMap<>();
+        PageResult allPosts = postService.getAllPostAndQuestions(pageQuery);
+
+        res.put("posts", allPosts);
+        return JsonResponse.success(res, "查询成功！");
     }
 }

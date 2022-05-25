@@ -1,5 +1,7 @@
 package com.example.feiyang.service;
 
+import com.example.feiyang.entity.PageRequest;
+import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.Post;
 
 import java.util.Map;
@@ -11,7 +13,7 @@ public interface PostService {
      * @param postId
      * @return
      */
-    Post updatePostStatus(Integer postId);
+    Post updatePostStatus(Long postId);
 
     /**
      * 添加帖子
@@ -26,7 +28,7 @@ public interface PostService {
      *
      * @param postId
      */
-    void deletePost(Integer postId);
+    void deletePost(Long postId);
 
     /**
      * 按条件查看所有帖子
@@ -35,6 +37,12 @@ public interface PostService {
      * @param relatedQuestionId
      * @return
      */
-    Map<String, Object> selectAllByCondition(Integer userId, Long relatedQuestionId);
+    Map<String, Object> selectAllByCondition(Long userId, Long relatedQuestionId);
 
+    /**
+     * 分页获取所有帖子及关联问题
+     * @param pageRequest
+     * @return
+     */
+    public PageResult getAllPostAndQuestions(PageRequest pageRequest);
 }

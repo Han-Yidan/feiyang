@@ -1,6 +1,8 @@
 package com.example.feiyang.dao;
 
+import com.example.feiyang.entity.Feed;
 import com.example.feiyang.entity.Post;
+import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.PostExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +14,7 @@ public interface PostMapper {
 
     int deleteByExample(PostExample example);
 
-    int deleteByPrimaryKey(Integer postId);
+    int deleteByPrimaryKey(Long postId);
 
     int insert(Post record);
 
@@ -22,7 +24,7 @@ public interface PostMapper {
 
     List<Post> selectByExample(PostExample example);
 
-    Post selectByPrimaryKey(Integer postId);
+    Post selectByPrimaryKey(Long postId);
 
     int updateByExampleSelective(@Param("record") Post record, @Param("example") PostExample example);
 
@@ -35,4 +37,6 @@ public interface PostMapper {
     int updateByPrimaryKeyWithBLOBs(Post record);
 
     int updateByPrimaryKey(Post record);
+
+    List<PostAndQuestion> selectPage();
 }
