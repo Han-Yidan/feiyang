@@ -8,6 +8,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,4 +30,5 @@ class FeiyangApplicationTests {
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
         myBatisGenerator.generate(null);
     }
+
 }

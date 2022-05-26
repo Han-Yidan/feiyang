@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -251,6 +252,46 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderMapper.selectByExample(oe);
     }
+
+    @Override
+    public int getTodayOrder() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String today = sdf.format(date);
+        String start = today+" 00:00:00";
+        String end = today+" 23:59:59";
+        return orderMapper.getSomeRows(start,end);
+    }
+
+    @Override
+    public int getThisWeek() {
+        Calendar cld = getNow();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        cld.set(Calendar.DAY_OF_WEEK, 0);
+        String end = sdf.format(cld.getTime());
+        cld.set(Calendar.DAY_OF_WEEK,1);
+        String start = sdf.format(cld.getTime());
+        return orderMapper.getSomeRows(start,end);
+    }
+
+    @Override
+    public int getThisMonth() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cld = getNow();
+        //月份+1，天设置为0。下个月第0天，就是这个月最后一天
+        cld.add(Calendar.MONTH, 1);
+        cld.set(Calendar.DAY_OF_MONTH, 0);
+        String end = sdf.format(cld.getTime());
+        cld.set(Calendar.DAY_OF_MONTH,1);
+        String start = sdf.format(cld.getTime());
+        return orderMapper.getSomeRows(start,end);
+    }
+
+    @Override
+    public int getTotalOrder() {
+        return orderMapper.getSomeRows(null,null);
+    }
+
     public int queryOrderRows(Long userId){
         if (getRole(userId)<1) return orderMapper.selectOrderRows(userId,null);
         return orderMapper.selectOrderRows(null,userId);
@@ -281,6 +322,12 @@ public class OrderServiceImpl implements OrderService {
     public int getRole(Long userId){
         if(userId == null) return -1;
         return userMapper.selectByPrimaryKey(userId).getIsStaff();
+    }
+    public Calendar getNow(){
+        Date date = new Date();
+        Calendar cld = Calendar.getInstance();
+        cld.setTime(date);
+        return cld;
     }
 }
 

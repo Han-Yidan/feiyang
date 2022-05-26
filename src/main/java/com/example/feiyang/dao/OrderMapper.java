@@ -36,5 +36,6 @@ public interface OrderMapper {
 
     List<Map<String,Object>> selectAll(Long userId, Long staffId, int offset, int limit);
 
+    int getSomeRows(String start,String end);
 
 }

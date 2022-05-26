@@ -159,19 +159,15 @@
     </trim>
     limit #{offset},#{limit}
   </select>
-<!--  <select id="selectAll" resultMap="BaseResultMap">-->
-<!--    select <include refid="Base_Column_List"></include>-->
-<!--    from fy_order-->
-<!--    <where>-->
-<!--      <if test="userId != null">-->
-<!--        user_id = #{userId}-->
-<!--      </if>-->
-<!--      <if test="staffId != null">-->
-<!--        staff_id = #{staffId}-->
-<!--      </if>-->
-<!--    </where>-->
-<!--    limit #{offset},#{limit}-->
-<!--  </select>-->
+
+  <select id="getSomeRows" resultType="int">
+    select count(order_id) from fy_order
+    <if test="start != null and end != null">
+      where create_time between #{start} and #{end}
+    </if>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from fy_order
     where order_id = #{orderId,jdbcType=BIGINT}

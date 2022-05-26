@@ -63,5 +63,13 @@ public class OrderController {
         System.out.println(file.getOriginalFilename());
         return orderService.uploadFile(file);
     }
+    @RequestMapping("/count")
+    public int count(){
+        System.out.println(orderService.getTodayOrder());
+        System.out.println(orderService.getThisWeek());
+        System.out.println(orderService.getThisMonth());
+        System.out.println(orderService.getTotalOrder());
+        return 1;
+    }
 
 }
