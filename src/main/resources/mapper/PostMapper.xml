@@ -84,6 +84,7 @@
         FROM fy_post p
                JOIN fy_question q
                     ON p.related_question_id = q.question_id
+        WHERE p.`status` = 1
       ) a
         JOIN fy_user u
              ON a.user_id = u.user_id
