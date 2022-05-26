@@ -3,6 +3,8 @@ package com.example.feiyang.dao;
 import com.example.feiyang.entity.Order;
 import com.example.feiyang.entity.OrderExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +34,8 @@ public interface OrderMapper {
 
     int selectOrderRows(Long userId,Long staffId);
 
-    List<Order> selectAll(Long userId,Long staffId,int offset,int limit);
+    List<Map<String,Object>> selectAll(Long userId, Long staffId, int offset, int limit);
+
+    int getSomeRows(String start,String end);
+
 }

@@ -88,10 +88,10 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     @ResponseBody
-    public JsonResponse searchQuestion(@PathParam("content") String content) {
+    public JsonResponse searchQuestion(@PathParam("content") String content, @PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
         Map<String, Object> res = new HashMap<>();
 
-        List<PostAndQuestion> all = questionService.searchQuestion(content);
+        List<PostAndQuestion> all = questionService.searchQuestion(content, pageNum, pageSize);
         res.put("questions", all);
 
         return JsonResponse.success(res, "搜索成功！");

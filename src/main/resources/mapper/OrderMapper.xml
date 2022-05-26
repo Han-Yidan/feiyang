@@ -82,6 +82,23 @@
     device_brand, device_version, repair_type, repair_instruction, repair_image, guarantee_status, 
     cancel_reason, status
   </sql>
+  <sql id="query_for" >
+    order_id, fy_order.create_time, receive_time, close_time, buy_time, device_type,
+    device_brand, device_version, repair_type, repair_instruction, repair_image, guarantee_status,
+    cancel_reason, status
+  </sql>
+  <sql id="user" >
+    user.user_id user_user_id,user.username user_username, user.qq_number user_qq_number, user.phone_number user_phone_number,
+    user.is_vip user_is_vip, user.is_ban user_is_ban, user.session_id user_session_id, user.code user_code,
+    user.email user_email,user.vip_id user_vip_id, user.init user_init, user.create_time user_create_time,
+    user.avatar_url user_avatar_url, user.rest_repair_chance user_rest_repair_chance
+  </sql>
+  <sql id="staff" >
+    staff.user_id staff_id,staff.username staff_username, staff.qq_number staff_qq_number, staff.phone_number staff_phone_number,
+    staff.is_vip staff_is_vip, staff.is_ban staff_is_ban, staff.session_id staff_session_id, staff.code staff_code,
+    staff.email staff_email,staff.vip_id staff_vip_id, staff.init staff_init, staff.create_time staff_create_time,
+    staff.avatar_url staff_avatar_url, staff.rest_repair_chance staff_rest_repair_chance
+  </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.OrderExample" >
     select
     <if test="distinct" >
@@ -113,19 +130,44 @@
       </if>
     </where>
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include>
+  <select id="selectAll" resultType="Map">
+    select <include refid="query_for"></include>,
+    <trim suffixOverrides=",">
+      <if test="userId == null">
+        <include refid="user"></include>,
+      </if>
+      <if test="staffId == null">
+        <include refid="staff"></include>
+      </if>
+    </trim>
     from fy_order
-    <where>
+    <if test="staffId == null">
+      left join fy_user staff
+      on staff.user_id = fy_order.staff_id
+    </if>
+    <if test="userId == null">
+      inner join fy_user user
+      on user.user_id = fy_order.user_id
+    </if>
+    <trim prefix="where">
       <if test="userId != null">
-        user_id = #{userId}
+        fy_order.user_id = #{userId}
       </if>
       <if test="staffId != null">
-        staff_id = #{staffId}
+        fy_order.staff_id = #{staffId}
       </if>
-    </where>
+    </trim>
     limit #{offset},#{limit}
   </select>
+
+  <select id="getSomeRows" resultType="int">
+    select count(order_id) from fy_order
+    <if test="start != null and end != null">
+      where create_time between #{start} and #{end}
+    </if>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from fy_order
     where order_id = #{orderId,jdbcType=BIGINT}

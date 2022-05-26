@@ -10,66 +10,66 @@ import java.util.Date;
  */
 
 public class PostAndQuestion {
-    private Long postId;
-    private String postContent;
-    private Date createTime;
-    private Integer viewCount;
-    private String questionContent;
+    private Long post_id;
+    private String post_content;
+    private Date create_time;
+    private Integer visit_count;
+    private String question_content;
     private String username;
-    private String avatarUrl;
+    private String avatar_url;
 
     public PostAndQuestion() {
 
     }
 
-    public PostAndQuestion(Long postId, String postContent, Date createTime, Integer viewCount, String questionContent, String username, String avatarUrl) {
-        this.postId = postId;
-        this.postContent = postContent;
-        this.createTime = createTime;
-        this.viewCount = viewCount;
-        this.questionContent = questionContent;
+    public PostAndQuestion(Long post_id, String post_content, Date create_time, Integer visit_count, String question_content, String username, String avatar_url) {
+        this.post_id = post_id;
+        this.post_content = post_content;
+        this.create_time = create_time;
+        this.visit_count = visit_count;
+        this.question_content = question_content;
         this.username = username;
-        this.avatarUrl = avatarUrl;
+        this.avatar_url = avatar_url;
     }
 
-    public Long getPostId() {
-        return postId;
+    public Long getPost_id() {
+        return post_id;
     }
 
-    public void setPostId(Long postId) {
-        this.postId = postId;
+    public void setPost_id(Long post_id) {
+        this.post_id = post_id;
     }
 
-    public String getPostContent() {
-        return postContent;
+    public String getPost_content() {
+        return post_content;
     }
 
-    public void setPostContent(String postContent) {
-        this.postContent = postContent;
+    public void setPost_content(String post_content) {
+        this.post_content = post_content;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
-    public Integer getViewCount() {
-        return viewCount;
+    public Integer getVisit_count() {
+        return visit_count;
     }
 
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
+    public void setVisit_count(Integer visit_count) {
+        this.visit_count = visit_count;
     }
 
-    public String getQuestionContent() {
-        return questionContent;
+    public String getQuestion_content() {
+        return question_content;
     }
 
-    public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+    public void setQuestion_content(String question_content) {
+        this.question_content = question_content;
     }
 
     public String getUsername() {
@@ -80,11 +80,24 @@ public class PostAndQuestion {
         this.username = username;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getAvatar_url() {
+        return avatar_url;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    @Override
+    public String toString() {
+        return "PostAndQuestion{" +
+                "post_id=" + post_id +
+                ", post_content='" + post_content + '\'' +
+                ", create_time=" + create_time +
+                ", visit_count=" + visit_count +
+                ", question_content='" + question_content + '\'' +
+                ", username='" + username + '\'' +
+                ", avatar_url='" + avatar_url + '\'' +
+                '}';
     }
 }

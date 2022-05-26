@@ -28,4 +28,10 @@ public interface FeedService {
      * @return
      */
     public List<Feed> getAllFeeds(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取总反馈数
+     * @return
+     */
+    public Integer getTotalFeed();
 }
