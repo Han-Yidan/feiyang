@@ -6,6 +6,7 @@ import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.Question;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -54,5 +55,5 @@ public interface QuestionService {
      * @param content
      * @return
      */
-    public List<PostAndQuestion> searchQuestion(String content);
+    public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize);
 }

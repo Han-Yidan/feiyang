@@ -64,6 +64,7 @@ public class PostController {
 
         List<PostAndQuestion> postAndQuestions = postService.getNoExamine();
         res.put("posts", postAndQuestions);
+        res.put("totalCount", postAndQuestions.size());
 
         return JsonResponse.success(res, "查询成功！");
     }

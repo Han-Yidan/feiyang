@@ -78,7 +78,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<PostAndQuestion> searchQuestion(String content) {
+    public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
 
         return postAndQuestions;
