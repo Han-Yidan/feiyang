@@ -57,4 +57,14 @@ public class PostController {
         res.put("posts", allPosts);
         return JsonResponse.success(res, "查询成功！");
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getNoExamine")
+    public JsonResponse getNoExamine() {
+        Map<String, Object> res = new HashMap<>();
+
+        List<PostAndQuestion> postAndQuestions = postService.getNoExamine();
+        res.put("posts", postAndQuestions);
+
+        return JsonResponse.success(res, "查询成功！");
+    }
 }

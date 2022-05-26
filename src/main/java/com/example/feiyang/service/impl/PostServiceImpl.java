@@ -124,4 +124,9 @@ public class PostServiceImpl implements PostService {
 
         return all;
     }
+
+    @Override
+    public List<PostAndQuestion> getNoExamine() {
+        return postMapper.getNoExamine();
+    }
 }

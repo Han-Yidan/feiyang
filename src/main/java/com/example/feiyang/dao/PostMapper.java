@@ -39,4 +39,6 @@ public interface PostMapper {
     int updateByPrimaryKey(Post record);
 
     List<PostAndQuestion> selectPage();
+
+    List<PostAndQuestion> getNoExamine();
 }

@@ -46,4 +46,10 @@ public interface PostService {
      * @return
      */
     public List<PostAndQuestion> getAllPostAndQuestions(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取未审核的帖子
+     * @return
+     */
+    public List<PostAndQuestion> getNoExamine();
 }
