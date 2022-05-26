@@ -58,5 +58,17 @@ public interface UserService {
     /**
      * 查询所有用户
      */
-    JsonResponse queryAll(int role);
+    public JsonResponse queryAll(int role);
+
+    /**
+     * 获取总用户数
+     * @return
+     */
+    public Integer getTotalUser();
+
+    /**
+     * 获取总vip数
+     * @return
+     */
+    public Integer getTotalVip();
 }

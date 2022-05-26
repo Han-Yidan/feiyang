@@ -56,4 +56,10 @@ public interface QuestionService {
      * @return
      */
     public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取总问题数
+     * @return
+     */
+    public Integer getTotalQuestion();
 }
