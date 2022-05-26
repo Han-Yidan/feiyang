@@ -243,6 +243,29 @@ public class UserServiceImpl implements UserService {
                 return JsonResponse.failure("没有该角色");
         }
     }
+
+    @Override
+    public Integer getTotalUser() {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUserIdIsNotNull();
+
+        int countUser = userMapper.countByExample(userExample);
+
+        return countUser;
+    }
+
+    @Override
+    public Integer getTotalVip() {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andVipIdIsNotNull();
+
+        int countVip = userMapper.countByExample(userExample);
+
+        return countVip;
+    }
+
     public JsonResponse query0(){
         UserExample ue = new UserExample();
         UserExample.Criteria criteria = ue.createCriteria();

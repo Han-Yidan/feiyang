@@ -3,11 +3,13 @@ package com.example.feiyang.service.impl;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.dao.FeedMapper;
 import com.example.feiyang.entity.Feed;
+import com.example.feiyang.entity.FeedExample;
 import com.example.feiyang.service.FeedService;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.FeatureDescriptor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,16 @@ public class FeedServiceImpl implements FeedService {
         List<Feed> allFeeds = feedMapper.selectPage();
 
         return allFeeds;
+    }
+
+    @Override
+    public Integer getTotalFeed() {
+        FeedExample feedExample = new FeedExample();
+        FeedExample.Criteria criteria = feedExample.createCriteria();
+        criteria.andFeedIdIsNotNull();
+
+        int countFeed = feedMapper.countByExample(feedExample);
+        return countFeed;
     }
 
 

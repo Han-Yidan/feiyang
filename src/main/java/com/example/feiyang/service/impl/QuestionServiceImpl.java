@@ -84,4 +84,14 @@ public class QuestionServiceImpl implements QuestionService {
 
         return postAndQuestions;
     }
+
+    @Override
+    public Integer getTotalQuestion() {
+        QuestionExample questionExample = new QuestionExample();
+        QuestionExample.Criteria criteria = questionExample.createCriteria();
+        criteria.andQuestionIdIsNotNull();
+
+        int countQuestion = questionMapper.countByExample(questionExample);
+        return countQuestion;
+    }
 }
