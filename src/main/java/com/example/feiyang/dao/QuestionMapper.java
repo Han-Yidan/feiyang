@@ -35,5 +35,5 @@ public interface QuestionMapper {
      * 分页查询用户
      * @return
      */
-    List<Feed> selectPage();
+    List<Question> selectPage();
 }

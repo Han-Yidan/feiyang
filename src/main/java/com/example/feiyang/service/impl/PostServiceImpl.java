@@ -1,13 +1,11 @@
 package com.example.feiyang.service.impl;
 
-import com.example.feiyang.common.utils.PageUtils;
 import com.example.feiyang.dao.PostMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.PostService;
 import com.example.feiyang.service.ex.*;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,22 +117,11 @@ public class PostServiceImpl implements PostService {
         return res;
     }
 
-    /**
-     * 调用分页插件完成分页
-     * @param pageRequest
-     * @return
-     */
-    private PageInfo<PostAndQuestion> getPageInfo(PageRequest pageRequest) {
-        int pageNum = pageRequest.getPageNum();
-        int pageSize = pageRequest.getPageSize();
-        PageHelper.startPage(pageNum, pageSize);
-        List<PostAndQuestion> sysMenus = postMapper.selectPage();
-
-        return new PageInfo<PostAndQuestion>(sysMenus);
-    }
-
     @Override
-    public PageResult getAllPostAndQuestions(PageRequest pageRequest) {
-        return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
+    public List<PostAndQuestion> getAllPostAndQuestions(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<PostAndQuestion> all = postMapper.selectPage();
+
+        return all;
     }
 }

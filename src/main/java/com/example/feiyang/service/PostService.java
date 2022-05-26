@@ -3,7 +3,9 @@ package com.example.feiyang.service;
 import com.example.feiyang.entity.PageRequest;
 import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.Post;
+import com.example.feiyang.entity.PostAndQuestion;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PostService {
@@ -41,8 +43,7 @@ public interface PostService {
 
     /**
      * 分页获取所有帖子及关联问题
-     * @param pageRequest
      * @return
      */
-    public PageResult getAllPostAndQuestions(PageRequest pageRequest);
+    public List<PostAndQuestion> getAllPostAndQuestions(Integer pageNum, Integer pageSize);
 }

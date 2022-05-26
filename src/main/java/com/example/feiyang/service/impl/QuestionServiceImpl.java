@@ -1,12 +1,10 @@
 package com.example.feiyang.service.impl;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.common.utils.PageUtils;
 import com.example.feiyang.dao.QuestionMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.QuestionService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +22,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    /**
-     * 调用分页插件完成分页
-     * @param pageRequest
-     * @return
-     */
-    private PageInfo<Feed> getPageInfo(PageRequest pageRequest) {
-        int pageNum = pageRequest.getPageNum();
-        int pageSize = pageRequest.getPageSize();
-        PageHelper.startPage(pageNum, pageSize);
-        List<Feed> sysMenus = questionMapper.selectPage();
-        return new PageInfo<Feed>(sysMenus);
-    }
-
-
     @Override
-    public PageResult getAllQuestions(PageRequest pageRequest) {
-        return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
+    public List<Question> getAllQuestions(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Question> allQuestions = questionMapper.selectPage();
+
+        return allQuestions;
     }
 
     @Override

@@ -23,10 +23,9 @@ public interface QuestionService {
 
     /**
      * 问题分页查询接口
-     * @param pageRequest 自定义，统一分页查询请求
      * @return
      */
-    public PageResult getAllQuestions(PageRequest pageRequest);
+    public List<Question> getAllQuestions(Integer pageNum, Integer pageSize);
 
     /**
      * 查询某一用户的所有问题

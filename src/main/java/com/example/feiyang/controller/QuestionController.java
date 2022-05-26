@@ -50,9 +50,9 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     @ResponseBody
-    public JsonResponse getAllQuestions(@RequestBody PageRequest pageQuery) {
+    public JsonResponse getAllQuestions(@PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
         Map<String, Object> res = new HashMap<>();
-        PageResult allQuestions = questionService.getAllQuestions(pageQuery);
+        List<Question> allQuestions = questionService.getAllQuestions(pageNum, pageSize);
 
         res.put("questions", allQuestions);
         return JsonResponse.success(res, "查询成功！");

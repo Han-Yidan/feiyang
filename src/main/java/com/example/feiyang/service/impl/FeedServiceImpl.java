@@ -1,14 +1,10 @@
 package com.example.feiyang.service.impl;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.common.utils.PageUtils;
 import com.example.feiyang.dao.FeedMapper;
 import com.example.feiyang.entity.Feed;
-import com.example.feiyang.entity.PageRequest;
-import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.service.FeedService;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +22,6 @@ public class FeedServiceImpl implements FeedService {
     @Autowired
     FeedMapper feedMapper;
 
-    /**
-     * 调用分页插件完成分页
-     * @param pageRequest
-     * @return
-     */
-    private PageInfo<Feed> getPageInfo(PageRequest pageRequest) {
-        int pageNum = pageRequest.getPageNum();
-        int pageSize = pageRequest.getPageSize();
-
-        PageHelper.startPage(pageNum, pageSize);
-        List<Feed> sysMenus = feedMapper.selectPage();
-
-        return new PageInfo<Feed>(sysMenus);
-    }
-
     @Override
     public JsonResponse addFeed(Feed feed) {
         int isInsert = feedMapper.insert(feed);
@@ -57,8 +38,11 @@ public class FeedServiceImpl implements FeedService {
 
 
     @Override
-    public PageResult getAllFeeds(PageRequest pageRequest) {
-        return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
+    public List<Feed> getAllFeeds(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Feed> allFeeds = feedMapper.selectPage();
+
+        return allFeeds;
     }
 
 
