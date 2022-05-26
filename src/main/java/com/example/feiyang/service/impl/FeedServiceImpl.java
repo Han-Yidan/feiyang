@@ -34,8 +34,10 @@ public class FeedServiceImpl implements FeedService {
     private PageInfo<Feed> getPageInfo(PageRequest pageRequest) {
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
+
         PageHelper.startPage(pageNum, pageSize);
         List<Feed> sysMenus = feedMapper.selectPage();
+
         return new PageInfo<Feed>(sysMenus);
     }
 
