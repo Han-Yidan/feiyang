@@ -74,23 +74,32 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    user_id, repair_count, post_count, is_allow, last_time, receive_interval, order_transfer, 
+  <sql id="Base_Column_List">
+    user_id
+    , repair_count, post_count, is_allow, last_time, receive_interval, order_transfer,
     next_time, year, score
   </sql>
-  <sql id="Blob_Column_List" >
+  <sql id="Blob_Column_List">
     tips
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.example.feiyang.entity.StaffExample" >
+  <select id="selectByYearWithList" resultType="map" parameterType="java.lang.Integer">
+    select u.user_id, u.username, u.avatar_url, s.score
+    from fy_staff s
+           join fy_user u on u.user_id = s.user_id
+    where s.year = #{year}
+    order by s.score desc
+  </select>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+          parameterType="com.example.feiyang.entity.StaffExample">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List"/>
     ,
-    <include refid="Blob_Column_List" />
+    <include refid="Blob_Column_List"/>
     from fy_staff
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null" >

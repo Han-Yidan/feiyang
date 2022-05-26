@@ -3,6 +3,7 @@ package com.example.feiyang.service;
 import com.example.feiyang.entity.Staff;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StaffService {
     /**
@@ -10,10 +11,15 @@ public interface StaffService {
      *
      * @param userId 技术员的数据对象
      */
+    //注册技术员
     Staff reg(Long userId);
 
+    //更新技术员信息
     Staff updateStaff(Long userId, String tips, Integer isAllow, Integer receiveInterval);
 
+    //按届查询技术员
     List<Staff> selectYearStaff(String year);
-//    User modifyUserIsBan(Long userId, Integer isBan);
+
+    //按届查询技术员姓名、头像、积分
+    List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize);
 }

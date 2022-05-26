@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController //@Controller+@ResponseBody
 @RequestMapping("/staff")
@@ -16,6 +17,7 @@ public class StaffController extends BaseController {
     @Autowired
     private StaffService staffService;
 
+    //--也可以改成改变isStaff可以实现技术员变回用户
     @RequestMapping("/add")
     public JsonResponse<Staff> reg(@RequestParam("userId") Long userId) {
         Staff data = staffService.reg(userId);
@@ -29,15 +31,16 @@ public class StaffController extends BaseController {
     }
 
     @RequestMapping("/year")
-    public JsonResponse<List> selectYearStaff(@RequestParam String year) {
+    public JsonResponse<List> selectYearStaff(@RequestParam("year") String year) {
         List<Staff> data = staffService.selectYearStaff(year);
         return new JsonResponse<>(OK, data);
     }
 
-//    @RequestMapping("/user/update")
-//    public JsonResponse<User> modifyUserIsBan(Long userId, Integer isBan) {
-//        User data = adminService.modifyUserIsBan(userId, isBan);
-//        return new JsonResponse<>(OK, data);
-//    }
+    @RequestMapping("/yearList")
+    public JsonResponse<List> selectByYearList(@RequestParam("year") String year, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        List<Map<String, Object>> data = staffService.selectByYearStaffList(year, pageNum, pageSize);
+        return new JsonResponse<>(OK, data);
+    }
+
 
 }

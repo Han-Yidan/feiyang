@@ -11,6 +11,8 @@ import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.NullException;
 import com.example.feiyang.service.ex.StaffDuplicationException;
 import com.example.feiyang.service.ex.StaffNotFoundException;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -27,6 +30,7 @@ public class StaffServiceImpl implements StaffService {
     private StaffMapper staffMapper;
     @Autowired
     private UserMapper userMapper;
+
 
     @Override
     public Staff reg(Long userId) {
@@ -115,25 +119,23 @@ public class StaffServiceImpl implements StaffService {
         criteria1.andIsStaffEqualTo(1);
         List<User> userList = userMapper.selectByExample(userExample);
         List<Long> ids = userList.stream().map(User::getUserId).collect(Collectors.toList());
-        //通过用户id查询技术员表
+        //通过用户id查询技术员表s
+        if (userList.isEmpty()) {
+            throw new NullException("技术员列表为空");
+        }
         criteria2.andUserIdIn(ids);
         List<Staff> staffList = staffMapper.selectByExample(staffExample);
         //返回技术员list
         return staffList;
     }
 
-//    @Override
-//    public User modifyUserIsBan(Long userId, Integer isBan) {
-//        User result = userMapper.selectByPrimaryKey(userId);
-//        if (result == null) {
-//            throw new UserNotFoundException("用户不存在");
-//        }
-//        result.setIsBan(isBan == 1 ? 0 : 1);
-//        int rows = userMapper.updateByPrimaryKeySelective(result);
-//        if (rows != 1) {
-//            throw new InsertException("修改用户的禁止报修产生了未知的异常");
-//        }
-//        return result;
-//    }
+    @Override
+    public List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Map<String, Object>> map = staffMapper.selectByYearWithList(Integer.parseInt(year));
+        PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(map);
+        return pageInfo.getList();
+    }
+
 
 }
