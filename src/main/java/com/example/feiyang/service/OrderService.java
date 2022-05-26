@@ -24,4 +24,5 @@ public interface OrderService {
     JsonResponse finishOrder(Long orderId);
     int remindOrder(Long orderId);
     JsonResponse uploadFile(MultipartFile file) throws UnknownHostException, FileNotFoundException;
+    List<Order> searchDoingOrder(Long userId);
 }

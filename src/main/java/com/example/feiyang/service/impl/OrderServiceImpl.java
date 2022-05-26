@@ -188,10 +188,8 @@ public class OrderServiceImpl implements OrderService {
         Page page = new Page();
         page.setRows(queryOrderRows(userId));
         page.setCurrent(current);
-        List<Order> map = null;
-        if (getRole(userId) == -1){
-            map = orderMapper.selectAll(null,null,page.getOffset(),page.getLimit());
-        }else if(getRole(userId) == 0){
+        List<Map<String,Object>> map = null;
+        if (getRole(userId)<1){
             map = orderMapper.selectAll(userId,null,page.getOffset(),page.getLimit());
         }else{
             map = orderMapper.selectAll(null,userId,page.getOffset(),page.getLimit());
@@ -240,12 +238,23 @@ public class OrderServiceImpl implements OrderService {
         FileUtils fileUtils = new FileUtils();
         return fileUtils.uploadFile(file);
     }
-
+    @Override
+    public List<Order> searchDoingOrder(Long userId){
+        OrderExample oe = new OrderExample();
+        OrderExample.Criteria criteria = oe.createCriteria();
+        if (getRole(userId) == 0){
+            criteria.andUserIdEqualTo(userId);
+            criteria.andStatusBetween(1,2);
+        }else{
+            criteria.andStaffIdEqualTo(userId);
+            criteria.andStatusEqualTo(2);
+        }
+        return orderMapper.selectByExample(oe);
+    }
     public int queryOrderRows(Long userId){
         if (getRole(userId)<1) return orderMapper.selectOrderRows(userId,null);
         return orderMapper.selectOrderRows(null,userId);
     }
-
     public List<Staff> searchAvailableStaff(){
         StaffExample se = new StaffExample();
         StaffExample.Criteria criteria1 = se.createCriteria();

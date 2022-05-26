@@ -5,6 +5,7 @@ import com.example.feiyang.common.utils.MessageUtils;
 import com.example.feiyang.common.utils.ValidateCode;
 import com.example.feiyang.dao.*;
 import com.example.feiyang.entity.*;
+import com.example.feiyang.service.OrderService;
 import com.example.feiyang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ConfMapper confMapper;
     @Autowired
-    private StaffMapper staffMapper;
+    private OrderService orderService;
     @Autowired
     private AdminMapper adminMapper;
 
@@ -81,8 +82,9 @@ public class UserServiceImpl implements UserService {
             res.put("isInit", 1);
             // 0 为普通用户，1 为技术员
             res.put("userInfo", user);
+            System.out.println(user);
             // 直接返回初始化页面
-            return JsonResponse.success(res, "登录成功");
+            return JsonResponse.success(res, "登录成功").addOtherData("orders",orderService.searchDoingOrder(user.getUserId()));
         }
     }
 
