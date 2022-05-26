@@ -13,7 +13,13 @@ public class AdminController extends BaseController {
     private AdminService adminService;
 
     @RequestMapping("/login")
-    public JsonResponse login(String username,String password){
-        return adminService.login(username,password);
+    public JsonResponse login(String username, String password) {
+        return adminService.login(username, password);
+    }
+
+    @RequestMapping("/totalAdmin")
+    public JsonResponse totalAdmin() {
+        Integer data = adminService.totalAdmin();
+        return new JsonResponse(OK, data);
     }
 }

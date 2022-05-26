@@ -2,9 +2,10 @@ package com.example.feiyang.dao;
 
 import com.example.feiyang.entity.Admin;
 import com.example.feiyang.entity.AdminExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AdminMapper {
@@ -19,6 +20,9 @@ public interface AdminMapper {
     int insertSelective(Admin record);
 
     List<Admin> selectByExample(AdminExample example);
+
+    //返回所有管理员总数
+    Integer selectTotalAdmin();
 
     Admin selectByPrimaryKey(Long adminId);
 

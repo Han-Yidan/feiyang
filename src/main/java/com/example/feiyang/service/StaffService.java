@@ -22,4 +22,9 @@ public interface StaffService {
 
     //按届查询技术员姓名、头像、积分
     List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize);
+
+    //返回总用户数
+    Integer allStaffs();
+
+
 }

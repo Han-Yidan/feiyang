@@ -137,5 +137,11 @@ public class StaffServiceImpl implements StaffService {
         return pageInfo.getList();
     }
 
+    @Override
+    public Integer allStaffs() {
+        Integer staffs = staffMapper.selectAllStaffs();
+        return staffs;
+    }
+
 
 }

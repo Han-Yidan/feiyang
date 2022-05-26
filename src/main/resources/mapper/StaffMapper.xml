@@ -82,6 +82,10 @@
   <sql id="Blob_Column_List">
     tips
   </sql>
+  <select id="selectAllStaffs" resultType="java.lang.Integer">
+    select count(user_id)
+    from fy_staff
+  </select>
   <select id="selectByYearWithList" resultType="map" parameterType="java.lang.Integer">
     select u.user_id, u.username, u.avatar_url, s.score
     from fy_staff s
