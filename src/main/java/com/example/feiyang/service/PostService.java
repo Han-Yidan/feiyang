@@ -1,7 +1,11 @@
 package com.example.feiyang.service;
 
+import com.example.feiyang.entity.PageRequest;
+import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.entity.Post;
+import com.example.feiyang.entity.PostAndQuestion;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PostService {
@@ -11,7 +15,7 @@ public interface PostService {
      * @param postId
      * @return
      */
-    Post updatePostStatus(Integer postId);
+    Post updatePostStatus(Long postId);
 
     /**
      * 添加帖子
@@ -26,7 +30,7 @@ public interface PostService {
      *
      * @param postId
      */
-    void deletePost(Integer postId);
+    void deletePost(Long postId);
 
     /**
      * 按条件查看所有帖子
@@ -35,6 +39,17 @@ public interface PostService {
      * @param relatedQuestionId
      * @return
      */
-    Map<String, Object> selectAllByCondition(Integer userId, Long relatedQuestionId);
+    Map<String, Object> selectAllByCondition(Long userId, Long relatedQuestionId);
 
+    /**
+     * 分页获取所有帖子及关联问题
+     * @return
+     */
+    public List<PostAndQuestion> getAllPostAndQuestions(Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取未审核的帖子
+     * @return
+     */
+    public List<PostAndQuestion> getNoExamine();
 }

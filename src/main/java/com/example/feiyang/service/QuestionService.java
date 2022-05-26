@@ -3,8 +3,10 @@ package com.example.feiyang.service;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.PageRequest;
 import com.example.feiyang.entity.PageResult;
+import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.Question;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -23,10 +25,9 @@ public interface QuestionService {
 
     /**
      * 问题分页查询接口
-     * @param pageRequest 自定义，统一分页查询请求
      * @return
      */
-    public PageResult getAllQuestions(PageRequest pageRequest);
+    public List<Question> getAllQuestions(Integer pageNum, Integer pageSize);
 
     /**
      * 查询某一用户的所有问题
@@ -48,4 +49,11 @@ public interface QuestionService {
      * @return
      */
     public JsonResponse deleteQuestion(Long question_id);
+
+    /**
+     * 搜索问题内容
+     * @param content
+     * @return
+     */
+    public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize);
 }

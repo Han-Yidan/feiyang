@@ -3,12 +3,10 @@ package com.example.feiyang.service.impl;
 import com.example.feiyang.dao.PostMapper;
 import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
-import com.example.feiyang.entity.Post;
-import com.example.feiyang.entity.PostExample;
-import com.example.feiyang.entity.Staff;
-import com.example.feiyang.entity.User;
+import com.example.feiyang.entity.*;
 import com.example.feiyang.service.PostService;
 import com.example.feiyang.service.ex.*;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +26,7 @@ public class PostServiceImpl implements PostService {
     private StaffMapper staffMapper;
 
     @Override
-    public Post updatePostStatus(Integer postId) {
+    public Post updatePostStatus(Long postId) {
         //判断帖子是否存在
         Post post = postMapper.selectByPrimaryKey(postId);
         if (post == null) {
@@ -63,7 +61,7 @@ public class PostServiceImpl implements PostService {
 
         //添加一个帖子
         Post post = new Post();
-        post.setUserId(userId);
+        post.setUserId(Long.valueOf(userId));
         post.setPostContent(postContent);
         post.setRelatedQuestionId(relatedQuestionId);
         //初始化审核状态status为0，0为未审核，1为已审核。
@@ -90,7 +88,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Integer postId) {
+    public void deletePost(Long postId) {
         //执行删除帖子业务功能的实现
         Integer rows = postMapper.deleteByPrimaryKey(postId);
 
@@ -101,7 +99,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Map<String, Object> selectAllByCondition(Integer userId, Long relatedQuestionId) {
+    public Map<String, Object> selectAllByCondition(Long userId, Long relatedQuestionId) {
         //查看某一技术员发的所有帖子，按照创建帖子时间降序排列
         List<Post> staffPostList = null;
         List<Post> questionPostList = null;
@@ -127,5 +125,18 @@ public class PostServiceImpl implements PostService {
         res.put("staff", staffPostList);
         res.put("question", questionPostList);
         return res;
+    }
+
+    @Override
+    public List<PostAndQuestion> getAllPostAndQuestions(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<PostAndQuestion> all = postMapper.selectPage();
+
+        return all;
+    }
+
+    @Override
+    public List<PostAndQuestion> getNoExamine() {
+        return postMapper.getNoExamine();
     }
 }

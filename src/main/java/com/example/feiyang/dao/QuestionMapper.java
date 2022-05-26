@@ -1,6 +1,7 @@
 package com.example.feiyang.dao;
 
 import com.example.feiyang.entity.Feed;
+import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.Question;
 import com.example.feiyang.entity.QuestionExample;
 import java.util.List;
@@ -35,5 +36,7 @@ public interface QuestionMapper {
      * 分页查询用户
      * @return
      */
-    List<Feed> selectPage();
+    List<Question> selectPage();
+
+    List<PostAndQuestion> searchQuestion(@Param("content") String content);
 }

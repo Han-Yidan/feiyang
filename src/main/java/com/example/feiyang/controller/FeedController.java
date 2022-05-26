@@ -1,19 +1,20 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
+import com.example.feiyang.dao.FeedMapper;
 import com.example.feiyang.entity.Feed;
 import com.example.feiyang.entity.PageRequest;
 import com.example.feiyang.entity.PageResult;
 import com.example.feiyang.service.impl.FeedServiceImpl;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,9 +46,10 @@ public class FeedController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     @ResponseBody
-    public JsonResponse getAllFeeds(@RequestBody PageRequest pageQuery) {
+    public JsonResponse getAllFeeds(@PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
+
+        List<Feed> allFeeds = feedService.getAllFeeds(pageNum, pageSize);
         Map<String, Object> res = new HashMap<>();
-        PageResult allFeeds = feedService.getAllFeeds(pageQuery);
 
         res.put("feeds", allFeeds);
         return JsonResponse.success(res, "查询成功！");
