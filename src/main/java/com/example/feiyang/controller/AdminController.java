@@ -1,10 +1,9 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.entity.Feed;
-import com.example.feiyang.entity.Question;
 import com.example.feiyang.service.AdminService;
 import com.example.feiyang.service.OrderService;
+import com.example.feiyang.service.StaffService;
 import com.example.feiyang.service.impl.FeedServiceImpl;
 import com.example.feiyang.service.impl.QuestionServiceImpl;
 import com.example.feiyang.service.impl.UserServiceImpl;
@@ -29,10 +28,12 @@ public class AdminController extends BaseController {
     private FeedServiceImpl feedService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private StaffService staffService;
 
     @RequestMapping("/login")
-    public JsonResponse login(String username,String password){
-        return adminService.login(username,password);
+    public JsonResponse login(String username, String password) {
+        return adminService.login(username, password);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/global")
@@ -43,10 +44,12 @@ public class AdminController extends BaseController {
         res.put("TotalVips", userService.getTotalVip());
         res.put("TotalQuestion", questionService.getTotalQuestion());
         res.put("TotalFeedback", feedService.getTotalFeed());
-        res.put("TodayOrder",orderService.getTodayOrder());
-        res.put("ThisWeek",orderService.getThisWeek());
-        res.put("ThisMonth",orderService.getThisMonth());
-        res.put("TotalOrder",orderService.getTotalOrder());
+        res.put("TodayOrder", orderService.getTodayOrder());
+        res.put("ThisWeek", orderService.getThisWeek());
+        res.put("ThisMonth", orderService.getThisMonth());
+        res.put("TotalOrder", orderService.getTotalOrder());
+        res.put("ALLStaffs", staffService.getAllStaffs());
+        res.put("TotalAdmin", adminService.getTotalAdmin());
 
         return JsonResponse.success(res, "获取成功！");
     }

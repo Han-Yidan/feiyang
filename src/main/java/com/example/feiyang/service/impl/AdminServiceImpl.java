@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Integer totalAdmin() {
+    public Integer getTotalAdmin() {
         Integer integer = adminMapper.selectTotalAdmin();
         return integer;
     }

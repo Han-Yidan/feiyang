@@ -138,7 +138,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Integer allStaffs() {
+    public Integer getAllStaffs() {
         Integer staffs = staffMapper.selectAllStaffs();
         return staffs;
     }
