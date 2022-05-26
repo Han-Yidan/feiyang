@@ -43,11 +43,5 @@ public class StaffController extends BaseController {
         return new JsonResponse<>(OK, data);
     }
 
-    //返回技术员总数
-    @RequestMapping("/allStaffs")
-    public JsonResponse allStaffs() {
-        Integer data = staffService.allStaffs();
-        return new JsonResponse<>(OK, data);
-    }
 
 }

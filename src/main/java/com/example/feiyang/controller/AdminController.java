@@ -17,9 +17,5 @@ public class AdminController extends BaseController {
         return adminService.login(username, password);
     }
 
-    @RequestMapping("/totalAdmin")
-    public JsonResponse totalAdmin() {
-        Integer data = adminService.totalAdmin();
-        return new JsonResponse(OK, data);
-    }
+
 }
