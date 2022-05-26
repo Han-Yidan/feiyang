@@ -3,6 +3,7 @@ package com.example.feiyang.service;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.entity.PageRequest;
 import com.example.feiyang.entity.PageResult;
+import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.Question;
 
 import java.util.List;
@@ -47,4 +48,11 @@ public interface QuestionService {
      * @return
      */
     public JsonResponse deleteQuestion(Long question_id);
+
+    /**
+     * 搜索问题内容
+     * @param content
+     * @return
+     */
+    public List<PostAndQuestion> searchQuestion(String content);
 }

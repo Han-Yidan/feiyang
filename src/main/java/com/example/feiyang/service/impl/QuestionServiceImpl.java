@@ -76,4 +76,11 @@ public class QuestionServiceImpl implements QuestionService {
         res.put("isDeleted", 0);
         return JsonResponse.success(res, "删除失败！");
     }
+
+    @Override
+    public List<PostAndQuestion> searchQuestion(String content) {
+        List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
+
+        return postAndQuestions;
+    }
 }

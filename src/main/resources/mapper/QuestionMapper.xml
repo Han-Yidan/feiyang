@@ -74,6 +74,19 @@
     <include refid="Base_Column_List" />
     from fy_question
   </select>
+  <select id="searchQuestion"  resultType="com.example.feiyang.entity.PostAndQuestion">
+    SELECT post_id, post_content, a.create_time, visit_count, question_content, u.username, u.avatar_url
+    FROM
+      (
+        SELECT post_id, post_content, p.user_id, p.create_time, visit_count, question_content
+        FROM fy_post p
+               JOIN fy_question q
+                    ON p.related_question_id = q.question_id
+        WHERE q.question_content LIKE CONCAT('%', #{content}, '%')
+      ) a
+        JOIN fy_user u
+             ON a.user_id = u.user_id
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.QuestionExample" >
     select
     <if test="distinct" >
