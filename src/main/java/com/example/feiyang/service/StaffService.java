@@ -18,13 +18,13 @@ public interface StaffService {
     Staff updateStaff(Long userId, String tips, Integer isAllow, Integer receiveInterval);
 
     //按届查询技术员
-    List<Staff> selectYearStaff(String year);
+    Boolean selectYearStaff(String year);
 
     //按届查询技术员姓名、头像、积分
     List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize);
 
     //返回总用户数
-    Integer getAllStaffs();
+    Integer getAllStaffs(String year);
 
 
 }

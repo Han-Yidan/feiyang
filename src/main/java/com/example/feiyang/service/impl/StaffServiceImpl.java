@@ -5,7 +5,6 @@ import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.StaffExample;
 import com.example.feiyang.entity.User;
-import com.example.feiyang.entity.UserExample;
 import com.example.feiyang.service.StaffService;
 import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.NullException;
@@ -16,12 +15,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -95,40 +91,22 @@ public class StaffServiceImpl implements StaffService {
         return preStaff;
     }
 
+    //技术员按照年份上岗
     @Override
-    public List<Staff> selectYearStaff(String year) {
-        Date date1 = null;
-        Date date2 = null;
-        UserExample userExample = new UserExample();
-        UserExample.Criteria criteria1 = userExample.createCriteria();
+    public Boolean selectYearStaff(String year) {
         StaffExample staffExample = new StaffExample();
-        StaffExample.Criteria criteria2 = staffExample.createCriteria();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String year1 = year + "-01-01";
-        String year2 = year + "-12-31";
-        System.out.println(year1 + " " + year2);
-        try {
-            date1 = dateFormat.parse(year1);
-            date2 = dateFormat.parse(year2);
-        } catch (ParseException e) {
-            System.out.println("格式输入错误！");
-        }
-        System.out.println(date1 + " " + date2);
-        //查询到技术员的用户表的创建年份在传入年份内
-        criteria1.andCreateTimeBetween(date1, date2);
-        criteria1.andIsStaffEqualTo(1);
-        List<User> userList = userMapper.selectByExample(userExample);
-        List<Long> ids = userList.stream().map(User::getUserId).collect(Collectors.toList());
-        //通过用户id查询技术员表s
-        if (userList.isEmpty()) {
-            throw new NullException("技术员列表为空");
-        }
-        criteria2.andUserIdIn(ids);
-        List<Staff> staffList = staffMapper.selectByExample(staffExample);
-        //返回技术员list
-        return staffList;
+        StaffExample.Criteria criteria = staffExample.createCriteria();
+        criteria.andIsAllowIsNotNull();
+        Staff staff = new Staff();
+        staff.setIsAllow(0);
+        Integer rows = staffMapper.updateByExampleSelective(staff, staffExample);
+        criteria.andYearEqualTo(Integer.parseInt(year));
+        staff.setIsAllow(1);
+        Integer rows2 = staffMapper.updateByExampleSelective(staff, staffExample);
+        return true;
     }
 
+    //按年份查询技术员的姓名，头像，积分
     @Override
     public List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -137,9 +115,10 @@ public class StaffServiceImpl implements StaffService {
         return pageInfo.getList();
     }
 
+    //按年份查询技术员总数
     @Override
-    public Integer getAllStaffs() {
-        Integer staffs = staffMapper.selectAllStaffs();
+    public Integer getAllStaffs(String year) {
+        Integer staffs = staffMapper.selectAllStaffs(Integer.parseInt(year));
         return staffs;
     }
 

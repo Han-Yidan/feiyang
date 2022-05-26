@@ -25,7 +25,7 @@ public interface StaffMapper {
     @MapKey("user_id")
     List<Map<String, Object>> selectByYearWithList(Integer year);
 
-    Integer selectAllStaffs();
+    Integer selectAllStaffs(Integer year);
 
     List<Staff> selectByExampleWithBLOBs(StaffExample example);
 

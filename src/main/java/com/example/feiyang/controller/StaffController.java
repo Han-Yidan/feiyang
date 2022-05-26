@@ -30,13 +30,14 @@ public class StaffController extends BaseController {
         return new JsonResponse<>(OK, data);
     }
 
+    //技术员根据年份上岗，其他年份技术员下岗
     @RequestMapping("/year")
-    public JsonResponse<List> selectYearStaff(@RequestParam("year") String year) {
-        List<Staff> data = staffService.selectYearStaff(year);
+    public JsonResponse<Boolean> selectYearStaff(@RequestParam("year") String year) {
+        Boolean data = staffService.selectYearStaff(year);
         return new JsonResponse<>(OK, data);
     }
 
-    //根据年份返回
+    //按照年份查询技术员姓名、头像和积分
     @RequestMapping("/yearList")
     public JsonResponse<List> selectByYearList(@RequestParam("year") String year, @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         List<Map<String, Object>> data = staffService.selectByYearStaffList(year, pageNum, pageSize);

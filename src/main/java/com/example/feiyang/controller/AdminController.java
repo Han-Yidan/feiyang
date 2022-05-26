@@ -37,7 +37,7 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/global")
-    public JsonResponse getGlobal() {
+    public JsonResponse getGlobal(String year) {
         Map<String, Object> res = new HashMap<>();
 
         res.put("AllUsers", userService.getTotalUser());
@@ -48,7 +48,7 @@ public class AdminController extends BaseController {
         res.put("ThisWeek", orderService.getThisWeek());
         res.put("ThisMonth", orderService.getThisMonth());
         res.put("TotalOrder", orderService.getTotalOrder());
-        res.put("ALLStaffs", staffService.getAllStaffs());
+        res.put("ALLStaffs", staffService.getAllStaffs(year));
         res.put("TotalAdmin", adminService.getTotalAdmin());
 
         return JsonResponse.success(res, "获取成功！");
