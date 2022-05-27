@@ -71,4 +71,11 @@ public interface UserService {
      * @return
      */
     public Integer getTotalVip();
+
+    /**
+     * 根据用户id查询用户信息
+     * @param user_id
+     * @return
+     */
+    public JsonResponse getUserInfo(Long user_id);
 }

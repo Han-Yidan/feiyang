@@ -1,13 +1,11 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
-import com.example.feiyang.entity.User;
 import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,5 +78,10 @@ public class UserController {
     @RequestMapping("/all")
     public JsonResponse queryAll(int role){
         return userService.queryAll(role);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getUserInfo")
+    public JsonResponse getUserInfo(@PathParam("user_id") Long user_id) {
+        return userService.getUserInfo(user_id);
     }
 }

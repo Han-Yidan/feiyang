@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private OrderService orderService;
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private StaffMapper staffMapper;
 
     @Override
     public String sendCode(String phoneNumber) {
@@ -266,6 +268,22 @@ public class UserServiceImpl implements UserService {
         int countVip = userMapper.countByExample(userExample);
 
         return countVip;
+    }
+
+    @Override
+    public JsonResponse getUserInfo(Long user_id) {
+        Map<String, Object> res = new HashMap<>();
+
+        User user = userMapper.selectByPrimaryKey(user_id);
+        res.put("userInfo", user);
+
+        // 判断该用户是否为技术员
+        if (user.getIsStaff() == 1) {
+            Staff staff = staffMapper.selectByPrimaryKey(user_id);
+            res.put("staffInfo", staff);
+        }
+
+        return JsonResponse.success(res, "查询成功！");
     }
 
     public JsonResponse query0(){
