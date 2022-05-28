@@ -8,10 +8,7 @@ import com.example.feiyang.service.impl.FeedServiceImpl;
 import com.example.feiyang.service.impl.QuestionServiceImpl;
 import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,5 +50,17 @@ public class AdminController extends BaseController {
         res.put("TotalAdmin", adminService.getTotalAdmin());
 
         return JsonResponse.success(res, "获取成功！");
+    }
+
+    /**
+     * 管理员用户注册
+     *
+     * @param params
+     * @return
+     */
+    @RequestMapping("reg")
+    public JsonResponse<Void> reg(@RequestBody Map<String, Object> params) {
+        adminService.reg(params);
+        return new JsonResponse<>(OK);
     }
 }
