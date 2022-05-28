@@ -130,6 +130,32 @@
       </if>
     </where>
   </select>
+  <select id="queryOrderRowsForAdmin" resultType="int">
+    select count(order_id)
+    from fy_order
+    <if test="staffName != null">
+      join fy_user staff
+      on staff.user_id = fy_order.staff_id
+    </if>
+    <if test="userName != null">
+      join fy_user user
+      on user.user_id = fy_order.user_id
+    </if>
+    <trim prefix="where" suffixOverrides="and">
+      <if test="repairType != null">
+        repair_type = #{repairType} and
+      </if>
+      <if test="status != null">
+        status = #{status} and
+      </if>
+      <if test="staffName != null">
+        staff.username = #{staffName} and
+      </if>
+      <if test="userName != null">
+        user.username = #{userName}
+      </if>
+    </trim>
+  </select>
   <select id="selectAll" resultType="Map">
     select <include refid="query_for"></include>,
     <trim suffixOverrides=",">
@@ -159,7 +185,29 @@
     </trim>
     limit #{offset},#{limit}
   </select>
-
+  <select id="selectForAdmin" resultType="Map">
+    select <include refid="query_for"></include>,<include refid="user"></include>,<include refid="staff"></include>
+    from fy_order
+    left join fy_user staff
+    on staff.user_id = fy_order.staff_id
+    join fy_user user
+    on user.user_id = fy_order.user_id
+    <trim prefix="where" suffixOverrides="and">
+      <if test="repairType != null">
+        repair_type = #{repairType} and
+      </if>
+      <if test="status != null">
+        status = #{status} and
+      </if>
+      <if test="staffName != null">
+        staff.username = #{staffName} and
+      </if>
+      <if test="userName != null">
+        user.username = #{userName}
+      </if>
+    </trim>
+    limit #{offset},#{limit}
+  </select>
   <select id="getSomeRows" resultType="int">
     select count(order_id) from fy_order
     <if test="start != null and end != null">

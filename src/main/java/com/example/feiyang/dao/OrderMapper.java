@@ -34,7 +34,11 @@ public interface OrderMapper {
 
     int selectOrderRows(Long userId,Long staffId);
 
+    int queryOrderRowsForAdmin(String repairType, Integer status, String staffName, String userName);
+
     List<Map<String,Object>> selectAll(Long userId, Long staffId, int offset, int limit);
+
+    List<Map<String,Object>> selectForAdmin(String repairType, Integer status, String staffName, String userName,int offset,int limit);
 
     int getSomeRows(String start,String end);
 

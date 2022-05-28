@@ -199,6 +199,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public JsonResponse queryOrderForAdmin(String repairType, Integer status, String staffName, String userName,int current) {
+        Page page = new Page();
+        page.setCurrent(current);
+        page.setRows(queryOrderRowsForAdmin(repairType,status,staffName,userName));
+
+        List<Map<String,Object>> map = orderMapper.selectForAdmin(repairType,status,staffName,userName, page.getOffset(), page.getLimit());
+        return JsonResponse.success(map).addOtherData("page",page);
+    }
+
+    @Override
     public JsonResponse finishOrder(Long orderId) {
         //更新订单信息
         Order order = new Order();
@@ -296,6 +306,10 @@ public class OrderServiceImpl implements OrderService {
         if (getRole(userId)<1) return orderMapper.selectOrderRows(userId,null);
         return orderMapper.selectOrderRows(null,userId);
     }
+    public int queryOrderRowsForAdmin(String repairType, Integer status, String staffName, String userName){
+        return orderMapper.queryOrderRowsForAdmin(repairType, status, staffName, userName);
+    }
+
     public List<Staff> searchAvailableStaff(){
         StaffExample se = new StaffExample();
         StaffExample.Criteria criteria1 = se.createCriteria();

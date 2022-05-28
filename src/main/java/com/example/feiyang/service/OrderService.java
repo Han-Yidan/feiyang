@@ -21,6 +21,7 @@ public interface OrderService {
     JsonResponse receiveOrder(Long staffId,Long orderId);
     int assignOrder(Long staffId,Long orderId);
     JsonResponse queryOrder(Long userId,int current);
+    JsonResponse queryOrderForAdmin(String repairType,Integer status,String staffName,String userName,int current);
     JsonResponse finishOrder(Long orderId);
     int remindOrder(Long orderId);
     JsonResponse uploadFile(MultipartFile file) throws UnknownHostException, FileNotFoundException;
@@ -29,4 +30,5 @@ public interface OrderService {
     int getThisWeek();
     int getThisMonth();
     int getTotalOrder();
+
 }

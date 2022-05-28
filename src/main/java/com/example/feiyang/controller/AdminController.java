@@ -53,4 +53,9 @@ public class AdminController extends BaseController {
 
         return JsonResponse.success(res, "获取成功！");
     }
+
+    @RequestMapping("/queryOrder")
+    public JsonResponse queryOrder(String repairType,Integer status,String staffName,String userName,int current){
+        return orderService.queryOrderForAdmin(repairType, status, staffName, userName,current);
+    }
 }
