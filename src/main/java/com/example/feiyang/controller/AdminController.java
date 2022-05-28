@@ -10,6 +10,7 @@ import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/global")
-    public JsonResponse getGlobal(String year) {
+    public JsonResponse getGlobal(@RequestParam("year") String year) {
         Map<String, Object> res = new HashMap<>();
 
         res.put("AllUsers", userService.getTotalUser());

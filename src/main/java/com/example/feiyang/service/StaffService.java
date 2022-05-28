@@ -17,7 +17,7 @@ public interface StaffService {
     //更新技术员信息
     Staff updateStaff(Long userId, String tips, Integer isAllow, Integer receiveInterval);
 
-    //按届查询技术员
+    //按届设置上下岗技术员
     Boolean selectYearStaff(String year);
 
     //按届查询技术员姓名、头像、积分
