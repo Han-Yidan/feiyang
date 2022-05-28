@@ -8,6 +8,7 @@ import com.example.feiyang.entity.Question;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 望舒
@@ -55,7 +56,7 @@ public interface QuestionService {
      * @param content
      * @return
      */
-    public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize);
+    public Map<String, Object> searchQuestion(String content, Integer pageNum, Integer pageSize);
 
     /**
      * 获取总问题数

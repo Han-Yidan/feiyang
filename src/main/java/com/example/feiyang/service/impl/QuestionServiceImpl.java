@@ -4,6 +4,7 @@ import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.dao.QuestionMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.QuestionService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,12 +78,21 @@ public class QuestionServiceImpl implements QuestionService {
         return JsonResponse.success(res, "删除失败！");
     }
 
-    @Override
-    public List<PostAndQuestion> searchQuestion(String content, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
 
-        return postAndQuestions;
+
+    @Override
+    public Map<String, Object> searchQuestion(String content, Integer pageNum, Integer pageSize) {
+        Map<String, Object> res = new HashMap<>();
+
+        // 获取总数
+        List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
+        res.put("totalCount", postAndQuestions.size());
+
+        // 获取分页后的结果
+        postAndQuestions = questionMapper.searchQuestion(content);
+        res.put("posts", postAndQuestions);
+
+        return res;
     }
 
     @Override
