@@ -55,6 +55,7 @@ public class PostController {
         List<PostAndQuestion> allPosts = postService.getAllPostAndQuestions(pageNum, pageSize);
 
         res.put("posts", allPosts);
+        res.put("totalCount", postService.getPostNum());
         return JsonResponse.success(res, "查询成功！");
     }
 

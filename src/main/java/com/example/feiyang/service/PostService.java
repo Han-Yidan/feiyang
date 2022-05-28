@@ -52,4 +52,10 @@ public interface PostService {
      * @return
      */
     public List<PostAndQuestion> getNoExamine();
+
+    /**
+     * 获取帖子总数
+     * @return
+     */
+    public Integer getPostNum();
 }

@@ -139,4 +139,13 @@ public class PostServiceImpl implements PostService {
     public List<PostAndQuestion> getNoExamine() {
         return postMapper.getNoExamine();
     }
+
+    @Override
+    public Integer getPostNum() {
+        PostExample postExample = new PostExample();
+        PostExample.Criteria criteria = postExample.createCriteria();
+        criteria.andStatusEqualTo(1);
+
+        return postMapper.countByExample(postExample);
+    }
 }
