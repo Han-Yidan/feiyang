@@ -42,7 +42,13 @@ public class BaseController {
         } else if (e instanceof UserNotFoundException) {
             result.setStatus(false);
             result.setMessage("不存在该用户");
+        } else if (e instanceof UsernameDuplitedException) {
+            result.setStatus(false);
+            result.setMessage("用户名被占用");
         }
+//        else {
+//            result.setMessage("成功!");
+//        }
         return result;
     }
 }
