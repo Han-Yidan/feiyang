@@ -90,7 +90,6 @@ public class QuestionController {
     @ResponseBody
     public JsonResponse searchQuestion(@PathParam("content") String content, @PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
         Map<String, Object> res = questionService.searchQuestion(content, pageNum, pageSize);
-//        res.put("questions", all);
 
         return JsonResponse.success(res, "搜索成功！");
     }
