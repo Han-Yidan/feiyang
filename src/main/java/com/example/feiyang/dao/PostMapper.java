@@ -5,6 +5,8 @@ import com.example.feiyang.entity.Post;
 import com.example.feiyang.entity.PostAndQuestion;
 import com.example.feiyang.entity.PostExample;
 import java.util.List;
+
+import javafx.geometry.Pos;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -41,4 +43,6 @@ public interface PostMapper {
     List<PostAndQuestion> selectPage();
 
     List<PostAndQuestion> getNoExamine();
+
+    PostAndQuestion getByPostId(@Param("post_id") Long post_id);
 }

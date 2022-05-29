@@ -148,4 +148,11 @@ public class PostServiceImpl implements PostService {
 
         return postMapper.countByExample(postExample);
     }
+
+    @Override
+    public PostAndQuestion getPostById(Long post_id) {
+        PostAndQuestion post = postMapper.getByPostId(post_id);
+
+        return post;
+    }
 }

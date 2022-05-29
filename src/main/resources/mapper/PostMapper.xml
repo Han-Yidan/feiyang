@@ -76,8 +76,26 @@
   <sql id="Blob_Column_List" >
     post_content
   </sql>
+  <select id="getByPostId"  resultType="com.example.feiyang.entity.PostAndQuestion">
+    SELECT a.*, u1.username as post_username, u1.avatar_url as post_avatar, score, u2.username as question_username, u2.avatar_url as question_avatar
+    FROM
+      (
+        SELECT post_id, post_content, p.user_id as post_user, visit_count, p.create_time as post_time,
+               question_id, question_content, question_image, q.user_id as question_user, q.create_time as question_time
+        FROM fy_post p
+               JOIN fy_question q
+                    ON p.related_question_id = q.question_id
+        WHERE p.`status` = 1 AND p.post_id = #{post_id}
+      ) a
+        JOIN fy_user u1
+             ON a.post_user = u1.user_id
+        JOIN fy_user u2
+             ON a.question_user = u2.user_id
+        JOIN fy_staff s
+             ON a.post_user = s.user_id
+  </select>
   <select id="selectPage"  resultType="com.example.feiyang.entity.PostAndQuestion">
-    SELECT a.*, u1.username as post_username, u1.avatar_url as post_avatar, u2.username as question_username, u2.avatar_url as question_avatar
+    SELECT a.*, u1.username as post_username, u1.avatar_url as post_avatar, score, u2.username as question_username, u2.avatar_url as question_avatar
     FROM
       (
         SELECT post_id, post_content, p.user_id as post_user, visit_count, p.create_time as post_time,
@@ -91,6 +109,8 @@
              ON a.post_user = u1.user_id
         JOIN fy_user u2
              ON a.question_user = u2.user_id
+        JOIN fy_staff s
+             ON a.post_user = s.user_id
   </select>
   <select id="getNoExamine"  resultType="com.example.feiyang.entity.PostAndQuestion">
     SELECT a.*, u1.username as post_username, u1.avatar_url as post_avatar, u2.username as question_username, u2.avatar_url as question_avatar
