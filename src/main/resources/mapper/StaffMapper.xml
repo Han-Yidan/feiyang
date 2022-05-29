@@ -6,24 +6,30 @@
     <result column="repair_count" property="repairCount" jdbcType="INTEGER" />
     <result column="post_count" property="postCount" jdbcType="INTEGER" />
     <result column="is_allow" property="isAllow" jdbcType="INTEGER" />
-    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP" />
-    <result column="receive_interval" property="receiveInterval" jdbcType="INTEGER" />
-    <result column="order_transfer" property="orderTransfer" jdbcType="INTEGER" />
-    <result column="next_time" property="nextTime" jdbcType="TIMESTAMP" />
-    <result column="year" property="year" jdbcType="INTEGER" />
-    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="last_time" property="lastTime" jdbcType="TIMESTAMP"/>
+    <result column="receive_interval" property="receiveInterval" jdbcType="INTEGER"/>
+    <result column="order_transfer" property="orderTransfer" jdbcType="INTEGER"/>
+    <result column="next_time" property="nextTime" jdbcType="TIMESTAMP"/>
+    <result column="year" property="year" jdbcType="INTEGER"/>
+    <result column="score" property="score" jdbcType="INTEGER"/>
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.example.feiyang.entity.Staff" extends="BaseResultMap" >
-    <result column="tips" property="tips" jdbcType="LONGVARCHAR" />
+  <resultMap id="ResultMapWithBLOBs" type="com.example.feiyang.entity.Staff" extends="BaseResultMap">
+    <result column="tips" property="tips" jdbcType="LONGVARCHAR"/>
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <resultMap id="ListResultMap" type="com.example.feiyang.entity.StaffList">
+    <id column="user_id" property="userId" jdbcType="BIGINT"/>
+    <result column="score" property="score" jdbcType="INTEGER"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
@@ -82,12 +88,17 @@
   <sql id="Blob_Column_List">
     tips
   </sql>
+  <select id="selectYear" resultType="map">
+    select distinct year
+    from fy_staff
+    order by year desc
+  </select>
   <select id="selectAllStaffs" resultType="java.lang.Integer" parameterType="java.lang.Integer">
     select count(user_id)
     from fy_staff
     where year =#{year}
   </select>
-  <select id="selectByYearWithList" resultType="map" parameterType="java.lang.Integer">
+  <select id="selectByYearWithList" resultMap="ListResultMap" parameterType="java.lang.Integer">
     select u.user_id, u.username, u.avatar_url, s.score
     from fy_staff s
            join fy_user u on u.user_id = s.user_id

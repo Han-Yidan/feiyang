@@ -2,6 +2,7 @@ package com.example.feiyang.dao;
 
 import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.StaffExample;
+import com.example.feiyang.entity.StaffList;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,8 +23,10 @@ public interface StaffMapper {
 
     int insertSelective(Staff record);
 
+    List<StaffList> selectByYearWithList(Integer year);
+
     @MapKey("user_id")
-    List<Map<String, Object>> selectByYearWithList(Integer year);
+    List<Map<String, Object>> selectYear();
 
     Integer selectAllStaffs(Integer year);
 

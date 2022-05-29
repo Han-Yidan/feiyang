@@ -4,6 +4,7 @@ import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.Staff;
 import com.example.feiyang.entity.StaffExample;
+import com.example.feiyang.entity.StaffList;
 import com.example.feiyang.entity.User;
 import com.example.feiyang.service.StaffService;
 import com.example.feiyang.service.ex.InsertException;
@@ -108,10 +109,10 @@ public class StaffServiceImpl implements StaffService {
 
     //按年份查询技术员的姓名，头像，积分
     @Override
-    public List<Map<String, Object>> selectByYearStaffList(String year, Integer pageNum, Integer pageSize) {
+    public List selectByYearStaffList(String year, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Map<String, Object>> map = staffMapper.selectByYearWithList(Integer.parseInt(year));
-        PageInfo<Map<String, Object>> pageInfo = new PageInfo<Map<String, Object>>(map);
+        List<StaffList> map = staffMapper.selectByYearWithList(Integer.parseInt(year));
+        PageInfo<StaffList> pageInfo = new PageInfo(map);
         return pageInfo.getList();
     }
 
@@ -120,6 +121,13 @@ public class StaffServiceImpl implements StaffService {
     public Integer getAllStaffs(String year) {
         Integer staffs = staffMapper.selectAllStaffs(Integer.parseInt(year));
         return staffs;
+    }
+
+    //获取所有年份
+    @Override
+    public List<Map<String, Object>> selectYear() {
+        List<Map<String, Object>> yearMap = staffMapper.selectYear();
+        return yearMap;
     }
 
 

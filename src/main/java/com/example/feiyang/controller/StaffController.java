@@ -44,5 +44,11 @@ public class StaffController extends BaseController {
         return new JsonResponse<>(OK, data);
     }
 
+    //获取年份信息
+    @RequestMapping("yearInfo")
+    public JsonResponse<List> selectYear() {
+        List<Map<String, Object>> data = staffService.selectYear();
+        return new JsonResponse<>(OK, data);
+    }
 
 }
