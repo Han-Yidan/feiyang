@@ -9,6 +9,10 @@ import com.example.feiyang.service.impl.QuestionServiceImpl;
 import com.example.feiyang.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +56,11 @@ public class AdminController extends BaseController {
         return JsonResponse.success(res, "获取成功！");
     }
 
+    @RequestMapping("/queryOrder")
+    public JsonResponse queryOrder(String repairType,Integer status,String staffName,String userName,int current){
+        return orderService.queryOrderForAdmin(repairType, status, staffName, userName,current);
+    }
+
     /**
      * 管理员用户注册
      *
@@ -62,10 +71,5 @@ public class AdminController extends BaseController {
     public JsonResponse<Void> reg(@RequestBody Map<String, Object> params) {
         adminService.reg(params);
         return new JsonResponse<>(OK);
-    }
-
-    @RequestMapping("/queryOrder")
-    public JsonResponse queryOrder(String repairType,Integer status,String staffName,String userName,int current){
-        return orderService.queryOrderForAdmin(repairType, status, staffName, userName,current);
     }
 }

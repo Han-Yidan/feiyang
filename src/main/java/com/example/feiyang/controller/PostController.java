@@ -69,4 +69,14 @@ public class PostController {
 
         return JsonResponse.success(res, "查询成功！");
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/get")
+    public JsonResponse getPostById(@PathParam("post_id") Long post_id) {
+        Map<String, Object> res = new HashMap<>();
+
+        PostAndQuestion post = postService.getPostById(post_id);
+        res.put("post", post);
+
+        return JsonResponse.success(res, "查询成功!");
+    }
 }

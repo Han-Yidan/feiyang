@@ -58,4 +58,11 @@ public interface PostService {
      * @return
      */
     public Integer getPostNum();
+
+    /**
+     * 根据post_id获取
+     * @param post_id
+     * @return
+     */
+    public PostAndQuestion getPostById(Long post_id);
 }

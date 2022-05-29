@@ -15,6 +15,7 @@ public class PostAndQuestion {
     private Long post_user;
     private Integer visit_count;
     private Date post_time;
+    private Integer score;
     private Long question_id;
     private String question_content;
     private String question_image;
@@ -29,12 +30,13 @@ public class PostAndQuestion {
 
     }
 
-    public PostAndQuestion(Long post_id, String post_content, Long post_user, Integer visit_count, Date post_time, Long question_id, String question_content, String question_image, Long question_user, Date question_time, String post_username, String post_avatar, String question_username, String question_avatar) {
+    public PostAndQuestion(Long post_id, String post_content, Long post_user, Integer visit_count, Date post_time, Integer score, Long question_id, String question_content, String question_image, Long question_user, Date question_time, String post_username, String post_avatar, String question_username, String question_avatar) {
         this.post_id = post_id;
         this.post_content = post_content;
         this.post_user = post_user;
         this.visit_count = visit_count;
         this.post_time = post_time;
+        this.score = score;
         this.question_id = question_id;
         this.question_content = question_content;
         this.question_image = question_image;
@@ -84,6 +86,14 @@ public class PostAndQuestion {
 
     public void setPost_time(Date post_time) {
         this.post_time = post_time;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public Long getQuestion_id() {
@@ -166,6 +176,7 @@ public class PostAndQuestion {
                 ", post_user=" + post_user +
                 ", visit_count=" + visit_count +
                 ", post_time=" + post_time +
+                ", score=" + score +
                 ", question_id=" + question_id +
                 ", question_content='" + question_content + '\'' +
                 ", question_image='" + question_image + '\'' +
