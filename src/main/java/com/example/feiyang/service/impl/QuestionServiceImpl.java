@@ -88,6 +88,7 @@ public class QuestionServiceImpl implements QuestionService {
         List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
         res.put("totalCount", postAndQuestions.size());
 
+        PageHelper.startPage(pageNum, pageSize);
         // 获取分页后的结果
         postAndQuestions = questionMapper.searchQuestion(content);
         res.put("posts", postAndQuestions);

@@ -26,5 +26,7 @@ public interface StaffService {
     //返回总用户数
     Integer getAllStaffs(String year);
 
+    //返回年份信息
+    List<Map<String, Object>> selectYear();
 
 }
