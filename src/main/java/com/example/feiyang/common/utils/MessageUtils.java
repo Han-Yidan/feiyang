@@ -104,7 +104,7 @@ public class MessageUtils {
     /**
      * 发送订单通知
      * @param phoneNumber
-     * @param name
+     * @param name 技术员姓名
      * @return
      */
     public SendSmsResponse sendMessage(String phoneNumber, String name) {
