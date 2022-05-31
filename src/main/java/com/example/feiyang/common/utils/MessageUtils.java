@@ -19,7 +19,13 @@ import javax.servlet.http.HttpSession;
  * 发送短信验证码
  */
 public class MessageUtils {
-    public SendSmsResponse sendCode(String phoneNumber, String name) {
+    /**
+     * 发送验证码
+     * @param phoneNumber
+     * @param code
+     * @return
+     */
+    public SendSmsResponse sendCode(String phoneNumber, String code) {
         SendSmsResponse res = null;
 
         try {
@@ -67,7 +73,7 @@ public class MessageUtils {
             req.setTemplateId(templateId);
 
             /* 模板参数: 模板参数的个数需要与 TemplateId 对应模板的变量个数保持一致，若无模板参数，则设置为空 */
-            String[] templateParamSet = {name};
+            String[] templateParamSet = {code};
             req.setTemplateParamSet(templateParamSet);
 
             /* 下发手机号码，采用 E.164 标准，+[国家或地区码][手机号]
@@ -95,8 +101,13 @@ public class MessageUtils {
         return res;
     }
 
-
-    public SendSmsResponse sendMessage(String phoneNumber, String code) {
+    /**
+     * 发送订单通知
+     * @param phoneNumber
+     * @param name
+     * @return
+     */
+    public SendSmsResponse sendMessage(String phoneNumber, String name) {
         SendSmsResponse res = null;
         
         try {
@@ -144,7 +155,7 @@ public class MessageUtils {
             req.setTemplateId(templateId);
 
             /* 模板参数: 模板参数的个数需要与 TemplateId 对应模板的变量个数保持一致，若无模板参数，则设置为空 */
-            String[] templateParamSet = {code};
+            String[] templateParamSet = {name};
             req.setTemplateParamSet(templateParamSet);
 
             /* 下发手机号码，采用 E.164 标准，+[国家或地区码][手机号]
