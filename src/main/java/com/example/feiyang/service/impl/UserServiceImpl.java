@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
          * 因为前端限制只能60秒点一次
          */
         MessageUtils messageUtils = new MessageUtils();
-        messageUtils.sendMessage(phoneNumber, code);
+        messageUtils.sendCode(phoneNumber, code);
 
         // 返回给前端验证码，方便前端直接验证
         return code;
