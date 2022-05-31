@@ -8,6 +8,7 @@ import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.OrderService;
+import com.example.feiyang.service.ex.StaffNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,23 +96,27 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public JsonResponse cancelOrder(Map<String,Object> map) {
         //更新订单状态
-        Order order = new Order();
         Long orderId = Long.valueOf((String)map.get("orderId"));
-        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
-        order.setOrderId(orderId);
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null){
+            return JsonResponse.failure("订单号不存在");
+        }else if (order.getStatus() == 0){
+            return JsonResponse.failure("该订单已经取消，请勿重复操作");
+        }
+        Long staffId = order.getStaffId();
         order.setCancelReason((String)map.get("cancelReason"));
         order.setStatus(0);
         order.setCloseTime(new Date());
-        //更新技术员状态
-        Staff staff = new Staff();
-        staff.setUserId(staffId);
-        staff.setIsAllow(1);
-
         int result1 = orderMapper.updateByPrimaryKeySelective(order);
-        int result2 = staffMapper.updateByPrimaryKeySelective(staff);
-
+        //更新技术员状态
+        if (staffId != null){
+            Staff staff = new Staff();
+            staff.setUserId(staffId);
+            staff.setIsAllow(1);
+            result1 &= staffMapper.updateByPrimaryKeySelective(staff);
+        }
         if(waitingOrders.containsKey(orderId)) waitingOrders.remove(orderId);
-        if(result1 == 1 && result2 == 1) {
+        if(result1 == 1) {
             return JsonResponse.success(order,"取消成功");
         }else{
             return JsonResponse.failure("取消失败");
@@ -120,9 +125,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public JsonResponse receiveOrder(Long staffId,Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null){
+            return JsonResponse.failure("订单号不存在");
+        }
         //更新订单状态
-        Order order = new Order();
-        order.setOrderId(orderId);
         order.setStaffId(staffId);
         order.setStatus(2);
         order.setReceiveTime(new Date());
@@ -132,9 +139,10 @@ public class OrderServiceImpl implements OrderService {
         currStaff.setUserId(staffId);
         currStaff.setIsAllow(0);
         int result2 = staffMapper.updateByPrimaryKeySelective(currStaff);
+        //发送短信提醒技术员有新订单
         User curr = userMapper.selectByPrimaryKey(staffId);
         MessageUtils messageUtils = new MessageUtils();
-        messageUtils.sendMessage(curr.getPhoneNumber(),"您有新的订单，请进入系统查看！");
+        messageUtils.sendMessage(curr.getPhoneNumber(),curr.getUsername());
         if(result1 == 1 && result2 == 1) return JsonResponse.success(order,"技术员已成功接单");
         return JsonResponse.failure("技术员未能成功接单");
     }
@@ -164,26 +172,30 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public int assignOrder(Long staffId,Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null){
+            throw new IllegalArgumentException("订单号不存在");
+        }
         Staff currStaff = staffMapper.selectByPrimaryKey(staffId);
+        if (currStaff == null){
+            throw new StaffNotFoundException("技术员不存在");
+        }
         int number = currStaff.getOrderTransfer();
         if(number<1){
             System.out.println("转让次数不足，无法转让");
             return -1;
         }
         //将当前技术员转让次数-1
-        Staff currStaff1 = new Staff();
-        currStaff1.setUserId(staffId);
-        currStaff1.setOrderTransfer(--number);
-        staffMapper.updateByPrimaryKeySelective(currStaff1);
+        currStaff.setOrderTransfer(--number);
+        currStaff.setIsAllow(1);
+
         //得到除当前技术员之外的所有空闲技术员
         List<Staff> staff = searchAvailableStaff(staffId);
         //随机选一名空闲技术员
-        Long nextStaffId = pickOneStaff(staff).getUserId();
-        //更新订单信息
-        Order order = new Order();
-        order.setOrderId(orderId);
-        order.setStaffId(nextStaffId);
-        return orderMapper.updateByPrimaryKeySelective(order);
+        Staff nextStaff = pickOneStaff(staff);
+        //修改订单和技术员状态
+        receiveOrder(nextStaff.getUserId(),orderId);
+        return staffMapper.updateByPrimaryKeySelective(currStaff);
     }
 
 
@@ -214,14 +226,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public JsonResponse finishOrder(Long orderId) {
         //更新订单信息
-        Order order = new Order();
-        order.setOrderId(orderId);
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null){
+            return JsonResponse.failure("订单号不存在");
+        }else if (order.getStatus() != 2){
+            return JsonResponse.failure("订单已完成或被取消");
+        }
         order.setStatus(3);
         Date now = new Date();
         order.setCloseTime(now);
         int result1 =  orderMapper.updateByPrimaryKeySelective(order);
         //更新技术员信息
-        Long staffId = orderMapper.selectByPrimaryKey(orderId).getStaffId();
+        Long staffId = order.getStaffId();
         Staff staff = staffMapper.selectByPrimaryKey(staffId);
         int repairCount = staff.getRepairCount();
         int score = staff.getScore();
