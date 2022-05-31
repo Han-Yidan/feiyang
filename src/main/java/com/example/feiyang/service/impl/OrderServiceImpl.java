@@ -2,6 +2,7 @@ package com.example.feiyang.service.impl;
 
 import com.example.feiyang.common.utils.FileUtils;
 import com.example.feiyang.common.utils.JsonResponse;
+import com.example.feiyang.common.utils.MessageUtils;
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
@@ -131,6 +132,9 @@ public class OrderServiceImpl implements OrderService {
         currStaff.setUserId(staffId);
         currStaff.setIsAllow(0);
         int result2 = staffMapper.updateByPrimaryKeySelective(currStaff);
+        User curr = userMapper.selectByPrimaryKey(staffId);
+        MessageUtils messageUtils = new MessageUtils();
+        messageUtils.sendMessage(curr.getPhoneNumber(),"您有新的订单，请进入系统查看！");
         if(result1 == 1 && result2 == 1) return JsonResponse.success(order,"技术员已成功接单");
         return JsonResponse.failure("技术员未能成功接单");
     }
@@ -155,7 +159,6 @@ public class OrderServiceImpl implements OrderService {
                 waitingOrders.remove(orderId);
                 receiveOrder(staffId,orderId);
                 System.out.println(staffId+"将要负责"+orderId+"号订单");
-
             }
         }
     }
@@ -249,6 +252,13 @@ public class OrderServiceImpl implements OrderService {
         FileUtils fileUtils = new FileUtils();
         return fileUtils.uploadFile(file);
     }
+
+    /**
+     * 如果是普通用户，返回等待中和进行中的订单
+     * 如果是技术员，返回进行中的订单
+     * @param userId
+     * @return
+     */
     @Override
     public List<Order> searchDoingOrder(Long userId){
         OrderExample oe = new OrderExample();
@@ -263,6 +273,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.selectByExample(oe);
     }
 
+    /**
+     * 获取今日订单数量
+     * @return
+     */
     @Override
     public int getTodayOrder() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -328,6 +342,12 @@ public class OrderServiceImpl implements OrderService {
         se.or(criteria2);
         return staffMapper.selectByExample(se);
     }
+
+    /**
+     * 随机从空闲技术员中选择一个分配订单
+     * @param staff
+     * @return
+     */
     public Staff pickOneStaff(List<Staff> staff){
         int size = staff.size();
         int option = (int)Math.random()*size;
