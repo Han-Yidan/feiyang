@@ -74,17 +74,39 @@
     <include refid="Base_Column_List" />
     from fy_question
   </select>
+  <select id="queryQuestionByKey"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fy_question
+    where question_content like CONCAT('%', #{key}, '%')
+  </select>
   <select id="searchQuestion"  resultType="com.example.feiyang.entity.PostAndQuestion">
     SELECT a.*, u1.username as post_username, u1.avatar_url as post_avatar, score, u2.username as question_username, u2.avatar_url as question_avatar
     FROM
       (
-        SELECT post_id, post_content, p.user_id as post_user, visit_count, p.create_time as post_time,
+        SELECT post_id, post_content, p.user_id as post_user, visit_count, p.create_time as post_time, p.status,
                question_id, question_content, question_image, q.user_id as question_user, q.create_time as question_time
         FROM fy_post p
                JOIN fy_question q
                     ON p.related_question_id = q.question_id
-        WHERE q.question_content LIKE CONCAT('%', #{content}, '%')
-        AND p.`status` = 1
+        <where>
+          <if test="content != null">
+            AND q.question_content LIKE CONCAT('%', #{content}, '%')
+          </if>
+
+          <if test="visit_count != null">
+            AND p.`visit_count` >= #{visit_count}
+          </if>
+
+          <choose>
+            <when test="status != null">
+              AND p.`status` = #{status}
+            </when>
+            <otherwise>
+              AND p.`status` = 1
+            </otherwise>
+          </choose>
+        </where>
       ) a
         JOIN fy_user u1
              ON a.post_user = u1.user_id
@@ -92,6 +114,16 @@
              ON a.question_user = u2.user_id
         JOIN fy_staff s
              ON a.post_user = s.user_id
+    <where>
+      <if test="postUsername != null">
+        AND u1.username = #{postUsername}
+      </if>
+
+      <if test="questionUsername != null">
+        AND u2.username = #{questionUsername}
+      </if>
+    </where>
+
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.QuestionExample" >
     select

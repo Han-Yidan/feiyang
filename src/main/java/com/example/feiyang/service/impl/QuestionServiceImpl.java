@@ -81,16 +81,17 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public Map<String, Object> searchQuestion(String content, Integer pageNum, Integer pageSize) {
+    public Map<String, Object> searchQuestion(String content, String postUsername, String questionUsername,
+                                              Integer visit_count, Integer status, Integer pageNum, Integer pageSize) {
         Map<String, Object> res = new HashMap<>();
 
         // 获取总数
-        List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content);
+        List<PostAndQuestion> postAndQuestions = questionMapper.searchQuestion(content, postUsername, questionUsername, visit_count, status);
         res.put("totalCount", postAndQuestions.size());
 
         PageHelper.startPage(pageNum, pageSize);
         // 获取分页后的结果
-        postAndQuestions = questionMapper.searchQuestion(content);
+        postAndQuestions = questionMapper.searchQuestion(content, postUsername, questionUsername, visit_count, status);
         res.put("posts", postAndQuestions);
 
         return res;
@@ -105,4 +106,13 @@ public class QuestionServiceImpl implements QuestionService {
         int countQuestion = questionMapper.countByExample(questionExample);
         return countQuestion;
     }
+
+    @Override
+    public List<Question> queryQuestionByKey(String key) {
+        List<Question> questions = questionMapper.queryQuestionByKey(key);
+
+        return questions;
+    }
+
+
 }

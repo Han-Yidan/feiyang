@@ -38,5 +38,10 @@ public interface QuestionMapper {
      */
     List<Question> selectPage();
 
-    List<PostAndQuestion> searchQuestion(@Param("content") String content);
+    List<Question> queryQuestionByKey(@Param("key") String key);
+
+    List<PostAndQuestion> searchQuestion(@Param("content") String content, @Param("postUsername") String postUsername,
+                                         @Param("questionUsername") String questionUsername,
+                                         @Param("visit_count") Integer visit_count, @Param("status") Integer status);
+
 }
