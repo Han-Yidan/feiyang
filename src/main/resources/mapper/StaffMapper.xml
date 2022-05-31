@@ -144,6 +144,12 @@
     from fy_staff
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectStaffInfo" resultType="Map">
+    select repair_count,post_count,score
+    from fy_staff
+    where user_id = #{staffId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from fy_staff
     where user_id = #{userId,jdbcType=BIGINT}

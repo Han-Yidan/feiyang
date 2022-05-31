@@ -29,4 +29,6 @@ public interface StaffService {
     //返回年份信息
     List<Map<String, Object>> selectYear();
 
+    Map<String,Object> selectStaffInfo(Long staffId);
+
 }

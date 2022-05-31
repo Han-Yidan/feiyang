@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +129,16 @@ public class StaffServiceImpl implements StaffService {
     public List<Map<String, Object>> selectYear() {
         List<Map<String, Object>> yearMap = staffMapper.selectYear();
         return yearMap;
+    }
+
+    @Override
+    public Map<String, Object> selectStaffInfo(Long staffId) {
+        if (staffId == null){
+            throw new NullException("id为空");
+        }else if (staffMapper.selectByPrimaryKey(staffId) == null){
+            throw new StaffNotFoundException("技术员不存在");
+        }
+        return staffMapper.selectStaffInfo(staffId);
     }
 
 

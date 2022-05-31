@@ -51,4 +51,10 @@ public class StaffController extends BaseController {
         return new JsonResponse<>(OK, data);
     }
 
+    @RequestMapping("/info")
+    public JsonResponse selectStaffInfo(Long staffId){
+        Map<String, Object> map = staffService.selectStaffInfo(staffId);
+        return JsonResponse.success(map);
+    }
+
 }

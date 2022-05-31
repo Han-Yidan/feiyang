@@ -36,6 +36,8 @@ public interface StaffMapper {
 
     Staff selectByPrimaryKey(Long userId);
 
+    Map<String,Object> selectStaffInfo(Long staffId);
+
     int updateByExampleSelective(@Param("record") Staff record, @Param("example") StaffExample example);
 
     int updateByExampleWithBLOBs(@Param("record") Staff record, @Param("example") StaffExample example);
