@@ -283,7 +283,16 @@ public class UserServiceImpl implements UserService {
             res.put("staffInfo", staff);
         }
 
-        return JsonResponse.success(res, "查询成功！").addOtherData("orders",orderService.searchDoingOrder(user_id));
+        return JsonResponse.success(res, "查询成功！");
+    }
+
+    @Override
+    public JsonResponse getOrder(Long userId) {
+        List<Order> orders = orderService.searchDoingOrder(userId);
+        if (orders == null){
+            return JsonResponse.failure("用户id为空或没有该用户");
+        }
+        return JsonResponse.success(orders);
     }
 
     public JsonResponse query0(){

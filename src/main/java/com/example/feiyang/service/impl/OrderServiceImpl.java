@@ -8,6 +8,7 @@ import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.OrderService;
+import com.example.feiyang.service.ex.NullException;
 import com.example.feiyang.service.ex.StaffNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -279,7 +280,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> searchDoingOrder(Long userId){
         OrderExample oe = new OrderExample();
         OrderExample.Criteria criteria = oe.createCriteria();
-        if (getRole(userId) == 0){
+        if (getRole(userId) == -1){
+          return null;
+        } else if (getRole(userId) == 0){
             criteria.andUserIdEqualTo(userId);
             criteria.andStatusBetween(1,2);
         }else{
@@ -371,7 +374,9 @@ public class OrderServiceImpl implements OrderService {
     }
     public int getRole(Long userId){
         if(userId == null) return -1;
-        return userMapper.selectByPrimaryKey(userId).getIsStaff();
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) return -1;
+        return user.getIsStaff();
     }
     public Calendar getNow(){
         Date date = new Date();

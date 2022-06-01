@@ -78,4 +78,11 @@ public interface UserService {
      * @return
      */
     public JsonResponse getUserInfo(Long user_id);
+
+    /**
+     * 根据用户id返回订单
+     * @param userId
+     * @return
+     */
+    JsonResponse getOrder(Long userId);
 }

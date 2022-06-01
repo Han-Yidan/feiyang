@@ -84,4 +84,9 @@ public class UserController {
     public JsonResponse getUserInfo(@PathParam("user_id") Long user_id) {
         return userService.getUserInfo(user_id);
     }
+
+    @RequestMapping("/getOrder")
+    public JsonResponse getOrder(Long userId){
+        return userService.getOrder(userId);
+    }
 }
