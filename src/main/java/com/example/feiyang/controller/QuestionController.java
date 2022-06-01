@@ -88,9 +88,23 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     @ResponseBody
-    public JsonResponse searchQuestion(@PathParam("key") String content, @PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
-        Map<String, Object> res = questionService.searchQuestion(content, pageNum, pageSize);
+    public JsonResponse searchQuestion(@PathParam("content") String content, @PathParam("postUsername") String postUsername,
+                                       @PathParam("questionUsername") String questionUsername, @PathParam("visitCount") Integer visitCount,
+                                       @PathParam("status") Integer status, @PathParam("pageNum") Integer pageNum, @PathParam("pageSize") Integer pageSize) {
+
+        Map<String, Object> res = questionService.searchQuestion(content, postUsername, questionUsername, visitCount, status, pageNum, pageSize);
 
         return JsonResponse.success(res, "搜索成功！");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/queryByKey")
+    @ResponseBody
+    public JsonResponse queryQuestion(@PathParam("key") String key) {
+        List<Question> questions = questionService.queryQuestionByKey(key);
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("questions", questions);
+
+        return JsonResponse.success(res, "查询成功！");
     }
 }

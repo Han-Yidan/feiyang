@@ -56,11 +56,19 @@ public interface QuestionService {
      * @param content
      * @return
      */
-    public Map<String, Object> searchQuestion(String content, Integer pageNum, Integer pageSize);
+    public Map<String, Object> searchQuestion(String content, String postUsername, String questionUsername,
+                                              Integer visit_count, Integer status, Integer pageNum, Integer pageSize);
 
     /**
      * 获取总问题数
      * @return
      */
     public Integer getTotalQuestion();
+
+    /**
+     * 根据关键词查询问题
+     * @param key
+     * @return
+     */
+    public List<Question> queryQuestionByKey(String key);
 }
