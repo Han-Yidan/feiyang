@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
             res.put("userInfo", user);
             System.out.println(user);
             // 直接返回初始化页面
-            return JsonResponse.success(res, "登录成功").addOtherData("orders",orderService.searchDoingOrder(user.getUserId()));
+            return JsonResponse.success(res, "登录成功");
         }
     }
 
@@ -283,7 +283,7 @@ public class UserServiceImpl implements UserService {
             res.put("staffInfo", staff);
         }
 
-        return JsonResponse.success(res, "查询成功！");
+        return JsonResponse.success(res, "查询成功！").addOtherData("orders",orderService.searchDoingOrder(user_id));
     }
 
     public JsonResponse query0(){
