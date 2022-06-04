@@ -295,6 +295,34 @@ public class UserServiceImpl implements UserService {
         return JsonResponse.success(orders);
     }
 
+    @Override
+    public JsonResponse isBan(Long userId) {
+        // 系统报修次数相关信息
+        ConfExample confExample = new ConfExample();
+        List<Conf> confs = confMapper.selectByExample(confExample);
+        Conf conf = confs.get(0);
+
+        // 获取用户报修次数相关信息
+        User user = userMapper.selectByPrimaryKey(userId);
+        Integer isBan = user.getIsBan();
+        Integer restRepairChance = user.getRestRepairChance();
+
+        Map<String, Object> res = new HashMap<>();
+        if (isBan == 1) {
+            res.put("isBan", false);
+            res.put("reason", "您已被管理员禁止报修，请联系管理员处理！");
+        } else if (restRepairChance <= 0) {
+            res.put("isBan", false);
+            res.put("reason", "您的报修次数已用完，请等待下个报修周期！");
+        } else if (conf.getLimitDay() <= 0) {
+            res.put("isBan", false);
+            res.put("reason", "今日报修系统已满单，请明日再来！");
+        } else {
+            res.put("isBan", true);
+        }
+        return JsonResponse.success(res);
+    }
+
     public JsonResponse query0(){
         UserExample ue = new UserExample();
         UserExample.Criteria criteria = ue.createCriteria();

@@ -89,4 +89,9 @@ public class UserController {
     public JsonResponse getOrder(Long userId){
         return userService.getOrder(userId);
     }
+
+    @RequestMapping(value = "/isBan", method = RequestMethod.GET)
+    public JsonResponse isBan(@PathParam("userId") Long userId) {
+        return userService.isBan(userId);
+    }
 }

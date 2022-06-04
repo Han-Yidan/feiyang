@@ -85,4 +85,11 @@ public interface UserService {
      * @return
      */
     JsonResponse getOrder(Long userId);
+
+    /**
+     * 根据userId判断用户是否可以报修
+     * @param userId
+     * @return
+     */
+    public JsonResponse isBan(Long userId);
 }
