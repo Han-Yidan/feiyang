@@ -64,5 +64,9 @@ public class OrderController {
         return orderService.uploadFile(file);
     }
 
+    @RequestMapping("/one")
+    public JsonResponse getOrder(Long orderId){
+        return orderService.queryOneOrder(orderId);
+    }
 
 }

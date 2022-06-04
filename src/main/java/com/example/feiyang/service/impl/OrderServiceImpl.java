@@ -225,6 +225,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public JsonResponse queryOneOrder(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null) return JsonResponse.failure("没有该订单号");
+        return JsonResponse.success(order);
+    }
+
+    @Override
     public JsonResponse finishOrder(Long orderId) {
         //更新订单信息
         Order order = orderMapper.selectByPrimaryKey(orderId);

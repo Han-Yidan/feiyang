@@ -22,6 +22,7 @@ public interface OrderService {
     int assignOrder(Long staffId,Long orderId);
     JsonResponse queryOrder(Long userId,int current);
     JsonResponse queryOrderForAdmin(String repairType,Integer status,String staffName,String userName,int current);
+    JsonResponse queryOneOrder(Long orderId);
     JsonResponse finishOrder(Long orderId);
     int remindOrder(Long orderId);
     JsonResponse uploadFile(MultipartFile file) throws UnknownHostException, FileNotFoundException;
