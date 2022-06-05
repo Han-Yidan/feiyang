@@ -3,6 +3,7 @@ package com.example.feiyang.service.impl;
 import com.example.feiyang.common.utils.FileUtils;
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.common.utils.MessageUtils;
+import com.example.feiyang.dao.ConfMapper;
 import com.example.feiyang.dao.OrderMapper;
 import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
@@ -37,6 +38,8 @@ public class OrderServiceImpl implements OrderService {
     private StaffMapper staffMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ConfMapper confMapper;
 
     private static final Long HOUR = (long)60*60*1000;
 
@@ -61,8 +64,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public JsonResponse addOrder(Map<String,Object> map) {
+        //修改conf表中报修次数
+        ConfExample ce = new ConfExample();
+        List<Conf> confs = confMapper.selectByExample(ce);
+        Conf conf = confs.get(0);
+        int day = conf.getLimitDay();
+        if (day<1){
+            return JsonResponse.failure("今日报修数量已达上限！");
+        }
+        conf.setLimitDay(--day);
+        confMapper.updateByExample(conf,ce);
+
+        //获取新增订单信息
         Order order = new Order();
-        order.setUserId(Long.valueOf((String)map.get("userId")));
+        Long userId = Long.valueOf((String)map.get("userId"));
+        order.setUserId(userId);
         order.setDeviceType((String) map.get("deviceType"));
         order.setDeviceBrand((String) map.get("deviceBrand"));
         order.setDeviceVersion((String) map.get("deviceVersion"));
@@ -81,6 +97,8 @@ public class OrderServiceImpl implements OrderService {
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);
+
+        //进入自动分配流程
         waitingOrders.put(order.getOrderId(),order);
         if(waitingOrders.size() == 1){
             new Thread(()->{
