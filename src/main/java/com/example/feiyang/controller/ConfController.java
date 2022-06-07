@@ -60,12 +60,25 @@ public class ConfController extends BaseController {
         return JsonResponse.failure("修改失败");
     }
 
+    /**
+     * 编辑公告
+     *
+     * @param title
+     * @param tips
+     * @param isPop
+     * @return
+     */
     @RequestMapping("/updateGlobalTips")
     public JsonResponse updateGlobalTips(String title, String tips, Integer isPop) {
         boolean data = confService.updateGlobalTips(title, tips, isPop);
         return new JsonResponse<>(OK, data);
     }
 
+    /**
+     * 查询唯一一条公告
+     *
+     * @return
+     */
     @RequestMapping("/selectTips")
     public JsonResponse selectTips() {
         List<Tips> data = confService.selectTips();
