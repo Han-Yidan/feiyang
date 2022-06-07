@@ -1,6 +1,8 @@
 package com.example.feiyang.service.ex;
 
-/**技术员数据不存在的异常 */
+/**
+ * 技术员数据不存在的异常
+ **/
 public class StaffNotFoundException extends ServiceException{
     public StaffNotFoundException() {
         super();

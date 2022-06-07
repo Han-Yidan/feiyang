@@ -1,5 +1,8 @@
 package com.example.feiyang.service.ex;
 
+/**
+ * 更新数据库异常
+ */
 public class UpdateException extends ServiceException {
     public UpdateException() {
         super();

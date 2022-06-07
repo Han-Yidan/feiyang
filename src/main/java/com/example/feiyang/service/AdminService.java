@@ -8,10 +8,19 @@ import java.util.Map;
 
 public interface AdminService {
     JsonResponse login(String username, String password);
-    //管理员注册
+
+    /**
+     * 管理员注册
+     *
+     * @param params
+     */
     void reg(Map<String, Object> params);
 
-    //返回所有管理员总数
+    /**
+     * 返回所有管理员总数
+     *
+     * @return
+     */
     Integer getTotalAdmin();
 
 }

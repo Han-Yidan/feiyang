@@ -1,5 +1,8 @@
 package com.example.feiyang.service.ex;
 
+/**
+ * 帖子没有找到产生的异常
+ */
 public class PostNotFoundException extends ServiceException {
 
     public PostNotFoundException() {
