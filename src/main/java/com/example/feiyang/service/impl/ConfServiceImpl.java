@@ -30,6 +30,11 @@ public class ConfServiceImpl implements ConfService{
     }
 
     @Override
+    public Integer getLimit() {
+        return conf.getLimitDay();
+    }
+
+    @Override
     public int setting(Integer turn,Integer limit) {
         if (turn != null) conf.setGlobalFlag(turn);
         if (limit != null) conf.setLimitDay(limit);

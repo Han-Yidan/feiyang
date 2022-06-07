@@ -9,5 +9,8 @@ package com.example.feiyang.service;
 public interface ConfService {
     //获取全局年份
     Integer getYear();
+    //获取今日报修剩余量
+    Integer getLimit();
+    //设置全局信息
     int setting(Integer turn,Integer limit);
 }

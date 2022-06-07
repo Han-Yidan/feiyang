@@ -5,8 +5,6 @@ import com.example.feiyang.dao.AdminMapper;
 import com.example.feiyang.dao.ConfMapper;
 import com.example.feiyang.entity.Admin;
 import com.example.feiyang.entity.AdminExample;
-import com.example.feiyang.entity.Conf;
-import com.example.feiyang.entity.ConfExample;
 import com.example.feiyang.service.AdminService;
 import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.UsernameDuplitedException;

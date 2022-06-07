@@ -26,6 +26,10 @@ public class ConfController {
         return JsonResponse.success(confService.getYear());
     }
 
+    @RequestMapping("/getLimit")
+    public JsonResponse getLimit(){
+        return JsonResponse.success(confService.getLimit());
+    }
     /**
      * 设置系统开关
      * @param turn
