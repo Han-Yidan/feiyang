@@ -2,8 +2,11 @@ package com.example.feiyang.service.impl;
 
 import com.example.feiyang.common.utils.JsonResponse;
 import com.example.feiyang.dao.AdminMapper;
+import com.example.feiyang.dao.ConfMapper;
 import com.example.feiyang.entity.Admin;
 import com.example.feiyang.entity.AdminExample;
+import com.example.feiyang.entity.Conf;
+import com.example.feiyang.entity.ConfExample;
 import com.example.feiyang.service.AdminService;
 import com.example.feiyang.service.ex.InsertException;
 import com.example.feiyang.service.ex.UsernameDuplitedException;
@@ -18,6 +21,8 @@ import java.util.Map;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private ConfMapper confMapper;
 
     @Override
     public JsonResponse login(String username, String password) {
@@ -64,4 +69,5 @@ public class AdminServiceImpl implements AdminService {
         Integer integer = adminMapper.selectTotalAdmin();
         return integer;
     }
+
 }

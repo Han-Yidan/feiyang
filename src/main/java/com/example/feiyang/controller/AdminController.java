@@ -72,4 +72,6 @@ public class AdminController extends BaseController {
         adminService.reg(params);
         return new JsonResponse<>(OK);
     }
+
+
 }

@@ -13,4 +13,5 @@ public interface AdminService {
 
     //返回所有管理员总数
     Integer getTotalAdmin();
+
 }
