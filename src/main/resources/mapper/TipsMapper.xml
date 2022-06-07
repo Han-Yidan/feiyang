@@ -77,12 +77,11 @@
         title
         , tips
     </sql>
-    <update id="updateOnlyOne" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.Tips">
+    <update id="updateOnlyOne" parameterType="com.example.feiyang.entity.Tips">
         update fy_tips
         set is_pop = #{isPop,jdbcType=INTEGER},
             title  = #{title,jdbcType=LONGVARCHAR},
-            tips   = #{tips,jdbcType=LONGVARCHAR}
-        where limit 1;
+            tips   = #{tips,jdbcType=LONGVARCHAR} limit 1;
         update fy_conf
         set global_tips=#{tips,jdbcType=LONGVARCHAR} limit 1
     </update>

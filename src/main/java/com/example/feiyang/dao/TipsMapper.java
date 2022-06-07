@@ -3,9 +3,11 @@ package com.example.feiyang.dao;
 import com.example.feiyang.entity.Tips;
 import com.example.feiyang.entity.TipsExample;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TipsMapper {
     int countByExample(TipsExample example);
 

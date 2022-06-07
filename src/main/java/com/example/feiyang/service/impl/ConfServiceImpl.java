@@ -22,6 +22,7 @@ import java.util.List;
 public class ConfServiceImpl implements ConfService {
     @Autowired
     private ConfMapper confMapper;
+    @Autowired
     private TipsMapper tipsMapper;
     private static ConfExample ce = new ConfExample();
     private static Conf conf;
