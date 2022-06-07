@@ -11,7 +11,6 @@ public interface StaffService {
      *
      * @param userId 技术员的数据对象
      */
-    //注册技术员
     Staff reg(Long userId);
 
     //更新技术员信息

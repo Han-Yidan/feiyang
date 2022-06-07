@@ -1,10 +1,13 @@
 package com.example.feiyang.controller;
 
 import com.example.feiyang.common.utils.JsonResponse;
+import com.example.feiyang.entity.Tips;
 import com.example.feiyang.service.ConfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @ProjectName: feiyang
@@ -14,15 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/conf")
-public class ConfController {
+public class ConfController extends BaseController {
     @Autowired
     private ConfService confService;
+
     /**
      * 获取全局年份
+     *
      * @return
      */
     @RequestMapping("/year")
-    public JsonResponse getYear(){
+    public JsonResponse getYear() {
         return JsonResponse.success(confService.getYear());
     }
 
@@ -44,13 +49,26 @@ public class ConfController {
 
     /**
      * 设置每日报修数量
+     *
      * @param limit
      * @return
      */
     @RequestMapping("/setLimit")
-    public JsonResponse setLimit(Integer limit){
-        int result = confService.setting(null,limit);
-        if(result == 1) return JsonResponse.success("修改成功");
+    public JsonResponse setLimit(Integer limit) {
+        int result = confService.setting(null, limit);
+        if (result == 1) return JsonResponse.success("修改成功");
         return JsonResponse.failure("修改失败");
+    }
+
+    @RequestMapping("/updateGlobalTips")
+    public JsonResponse updateGlobalTips(String title, String tips, Integer isPop) {
+        boolean data = confService.updateGlobalTips(title, tips, isPop);
+        return new JsonResponse<>(OK, data);
+    }
+
+    @RequestMapping("/selectTips")
+    public JsonResponse selectTips() {
+        List<Tips> data = confService.selectTips();
+        return new JsonResponse(OK, data);
     }
 }
