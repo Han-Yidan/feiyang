@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.feiyang.dao.TipsMapper">
+    <resultMap id="BaseResultMap" type="com.example.feiyang.entity.Tips">
+        <result column="is_pop" property="isPop" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="LONGVARCHAR"/>
+        <result column="tips" property="tips" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.example.feiyang.entity.Tips" extends="BaseResultMap">
+        <result column="title" property="title" jdbcType="LONGVARCHAR"/>
+        <result column="tips" property="tips" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        is_pop
+    </sql>
+    <sql id="Blob_Column_List">
+        title
+        , tips
+    </sql>
+    <update id="updateOnlyOne" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.Tips">
+        update fy_tips
+        set is_pop = #{isPop,jdbcType=INTEGER},
+            title  = #{title,jdbcType=LONGVARCHAR},
+            tips   = #{tips,jdbcType=LONGVARCHAR}
+        where limit 1;
+        update fy_conf
+        set global_tips=#{tips,jdbcType=LONGVARCHAR} limit 1
+    </update>
+    <select id="selectOnlyOne" resultMap="BaseResultMap">
+        select *
+        from fy_tips limit 0,1
+    </select>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="com.example.feiyang.entity.TipsExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from fy_tips
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.feiyang.entity.TipsExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from fy_tips
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.example.feiyang.entity.TipsExample">
+        delete from fy_tips
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.example.feiyang.entity.Tips">
+        insert into fy_tips (is_pop, title, tips)
+        values (#{isPop,jdbcType=INTEGER}, #{title,jdbcType=LONGVARCHAR}, #{tips,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.feiyang.entity.Tips">
+        insert into fy_tips
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isPop != null">
+                is_pop,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="tips != null">
+                tips,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isPop != null">
+                #{isPop,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="tips != null">
+                #{tips,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.example.feiyang.entity.TipsExample" resultType="java.lang.Integer">
+        select count(*) from fy_tips
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update fy_tips
+        <set>
+            <if test="record.isPop != null">
+                is_pop = #{record.isPop,jdbcType=INTEGER},
+            </if>
+            <if test="record.title != null">
+                title = #{record.title,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.tips != null">
+                tips = #{record.tips,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update fy_tips
+        set is_pop = #{record.isPop,jdbcType=INTEGER},
+        title = #{record.title,jdbcType=LONGVARCHAR},
+        tips = #{record.tips,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update fy_tips
+        set is_pop = #{record.isPop,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+</mapper>
