@@ -86,14 +86,17 @@ public class OrderServiceImpl implements OrderService {
         order.setRepairType((String) map.get("repairType"));
         order.setRepairInstruction((String) map.get("repairInstruction"));
         order.setRepairImage((String) map.get("repairImage"));
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date buyTime = null;
-        try {
-            buyTime = format.parse((String)map.get("buyTime"));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        String buy_time = (String)map.get("buyTime");
+        if (buy_time != null && buy_time.length() != 0){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date buyTime = null;
+            try {
+                buyTime = format.parse(buy_time);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            order.setBuyTime(buyTime);
         }
-        order.setBuyTime(buyTime);
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);
