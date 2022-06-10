@@ -16,7 +16,7 @@ public class Order implements Serializable {
 
     private Date closeTime;
 
-    private Date buyTime;
+    private String buyTime;
 
     private String deviceType;
 
@@ -86,11 +86,11 @@ public class Order implements Serializable {
         this.closeTime = closeTime;
     }
 
-    public Date getBuyTime() {
+    public String getBuyTime() {
         return buyTime;
     }
 
-    public void setBuyTime(Date buyTime) {
+    public void setBuyTime(String buyTime) {
         this.buyTime = buyTime;
     }
 

@@ -9,7 +9,6 @@ import com.example.feiyang.dao.StaffMapper;
 import com.example.feiyang.dao.UserMapper;
 import com.example.feiyang.entity.*;
 import com.example.feiyang.service.OrderService;
-import com.example.feiyang.service.ex.NullException;
 import com.example.feiyang.service.ex.StaffNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -86,17 +83,8 @@ public class OrderServiceImpl implements OrderService {
         order.setRepairType((String) map.get("repairType"));
         order.setRepairInstruction((String) map.get("repairInstruction"));
         order.setRepairImage((String) map.get("repairImage"));
-        String buy_time = (String)map.get("buyTime");
-        if (buy_time != null && buy_time.length() != 0){
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date buyTime = null;
-            try {
-                buyTime = format.parse(buy_time);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            order.setBuyTime(buyTime);
-        }
+        String buyTime = (String)map.get("buyTime");
+        order.setBuyTime(buyTime);
         order.setCreateTime(new Date());
         order.setStatus(1);
         int result = orderMapper.insert(order);

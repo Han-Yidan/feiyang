@@ -8,7 +8,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
     <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
-    <result column="buy_time" property="buyTime" jdbcType="TIMESTAMP" />
+    <result column="buy_time" property="buyTime" jdbcType="VARCHAR" />
     <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
     <result column="device_brand" property="deviceBrand" jdbcType="VARCHAR" />
     <result column="device_version" property="deviceVersion" jdbcType="VARCHAR" />
@@ -235,7 +235,7 @@
       status)
     values (#{orderId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{staffId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
-      #{buyTime,jdbcType=TIMESTAMP}, #{deviceType,jdbcType=VARCHAR}, #{deviceBrand,jdbcType=VARCHAR}, 
+      #{buyTime,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{deviceBrand,jdbcType=VARCHAR},
       #{deviceVersion,jdbcType=VARCHAR}, #{repairType,jdbcType=VARCHAR}, #{repairInstruction,jdbcType=VARCHAR}, 
       #{repairImage,jdbcType=VARCHAR}, #{guaranteeStatus,jdbcType=VARCHAR}, #{cancelReason,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER})
@@ -312,7 +312,7 @@
         #{closeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="buyTime != null" >
-        #{buyTime,jdbcType=TIMESTAMP},
+        #{buyTime,jdbcType=VARCHAR},
       </if>
       <if test="deviceType != null" >
         #{deviceType,jdbcType=VARCHAR},
@@ -371,7 +371,7 @@
         close_time = #{record.closeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.buyTime != null" >
-        buy_time = #{record.buyTime,jdbcType=TIMESTAMP},
+        buy_time = #{record.buyTime,jdbcType=VARCHAR},
       </if>
       <if test="record.deviceType != null" >
         device_type = #{record.deviceType,jdbcType=VARCHAR},
@@ -413,7 +413,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       receive_time = #{record.receiveTime,jdbcType=TIMESTAMP},
       close_time = #{record.closeTime,jdbcType=TIMESTAMP},
-      buy_time = #{record.buyTime,jdbcType=TIMESTAMP},
+      buy_time = #{record.buyTime,jdbcType=VARCHAR},
       device_type = #{record.deviceType,jdbcType=VARCHAR},
       device_brand = #{record.deviceBrand,jdbcType=VARCHAR},
       device_version = #{record.deviceVersion,jdbcType=VARCHAR},
@@ -446,7 +446,7 @@
         close_time = #{closeTime,jdbcType=TIMESTAMP},
       </if>
       <if test="buyTime != null" >
-        buy_time = #{buyTime,jdbcType=TIMESTAMP},
+        buy_time = #{buyTime,jdbcType=VARCHAR},
       </if>
       <if test="deviceType != null" >
         device_type = #{deviceType,jdbcType=VARCHAR},
@@ -485,7 +485,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       receive_time = #{receiveTime,jdbcType=TIMESTAMP},
       close_time = #{closeTime,jdbcType=TIMESTAMP},
-      buy_time = #{buyTime,jdbcType=TIMESTAMP},
+      buy_time = #{buyTime,jdbcType=VARCHAR},
       device_type = #{deviceType,jdbcType=VARCHAR},
       device_brand = #{deviceBrand,jdbcType=VARCHAR},
       device_version = #{deviceVersion,jdbcType=VARCHAR},
