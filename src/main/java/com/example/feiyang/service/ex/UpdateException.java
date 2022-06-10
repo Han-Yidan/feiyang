@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 更新数据库异常
  */
 public class UpdateException extends ServiceException {

@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 传入值为空的异常
  */
 public class NullException extends ServiceException {

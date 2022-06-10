@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 用户没有找到的异常
  */
 public class UserNotFoundException extends ServiceException {

@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author hyd
+ */
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired

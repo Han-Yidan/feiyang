@@ -15,7 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author hyd
+ */
 @Service
 public class PostServiceImpl implements PostService {
     @Autowired

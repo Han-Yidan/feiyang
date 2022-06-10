@@ -5,7 +5,9 @@ import com.example.feiyang.common.utils.JsonResponse;
 
 import java.util.Map;
 
-
+/**
+ * @author hyd
+ */
 public interface AdminService {
     JsonResponse login(String username, String password);
 

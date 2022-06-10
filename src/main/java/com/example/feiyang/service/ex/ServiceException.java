@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 业务层异常的基类: throws new ServiceException("业务层产生的异常)
  */
 public class ServiceException extends RuntimeException {

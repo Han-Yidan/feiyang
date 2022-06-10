@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author hyd
+ */
 @RestController //@Controller+@ResponseBody
 @RequestMapping("/staff")
 public class StaffController extends BaseController {

@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 技术员重复插入的异常
  */
 public class StaffDuplicationException extends ServiceException {

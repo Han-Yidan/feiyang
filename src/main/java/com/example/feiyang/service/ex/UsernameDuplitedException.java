@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 用户名被占用的异常
  **/
 public class UsernameDuplitedException extends ServiceException {

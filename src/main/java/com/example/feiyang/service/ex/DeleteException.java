@@ -1,6 +1,7 @@
 package com.example.feiyang.service.ex;
 
 /**
+ * @author hyd
  * 数据在删除过程中产生的异常
  */
 public class DeleteException extends ServiceException {

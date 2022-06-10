@@ -5,6 +5,9 @@ import com.example.feiyang.entity.Staff;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author hyd
+ */
 public interface StaffService {
     /**
      * 技术员注册方法

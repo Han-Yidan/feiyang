@@ -14,6 +14,9 @@ import java.util.Map;
 
 import static com.example.feiyang.controller.BaseController.OK;
 
+/**
+ * @author hyd
+ */
 @RestController
 @RequestMapping("/post")
 public class PostController {
