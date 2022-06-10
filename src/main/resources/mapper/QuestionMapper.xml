@@ -102,9 +102,6 @@
             <when test="status != null">
               AND p.`status` = #{status}
             </when>
-            <otherwise>
-              AND p.`status` = 1
-            </otherwise>
           </choose>
         </where>
       ) a
